@@ -1,0 +1,79 @@
+\documentclass[12pt]{report}
+
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{tabu}
+\usepackage{fancyvrb}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{newfloat}
+\usepackage{tikz}
+\usepackage{graphicx}
+
+%\renewcommand*\rmdefault{ptm}
+%\renewcommand\ttdefault{bcs}
+
+\newcommand{\smallHead}[1]{\vspace{1ex}\noindent\textbf{#1}\nopagebreak\par}
+\newcommand{\Format}{\smallHead{Format}}
+\newcommand{\Operands}{\smallHead{Operands}}
+\newcommand{\Operand}{\smallHead{Operand}}
+\newcommand{\Example}{\smallHead{Example}}
+\newcommand{\Arguments}{\smallHead{Arguments}}
+\newcommand{\Argument}{\smallHead{Argument}}
+\newcommand{\ReturnValue}{\smallHead{Return Value}}
+\newcommand{\Clauses}{\smallHead{Clauses}}
+\newcommand{\Clause}{\smallHead{Clause}}
+\newcommand{\ct}{{\normalfont\tt{\^}}}
+\renewcommand{\it}[1]{\textit{#1}}
+\renewcommand{\tt}[1]{\texttt{#1}}
+\newenvironment{qv}
+{\parskip=0.5ex\quote\parskip=0.5ex\Verbatim}
+{\endVerbatim\endquote}
+\newenvironment{note}{\begin{quote}\textbf{Note:}}{\end{quote}}
+\DeclareFloatingEnvironment{example}
+\newcommand{\RWP}{\textcolor{blue}{RuleWorks> }}
+\newcommand{\cmd}[1]{\textcolor{red}{#1}}
+
+\parindent=0cm
+\parskip=1ex
+
+\begin{document}
+
+\begin{titlepage}
+  \newgeometry{left=7.5cm}
+  \noindent
+  {\huge\textbf{\textsf{RuleWorks}}}\\[1em]
+  \makebox[0pt][l]{\rule{1.3\textwidth}{1pt}}
+  \par
+  \vfill
+  \noindent
+  {\LARGE\textsf{User's Guide}}
+  \vskip\baselineskip
+  \noindent
+  % \textsf{August 2008}
+\end{titlepage}
+
+\restoregeometry
+
+\tableofcontents
+
+\include{rwug1}
+\include{rwug2}
+\include{rwug3}
+\include{rwug4}
+\include{rwug5}
+\include{rwug6}
+%\include{rwug7}
+\include{rwug8}
+%\include{rwug9}
+\include{rwug10}
+%\include{rwug11}
+\include{rwug12}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

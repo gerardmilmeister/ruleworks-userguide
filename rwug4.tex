@@ -1,0 +1,1224 @@
+\chapter{Rules' Right-Hand Sides: Actions}
+\label{c:actions}
+
+The right-hand side (RHS) is the "then" part of a rule. It consists of
+one or more actions.  You can use the actions supplied by RuleWorks to
+perform the operations listed in the table below (each operation is
+listed with the constructs used to perform the operation).
+
+\begin{table}[h]
+  \begin{tabularx}{\columnwidth}{XX}
+  \toprule
+    Operation & Action \\
+    \midrule
+    Bind variables & \tt{BIND} action \\\addlinespace
+    Modify working memory & \tt{MAKE} action\newline
+                            \tt{COPY} action\newline
+                            \tt{SPECIALIZE} action\newline
+                            \tt{MODIFY} action\newline
+                            \tt{REMOVE} action\newline
+                            \tt{REMOVE-EVERY} action \\
+    Work with compound values & \tt{FOR-EACH} action \\\addlinespace
+    Open and close files & \tt{OPENFILE} action\newline
+                           \tt{CLOSEFILE} action \\\addlinespace
+    Read input and write output  
+                           & \tt{DEFAULT} action \newline
+                             \tt{WRITE} action \\\addlinespace
+    Use a catcher & \tt{AFTER} action \\\addlinespace
+    \raggedright
+    Save and restore the state of working memory and the conflict set
+                           & \tt{SAVESTATE} action\newline
+                             \tt{ADDSTATE} action\newline
+                             \tt{RESTORESTATE} action \\\addlinespace
+    Return control to the  calling module
+                           & \tt{RETURN} action \\\addlinespace
+    \raggedright
+    Invoke the RuleWorks command interpreter
+                           & \tt{DEBUG} action \\\addlinespace
+    Control the flow of  program execution
+                           & \tt{IF}\ldots\tt{THEN}\ldots\tt{ELSE} action\newline
+                             \tt{WHILE}\ldots\tt{DO}\ldots{} action \\\addlinespace
+    Stop program execution & \tt{QUIT} action \\
+    \bottomrule
+  \end{tabularx}
+  \caption{RuleWorks Actions}
+\end{table}  
+
+The first section of this chapter describes the format of RHS
+actions. The rest of this chapter explains how to perform the
+operations listed in the table above. You can also use external
+routines as actions on the RHS.
+
+\section{The Format of RHS Actions}
+
+An RHS action consists of a left parenthesis, an action name and its
+arguments, and a right parenthesis. The format for specifying an
+action is shown below:
+
+\begin{quote}
+\verb|(|\it{action-name} [\it{argument}] \ldots\verb|)|
+\end{quote}
+
+For example:
+
+\begin{quote}
+\begin{verbatim}
+(write |This text will be printed.|)
+\end{verbatim}
+\end{quote}
+
+Most RuleWorks actions require at least one argument. You can
+represent argument values with constants, bound variables, numeric
+expressions, or function calls. For example, the \tt{WRITE} action
+above has one argument, a quoted symbolic atom.
+
+\begin{note}
+  If an action does not require arguments, you must still enclose the
+  action name in parentheses.
+\end{note}
+
+Actions are allowed in rules, catchers, and in the \tt{ON-}
+statements.
+
+Most RHS actions have no return value. The \tt{MAKE}, \tt{MODIFY},
+\tt{COPY}, and \tt{SPECIALIZE} actions do return values, and these
+actions can be used as functions on the RHS.
+
+\section{Binding Variables}
+
+Use the \tt{BIND} action to bind a variable to a
+value. When you specify the \tt{BIND} action with a
+variable and a right-hand-side expression, the
+run-time system evaluates the expression and
+binds the variable to the result. For example:
+
+\begin{quote}
+\begin{verbatim}
+(bind <x> (<x> + 1))
+\end{verbatim}
+\end{quote}
+
+The run-time system evaluates the expression \verb|(<X> + 1)| and
+binds the variable \verb|<Y>| to the result.
+
+The following action is from the example. It shows the result of a
+\tt{MAKE} action being used in a \tt{BIND} action:
+
+\begin{quote}
+\begin{verbatim}
+(bind <new-object>
+    (make example-object 
+         ^next <first-object>
+         ^last <INSTANCE-ID> 
+         ^value (<val> + 1)))
+\end{verbatim}
+\end{quote}
+
+\section{Changing Working Memory}
+
+A RuleWorks program can modify the contents of working memory during
+execution. RuleWorks provides actions that create new objects, change
+existing objects, and delete objects.
+
+\subsection{Creating Working-Memory Objects}
+
+You can create new objects with either the \tt{MAKE} or the \tt{COPY}
+action. The \tt{MAKE} action creates a new object of the class you
+specify.  The \tt{COPY} action creates a new object of the same class
+as the original object. You can also specify values for attributes
+with both the \tt{MAKE} and \tt{COPY} actions.
+
+\subsubsection*{Using the \tt{MAKE} Action}
+
+Use the \tt{MAKE} action to create an object. You must specify a
+declared object class name as the first argument to the \tt{MAKE}
+action. After the class name you can specify zero or more
+attribute-value pairs.
+
+For example, the following \tt{MAKE} action creates an object of class
+\tt{CONTEXT} to initialize working memory:
+
+\begin{qv}
+(on-entry
+    (make context ^name tasks-to-do))
+\end{qv} 
+
+This object is displayed as follows:
+
+\begin{qv}
+#1 1 [NIL] (CONTEXT ^NAME TASKS-TO-DO)
+\end{qv}
+
+(The output above was produced by the \tt{WM} command.)
+
+If you do not specify attribute names and values in a \tt{MAKE}
+action, the run-time system creates an object with default values for
+the unspecified attributes. If the attribute has no default value, the
+run-time system uses the atom \tt{NIL} for scalar attributes and the
+empty list, \tt{(COMPOUND)}, for compound attributes.
+
+Consider the following rule:
+
+\begin{quote}
+\begin{verbatim}
+(rule convert-packages-to-parts:home-kiwi
+    (active-context ^name convert-packages-to-parts)
+    (input-thing ^item home-kiwi ^$ID <my-input-thing>)
+  -->
+    (remove <my-input-thing>)
+    (make box)
+    (make kiwicalc))
+\end{verbatim}
+\end{quote}
+
+Neither \tt{MAKE} action in this rule specifies any attribute
+values. However, classes \tt{BOX} and \tt{KIWICALC} both have
+inherited default values.  Therefore, the objects created by this rule
+do have some attributes with non-\tt{NIL} values in them. They would
+be displayed as shown below:
+
+\begin{quote}
+\begin{verbatim}
+#28 33 [CONVERT-PACKAGES-TO-PARTS:HOME-KIWI]
+       (BOX ^IS-EXPANDED NO)
+
+#29 34 [CONVERT-PACKAGES-TO-PARTS:HOME-KIWI]
+       (KIWICALC ^IS-EXPANDED NO ^MEDIA-TYPE FD-35)
+\end{verbatim}
+\end{quote}
+
+(See Figure~\ref{f:2-1} for an illustration of the class inheritance
+hierarchy of the sample configuration program, \tt{KIWI.RUL}.)
+
+The following example shows a \tt{MAKE} action using the \tt{GET}
+function to reference an attribute value indirectly.
+
+\begin{quote}
+\begin{verbatim}
+(object-class fruit
+    ^fruit-name
+    ^color)
+
+(rule make-a-similar-one
+    (fruit ^$ID <The-fruit> ^fruit-name apple)
+  -->
+    (make fruit ^fruit-name apple ^color (get <the-fruit> ^color)))
+\end{verbatim}
+\end{quote}
+
+\subsubsection*{Using the \tt{COPY} Action}
+
+Use the \tt{COPY} action to duplicate, or duplicate and modify, an
+existing object. The first argument to the \tt{COPY} action must be
+bound to a value of type \tt{INSTANCE-ID}. The \tt{COPY} action
+creates a new object of the same class as the one that was
+matched. After the
+\verb|$ID| variable, you can specify zero or more attributes and their
+values.
+
+If you do not specify attribute names and values in a \tt{COPY}
+action, the run-time system uses the values in the object that is
+being copied, and you get an exact duplicate (except for the
+\tt{INSTANCE-ID} and the time-tag). For example, if the following
+rule:
+
+\begin{quote}
+\begin{verbatim}
+(rule copy-context
+    (context ^$ID <The-context>)
+  -->
+    (copy <The-context>))
+\end{verbatim}
+\end{quote}
+
+fires on the object made in Using the \tt{MAKE} Action, the result is
+the following object:
+
+\begin{quote}
+\begin{verbatim}
+#2 2 [copy-context] (context ^name tasks-to-do)
+\end{verbatim}
+\end{quote}
+
+\subsection{Changing the Class of a Working-Memory Object}
+
+To convert an instance of a parent class to an instance of a
+descendent class, use the \tt{SPECIALIZE} action. By default, this
+action does not change any attribute except for
+\verb|^$INSTANCE-OF|. You can specify attributes if you want.
+
+The following rule shows one possible use of the \tt{SPECIALIZE}
+action:
+
+\begin{quote}
+\begin{verbatim}
+(rule specialize:os
+    (active-context ^name specialize-operating-system)
+    (os ^$ID <os-id> ^name kiwos)
+    -(kiwos)
+  -->
+    (specialize <os-id> kiwos ^name |KIWOS Operating System|))
+\end{verbatim}
+\end{quote}
+
+\subsection{Changing the Values in Working-Memory Objects}
+
+To change values in an object, use the \tt{MODIFY} action with a value
+of type \tt{INSTANCE-ID}. You can use any number of attribute-value
+pairs in a \tt{MODIFY} action, even zero. The changed object retains
+its old values for all other attributes; only the attributes you
+specify have their values replaced.
+
+\begin{note}
+  When you modify an object, its time tag changes. However, its
+  \tt{INSTANCE-ID} remains the same.
+\end{note}
+
+You can have more than one \tt{MODIFY} action on a RHS; the changes
+are applied in the specified order.
+
+Suppose working memory contains the following \tt{BOX} object:
+
+\begin{quote}
+\begin{verbatim}
+#29 35 [CONVERT-PACKAGES-TO-PARTS:BUSINESS-KIWI] (BOX ^IS-EXPANDED NO)
+\end{verbatim}
+\end{quote}
+and the following rule fires on it:
+\begin{quote}
+\begin{verbatim}
+(rule expand-part-skeletons:box
+    (active-context ^name expand-part-skeletons)
+    (box ^$ID <the-part> ^is-expanded no)
+  -->
+    (modify <the-part>
+        ^is-expanded YES
+        ^partnumber KI-9200
+        ^name |Kiwi-9200 CPU Base Unit|
+        ^price 999.95))
+\end{verbatim}
+\end{quote}
+
+After the rule fires, the \tt{BOX} object is changed to:
+
+\begin{quote}
+\begin{verbatim}
+#29 68 [EXPAND-PART-SKELETONS:BOX] 
+       (BOX ^PARTNUMBER KI-9200 ^NAME Kiwi-9200 CPU Base Unit 
+       ^PRICE 999.95 ^IS-EXPANDED YES)
+\end{verbatim}
+\end{quote}
+
+\subsection{Deleting Objects from Working Memory}
+
+The \tt{REMOVE} action deletes objects from working memory. You use
+\tt{REMOVE} with one or more values of type \tt{INSTANCE-ID} that
+indicate the WMOs to be deleted.
+
+For example, the following rule tallies up single item costs into a
+final total. This rule modifies the \tt{TOTAL-COST} object and deletes
+each \tt{ITEM-COST} object as soon as its cost is added to the total:
+
+\begin{quote}
+\begin{verbatim}
+(rule sum-total-cost:sum
+    (active-context ^name sum-total-cost)
+    (total-cost ^$ID <the-total> ^cost <val>)
+    (item-cost ^cost <the-cost> ^$ID <the-single-item-cost>)
+  -->
+    (modify <the-total> ^cost (<val> + <the-cost>))
+    (remove <the-single-item-cost>))
+\end{verbatim}
+\end{quote}
+
+The \tt{REMOVE-EVERY} action deletes all the working-memory objects
+that are instances of a specified visible class or its subclasses. For
+example, the following \tt{ON-EXIT} statement:
+
+\begin{quote}
+\begin{verbatim}
+(on-exit (remove-every $ROOT))
+\end{verbatim}
+\end{quote}
+
+deletes all visible WMOs as the entry block exits.
+
+\section{Working with Compound Values}
+
+The same syntax for matching and binding compound attributes is used
+for modifying compound attributes.
+
+The table below lists the RuleWorks functions that can be applied to
+compound values on the RHS.
+
+\begin{tabularx}{\columnwidth}{lX}
+  \toprule
+  Function & Description \\
+  \midrule
+  \tt{COMPOUND} & Returns a new compound value 
+                  from zero or more elements \\
+  \tt{LENGTH} & Returns the number of elements
+                in a compound value \\
+  \tt{NTH} & Returns the value of the specified element \\
+  \tt{POSITION} & Returns the index position of 
+                  an element in a compound value \\
+  \tt{SUBCOMPOUND} & Returns a compound value containing 
+                     the specified subrange of a
+                     compound value (RHS only) \\
+  \bottomrule
+\end{tabularx}
+
+\subsection{Modifying a Single Element}
+
+Changing the value of a single element of a compound attribute is
+called element-wise modification. You can change a single element and
+leave all other elements untouched. For example, the following
+\tt{MODIFY} action replaces the first element of \verb|^CARD-IN-SLOT|
+but does not affect any other elements:
+\begin{quote}
+\begin{verbatim}
+(modify <the-box> ^card-in-slot[1] memory)
+\end{verbatim}
+\end{quote}
+If the index expression used in an element-wise modification is
+greater than the current length of the compound value, elements other
+than the one specified may be changed.  The specified element is set
+to the new value, as expected. In addition, all elements between the
+original end of the compound attribute and the new value receive the
+\tt{FILL} value declared for that attribute (or \tt{NIL}, if none was
+declared).
+
+For example, if the \verb|^CARD-IN-SLOT| attribute
+has the following value:
+\begin{quote}
+\begin{verbatim}
+(compound memory memory keyboard fd-35)
+\end{verbatim}
+\end{quote}
+Then the following action:
+\begin{quote}
+\begin{verbatim}
+(modify <The-box> ^card-in-slot[7] hd-30)
+\end{verbatim}
+\end{quote}
+
+sets the seventh element of \verb|^CARD-IN-SLOT| to the value \tt{HD-30},
+and sets the previously-untouched elements five and six to \tt{NIL},
+because no \tt{FILL} value is declared for \verb|^CARD-IN-SLOT|. The new
+compound value of \verb|^CARD-IN-SLOT| is thus:
+\begin{quote}
+\begin{verbatim}
+(compound memory memory keyboard fd-35 nil nil hd-30)
+\end{verbatim}
+\end{quote}
+
+\subsection{Modifying the Entire Compound Value}
+
+If you want to modify a compound attribute so that it has fewer
+elements than before, you must replace the entire attribute value.
+Typically this is done using the \tt{SUBCOMPOUND} or the \tt{COMPOUND}
+function to create an entirely new compound value. Continuing with the
+\verb|^CARD-IN-SLOT| example above, the following action:
+\begin{quote}
+\begin{verbatim}
+(modify <the-box> ^card-in-slot (compound memory memory))
+\end{verbatim}
+\end{quote}
+has the effect of deleting all but the first two elements.
+
+\subsection{Using Common Idioms for Compound Values}
+
+Compound values are frequently used to represent stacks and
+queues. This section shows the RuleWorks idioms for common operations
+on stacks and queues.
+
+\subsubsection*{Adding an Element to the Beginning of a Compound
+  Attribute (Push)}
+
+To push a new value onto a stack, create a new compound value from the
+new scalar value plus the current compound value. For example:
+\begin{quote}
+\begin{verbatim}
+(agenda ^$ID <the-agenda> ^tasks <task-list>)
+-->
+(modify <the-agenda> ^tasks (compound start-up <task-list>))
+\end{verbatim}
+\end{quote}
+
+\subsubsection*{Removing an Element from the Beginning of a Compound
+  Attribute (Pop)}
+
+To pop a value off a stack, replace the original compound attribute
+with a modified version that consists of elements 2 through the
+end. For example:
+\begin{quote}
+\begin{verbatim}
+(agenda ^$ID <The-agenda>)
+-->
+(modify <the-agenda> ^tasks (get <the-agenda> ^tasks[2..$last]))
+\end{verbatim}
+\end{quote}
+You could also use the \tt{SUBCOMPOUND} function to pop a stack:
+\begin{quote}
+\begin{verbatim}
+(agenda ^$ID <The-agenda> ^tasks <task-list>)
+-->
+(modify <the-agenda> ^tasks (subcompound <task-list> 2 $last))
+\end{verbatim}
+\end{quote}
+
+\subsubsection*{Adding an Element to the End of a Compound Attribute
+  (Append)}
+
+To append a value to the end of a queue, create a new compound value
+from the current compound value plus the new scalar value. For
+example:
+\begin{quote}
+\begin{verbatim}
+(agenda ^$ID <The-agenda> ^tasks <tasks>)
+-->
+(modify <the-agenda> ^tasks (compound <tasks> shut-down))
+\end{verbatim}
+\end{quote}
+
+\subsubsection*{Splicing A Compound Attribute}
+
+The following example removes a particular value from a compound
+attribute and advances the remaining elements to close the gap.
+\begin{quote}
+\begin{verbatim}
+(agenda ^$ID <Agenda-wme> ^tasks {<tasks> [+] <value>})
+; assume <value> is bound previously
+-->
+(bind <p> (POSITION <tasks> <value>)) ; get the index of <value>
+(modify <agenda-wme> ^tasks
+    (compound (subcompound <tasks> 1 (<p> - 1))
+    (subcompound <tasks> (<p> + 1) $last)))
+\end{verbatim}
+\end{quote}
+
+
+\subsubsection*{Joining Compound Attributes}
+
+The following example joins two compound values:
+\begin{quote}
+\begin{verbatim}
+(agenda ^$ID <Agenda-1> ^tasks <list-1>)
+(agenda ^$ID { <Agenda-2> <> <Agenda-1> } ^tasks <list-2>)
+-->
+(modify <agenda-2> ^tasks (compound <list-1> <list-2>))
+\end{verbatim}
+\end{quote}
+
+\subsection{Iterating Through a Compound Value}
+
+You can use the \tt{FOR-EACH} action to write a loop that executes
+once for each element in a compound value. The \tt{FOR-EACH} action
+can include any number of RHS actions. Using the \tt{FOR-EACH} action
+is more efficient than executing a rule multiple times to achieve the
+same result.
+
+For example, the following rule can be added to the program in the
+example, Using \verb|$ID| variables as pointers, to reverse the list:
+
+\begin{quote}
+\begin{verbatim}
+(rule reverse-compound
+    (context ^name reverse)
+    (list-pointer ^$ID <list-object> ^list-ids <ids>)
+  -->
+    (bind <new-list> (compound))
+    (for-each <id> in <ids>
+        (bind <new-list> (compound <id> <new-list>)))
+        (modify <list-object> ^list-ids <new-list>))
+\end{verbatim}
+\end{quote}
+
+\section{Performing Input and Output Operations}
+
+RuleWorks programs can read input from and
+write output to a terminal or a file. You can
+use RuleWorks actions to
+
+\begin{itemize}
+\item open files,
+\item set the default input source and output destination,
+\item read input,
+\item write output,
+\item close files.
+\end{itemize}
+
+\subsection{Opening Files}
+
+To open a file for reading or writing, use the \tt{OPENFILE}
+action. Specify the action with a file identifier, a file
+specification, and one of the keywords IN, \tt{OUT}, or
+\tt{APPEND}. If you specify IN, the action opens an existing file for
+reading only. If you specify \tt{OUT}, the action creates a new file
+and opens it for writing only. If you specify \tt{APPEND}, the action
+opens an existing file for writing and sets the file pointer to the
+end of the file.
+
+After opening a file, the action associates the file identifier with
+that file. For example, the following action opens the file
+\tt{CONFIG.DAT} for reading and associates the file identifier
+\tt{INFIL} with the file:
+
+\begin{quote}
+\begin{verbatim}
+(openfile infil config.dat in)
+\end{verbatim}
+\end{quote}
+The example shows the \tt{ON-ENTRY} statement of an entry block that
+opens a file. First, the \tt{OPENFILE} action opens the file named in
+the argument for writing and associates the file identifier
+\tt{DATA-IN} with the file. Next, the \tt{IF} {\ldots} \tt{THEN}
+{\ldots} \tt{ELSE}... action checks whether the open succeeded by
+using the \tt{IS-OPEN} function.
+
+\begin{quote}
+\begin{verbatim}
+(entry-block process_file
+    (accepts <input-file-name> asciz)
+    (uses data_decls))
+
+(on-entry
+    (openfile data-in <input-file-name> in)
+    (if ((is-open data-in) == nil) then
+        ; If we can't access the data file, complain then exit
+        (write (crlf)|Error: File,| <input-file-name> |, does not|
+            (crlf)| exist or is not readable.|
+            (crlf))
+        (quit)))
+...
+(end-block process-file)
+\end{verbatim}
+\end{quote}
+
+See Section C.1 for platform-specific restrictions on file names.
+
+Once a file has been opened and associated with a file identifier, you
+can use that file for input or output operations by specifying the
+file identifier with the following actions, functions, and commands:
+
+\begin{itemize}
+\item \tt{ACCEPT-ATOM} function (input)
+\item \tt{ACCEPTLINE-COMPOUND} function (input)
+\item \tt{CLOSEFILE} action and command (input and output)
+\item \tt{DEFAULT} action and command (input and output)
+\item \tt{WRITE} action (output)
+\end{itemize}
+
+\subsection{Setting the Default Input Source and Output Destination}
+
+Use the \tt{DEFAULT} action to set the default source for input
+operations or the destination for output operations. The argument
+values that you specify with the action determine the source or
+destination.
+
+By default, input comes from the terminal. To set the source to a
+file, specify the \tt{DEFAULT} action with the file identifier of an
+open input file and the keyword \tt{ACCEPT}. Suppose \tt{INFIL} is the
+file identifier for an open input file. The following action sets that
+file to be the default source for input:
+
+\begin{quote}
+\begin{verbatim}
+(default infil accept)
+\end{verbatim}
+\end{quote}
+
+Once the default for input has been set to a file, all input required
+by the \tt{ACCEPT-ATOM} and \tt{ACCEPTLINE-COMPOUND} functions is
+taken from that file. To set the default back to the terminal, specify
+the symbol \tt{NIL} with the keyword \tt{ACCEPT}.
+
+\begin{quote}
+\begin{verbatim}
+(default nil accept)
+\end{verbatim}
+\end{quote}
+
+The terminal is also the default destination for output. To set the
+destination to a file, specify the \tt{DEFAULT} action with the file
+identifier of an open output file and the keyword \tt{TRACE} or
+\tt{WRITE}. The keyword \tt{TRACE} sets the destination for output
+from the \tt{TRACE} command, and the keyword \tt{WRITE} sets the
+destination for the \tt{WRITE} action. Suppose \tt{OUTFIL} is the file
+identifier for an open output file. The following action sets that
+output file to be the default destination for trace output:
+
+\begin{quote}
+\begin{verbatim}
+(default outfil trace)
+\end{verbatim}
+\end{quote}
+
+Once the destination for trace output has been set to a file, all
+trace output produced by the run-time system is sent to that file.
+Likewise, if you substitute the keyword \tt{WRITE} for \tt{TRACE}, all
+output produced by the \tt{WRITE} action is sent to that file.
+
+\begin{quote}
+\begin{verbatim}
+(default outfil write)
+\end{verbatim}
+\end{quote}
+
+To set the default destination back to the terminal, specify the
+symbol \tt{NIL} with the appropriate keyword. For example:
+
+\begin{quote}
+\begin{verbatim}
+(default nil trace)
+\end{verbatim}
+\end{quote}
+
+\subsection{Reading Input}
+
+The input functions \tt{ACCEPT-ATOM} and \tt{ACCEPTLINE-COMPOUND} read
+values from the terminal or a file. By default, the input functions
+read input from the terminal. If you want to read from a file, call
+the input function with the file identifier of an open input file or
+change the default for input.
+
+The input functions create atoms of the appropriate data types in
+exactly the same way as the compiler
+
+The examples in the following sections assume that the file identified
+by \tt{INFIL} contains the lines shown in the example.
+
+\begin{quote}
+\begin{verbatim}
+box KiwiCalc KiWindows
+mouse
+; this line blank as far as RuleWorks concerned
+memory
+\end{verbatim}
+\end{quote}
+
+Both input functions ignore any atoms between a semicolon (\verb|;|)
+and the end of the line.
+
+\subsubsection{Reading Scalar Atoms}
+
+The \tt{ACCEPT-ATOM} function reads a single atom
+from the terminal or a file. For example, the
+following rule uses the \tt{ACCEPT-ATOM} function
+inside a \tt{MAKE} action to take items from a file
+into a WMO:
+
+\begin{quote}
+\begin{verbatim}
+(rule read-line-item:read-an-item
+    (active-context ^name read-line-item)
+    (input-count ^count <c> ^$ID <the-counter>)
+    -(input-thing ^item end-of-file)
+  -->
+   (make input-thing ^item (accept-atom infil))
+   (modify <the-counter> ^count (<c> + 1)))
+\end{verbatim}
+\end{quote}
+
+Each time this rule fires, the attribute \verb|^ITEM| in a new WMO is
+given the value read by the \tt{ACCEPT-ATOM} function. Given the data
+shown in the example, the following objects are created:
+
+\begin{quote}
+\begin{verbatim}
+#17 17 [READ-LINE-ITEM:READ-AN-ITEM] (INPUT-THING ^ITEM BOX)
+#18 19 [READ-LINE-ITEM:READ-AN-ITEM] (INPUT-THING ^ITEM KIWICALC)
+#19 21 [READ-LINE-ITEM:READ-AN-ITEM] (INPUT-THING ^ITEM KIWINDOWS)
+#20 23 [READ-LINE-ITEM:READ-AN-ITEM] (INPUT-THING ^ITEM MOUSE)
+#21 25 [READ-LINE-ITEM:READ-AN-ITEM] (INPUT-THING ^ITEM MEMORY)
+#22 27 [READ-LINE-ITEM:READ-AN-ITEM] (INPUT-THING ^ITEM END-OF-FILE)
+\end{verbatim}
+\end{quote}
+
+When the \tt{ACCEPT-ATOM} function reads past the end of a file, it
+returns the atom \tt{END-OF-FILE}.
+
+The \tt{ACCEPT-ATOM} function ignores blank lines between atoms.
+
+\subsubsection{Reading Compound Values}
+
+The \tt{ACCEPTLINE-COMPOUND} function reads a line of input consisting
+of zero or more atoms and returns a compound value. Unlike the
+\tt{ACCEPT-ATOM} function, the \tt{ACCEPTLINE-COMPOUND} function does
+not ignore blank lines. You can specify a default value that the
+function returns when it reads a blank line. This default value can be
+a compound value or a bound compound variable.
+
+For example, the \tt{MAKE} action in the following rule calls the
+\tt{ACCEPTLINE-COMPOUND} function with the default value
+\verb|(COMPOUND NOTHING HERE)|:
+
+\begin{quote}
+\begin{verbatim}
+(rule read-a-whole-line
+    (active-context ^name read)
+    (input-count ^count <c> ^$ID <the-counter>)
+    -(input-thing ^line[1] end-of-file)
+  -->
+    (make input-thing
+        ^line (acceptline-compound infil (compound nothing here)))
+    (modify <the-counter> ^count (<c> + 1)))
+\end{verbatim}
+\end{quote}
+
+Given the data shown in the example, this rule
+makes the following objects:
+
+\begin{quote}
+\begin{verbatim}
+#3 3 [READ-A-WHOLE-LINE] (INPUT-THING ^LINE (COMPOUND BOX KIWICALC KIWINDOWS))
+#4 5 [READ-A-WHOLE-LINE] (INPUT-THING ^LINE (COMPOUND MOUSE))
+#5 7 [READ-A-WHOLE-LINE] (INPUT-THING ^LINE (COMPOUND NOTHING HERE))
+#6 9 [READ-A-WHOLE-LINE] (INPUT-THING ^LINE (COMPOUND MEMORY))
+#7 11 [READ-A-WHOLE-LINE] (INPUT-THING ^LINE (COMPOUND END-OF-FILE))
+\end{verbatim}
+\end{quote}
+
+If you want to specify a default value for \tt{ACCEPTLINE-COMPOUND},
+you must put a file identifier before the default value. If you want a
+default value even when reading from the default input source, use
+\tt{NIL} for the file identifier.
+
+When the \tt{ACCEPTLINE-COMPOUND} function reads past the end of a
+file, it returns a compound value containing the single element
+\tt{END-OF-FILE}.
+
+\subsection{Writing Output}
+
+Use the \tt{WRITE} action to send output to the terminal or a file. If
+you want to send output to a file, specify the action with the file
+identifier of an open output file or change the default for the
+\tt{WRITE} action.
+
+The arguments that you specify for a \tt{WRITE} action are evaluated,
+and the output is written on the current output line with one space
+between values. For example, suppose the variable \verb|<ITEM>| is bound to
+\tt{COLOR-MONITOR} and the variable \verb|<PRICE>| is bound to 199.95. You
+could use these variables in a \tt{WRITE} action as follows:
+
+\begin{quote}
+\begin{verbatim}
+(write item <item> costs <price>)
+\end{verbatim}
+\end{quote}
+
+This action displays the following output:
+
+\begin{quote}
+\begin{verbatim}
+ITEM COLOR-MONITOR COSTS 199.95
+\end{verbatim}
+\end{quote}
+
+The output is in capital letters because the RuleWorks compiler
+uppercases all unquoted symbols. To display output exactly the way you
+have entered it, enclose the text in vertical bars (\verb,||,). For
+example:
+
+\begin{quote}
+\begin{verbatim}
+(write | Item | <item> | costs | <price>)
+\end{verbatim}
+\end{quote}
+
+This action displays:
+
+\begin{quote}
+\begin{verbatim}
+Item COLOR-MONITOR costs 199.95
+\end{verbatim}
+\end{quote}
+
+If the variable \verb|<ITEM>| were also inside vertical bars, it would
+not be evaluated. To get the value of \verb|<ITEM>| in lowercase
+letters, it would have to be quoted in the place it was bound, not in
+the \tt{WRITE} action.
+
+Compound values are printed with one space
+between elements, but without any parentheses
+or the \tt{COMPOUND} keyword. The following \tt{WRITE}
+action:
+
+\begin{quote}
+\begin{verbatim}
+(write | This box contains the following cards: | <cards>)
+\end{verbatim}
+\end{quote}
+
+could produce this output:
+
+\begin{quote}
+\begin{verbatim}
+This box contains the following cards: MEMORY MEMORY KEYBOARD
+\end{verbatim}
+\end{quote}
+
+You can control the format of your output by using the \tt{CRLF},
+\tt{TABTO}, and \tt{RJUST} functions to
+
+\begin{itemize}
+\item produce output on a new line,
+\item specify the column in which to start writing output,
+\item produce right-justified output.
+\end{itemize}
+
+\subsubsection{Producing Output on a New Line}
+
+To write output on a new line, use the \tt{CRLF} function in a
+\tt{WRITE} action. For example:
+
+\begin{quote}
+\begin{verbatim}
+(rule verify-configuration:need-cpu-box
+    (active-context ^name verify-configuration)
+    -(box)
+  -->
+   (make error ^severity warning ^message |Missing CPU unit|)
+   (write (crlf) |Caution: You need to buy the base CPU unit.|
+          (crlf) |  Fixup: adding a CPU BOX to your order.|
+          (crlf))
+   (make box))
+\end{verbatim}
+\end{quote}
+
+The \tt{WRITE} actions in this rule produce the following output:
+
+\begin{quote}
+\begin{verbatim}
+Caution: You need to buy the base CPU unit.
+  Fixup: adding a CPU BOX to your order.
+\end{verbatim}
+\end{quote}
+
+\subsection{Specifying the Column in Which to Start Writing Output}
+
+Use the \tt{TABTO} function to specify in which column the \tt{WRITE}
+action is to start writing output. Specify the column number with an
+integer or a variable bound to an integer. For example:
+
+\begin{quote}
+\begin{verbatim}
+(TABTO 15)
+\end{verbatim}
+\end{quote}
+
+If the column you specify is to the left of
+the last column in which output has been
+written, the \tt{WRITE} action writes the output on
+a new line, starting at the specified column.
+
+The following \tt{WRITE} action displays the headers of three columns:
+
+\begin{quote}
+\begin{verbatim}
+(write (crlf) |Part Number| (tabto 15) |Name| (tabto 65) |Price|)
+\end{verbatim}
+\end{quote}
+
+This action produces the following output:
+
+\begin{quote}
+\begin{verbatim}
+Part Number    Name                       Price
+\end{verbatim}
+\end{quote}
+
+\subsubsection{Producing Right-Justified Output}
+
+The \tt{WRITE} action writes output right justified in a field of a
+specified width if you use the \tt{RJUST} function. Specify the width
+with an integer or a variable bound to an integer.  When a \tt{WRITE}
+action contains the \tt{RJUST} function, the \tt{WRITE} action
+
+\begin{enumerate}
+\item allocates a field of the width specified, beginning at the next
+  possible position on the output line,
+\item determines the number of character positions required by the
+  output being written,
+\item inserts spaces that cause the output to be right justified in
+  the field.
+\end{enumerate}
+
+If the output being written requires more character positions than you
+specify for the field, the \tt{WRITE} action writes the output as if
+the \tt{RJUST} function was not specified, that is, the \tt{WRITE}
+action inserts one space and then writes the output.
+
+A call to the \tt{RJUST} function must directly precede the value
+being written. You can use the \tt{RJUST} function after calls to the
+\tt{CRLF} and \tt{TABTO} functions. For example:
+
+\begin{quote}
+\begin{verbatim}
+(write (crlf) <num> (tabto 12) <part-name> 
+       (tabto 65) (rjust 10) <price>)
+\end{verbatim}
+\end{quote}
+
+You can also use the \tt{RJUST} function to suppress the spaces that
+RuleWorks automatically inserts between values. For example:
+
+\begin{quote}
+\begin{verbatim}
+(write |Item| <item> |costs $| (rjust 6) <price>)
+\end{verbatim}
+\end{quote}
+
+\subsection{Closing Files}
+
+To close files, specify the \tt{CLOSEFILE} action with the file
+identifiers of the files you want to close. The action closes the
+files associated with the file identifiers you specify and dissociates
+the identifiers from the files. For example, to close files whose file
+identifiers are \tt{INFIL} and \tt{OUTFIL}, specify the following:
+
+\begin{quote}
+\begin{verbatim}
+(closefile infil outfil)
+\end{verbatim}
+\end{quote}
+
+Once you have closed a file, you can no longer use its file identifier
+with other actions, functions, or commands to perform input and output
+operations. To use the files again, you must reopen them.
+
+If you do not close your files when control leaves the current entry
+block, the files remain open when control returns to that entry
+block. If files are open when a program quits or exits, they are
+closed by the operating system.
+
+\section{Saving and Restoring Working Memory}
+
+You can copy the program state, that is, the state of working memory
+and the conflict set, to a file by using the \tt{SAVESTATE}
+action. The \tt{SAVESTATE} action is scoped to the entry block; thus,
+it saves only that portion of working memory that is currently
+visible. The following action copies the program state to the file
+\tt{CONFIG.DAT}:
+
+\begin{quote}
+\begin{verbatim}
+(savestate config.dat)
+\end{verbatim}
+\end{quote}
+
+(See Section C.1 for platform-specific restrictions on file names.)
+
+Once you have saved the program state in a file, you can use the
+\tt{ADDSTATE} action to add the contents of the saved working memory
+stored in that file to the current program state. Like the
+\tt{SAVESTATE} action, the \tt{ADDSTATE} action is scoped to the entry
+block; it can create only those objects that are visible.
+
+\begin{quote}
+\begin{verbatim}
+(addstate config.dat)
+\end{verbatim}
+\end{quote}
+
+If you want to clear the program state and restore it to the state
+produced by the \tt{SAVESTATE} action, use the \tt{RESTORESTATE}
+action.  Like \tt{SAVESTATE} and \tt{ADDSTATE}, the \tt{RESTORESTATE}
+action is scoped to the entry block; it can create only those objects
+that are visible.  Using \tt{ADDSTATE} or \tt{RESTORESTATE} to create
+objects whose declarations are currently unknown results in a run-time
+warning.
+
+Suppose you have used the \tt{SAVESTATE} action to copy the program
+state to the file \tt{CONFIG.DAT}.  You can use the following action
+to clear and restore the program state to that recorded in the file
+\tt{CONFIG.DAT}:
+
+\begin{quote}
+\begin{verbatim}
+(restorestate config.dat)
+\end{verbatim}
+\end{quote}
+
+The state of user-defined external routines, and of files, is not
+saved by the \tt{SAVESTATE} action and thus cannot be added or
+restored with the \tt{ADDSTATE} or \tt{RESTORESTATE} action.
+
+If you change your \tt{OBJECT-CLASS} declarations before using
+\tt{ADDSTATE} or \tt{RESTORESTATE}, the old saved file is useless.
+
+\section{Controlling the Flow of Program Execution}
+
+RuleWorks provides two RHS actions that allow you to control the flow
+of execution, as in procedural languages:
+\tt{IF}\ldots\tt{THEN}\ldots\tt{ELSE} and
+\tt{WHILE}\ldots\tt{DO}\ldots. These control actions are especially
+useful in \tt{ON-ENTRY} statements, to allow an entry block to respond
+correctly to its input arguments.
+
+Both control actions evaluate a relational expression to determine
+which, if any, actions are executed. The next section explains
+relational expressions; the following two sections cover the
+\tt{IF}\ldots\tt{THEN}\ldots\tt{ELSE}\ldots{} and
+\tt{WHILE}\ldots\tt{DO}\ldots{} actions in detail.
+
+\subsection{Relational Expressions}
+
+Relational expressions on the RHS are similar to attribute-value tests
+on the LHS, except that relational expressions compare two values
+instead of an attribute and a value, and evaluate to \tt{TRUE} or
+\tt{FALSE} instead of producing a match or no match. The syntax for a
+simple relational expression is shown below:
+
+\begin{quote}
+\verb|(|\it{value-1} \it{predicate} \it{value-2}\verb|)|
+\end{quote}
+
+The values may be any expression; the relational operators may be any
+one of the match predicates (see Table~\ref{t:3-2}). The restrictions
+on domain and shape (data type and scalar or compound) shown in the
+table also apply when you use the predicates in relational
+expressions. For example, assuming \verb|<THE-ID>| is a
+\verb|$ID| variable, the following code generates a compile-time
+warning:
+
+\begin{quote}
+\begin{verbatim}
+(<the-id> < 20)
+\end{verbatim}
+\end{quote}
+
+because the less-than operator is valid only for numbers and
+symbols. Assuming the variable \verb|<COUNT>| is bound to either an
+\tt{INTEGER} or a \tt{FLOAT} value, the following code is correct:
+
+\begin{quote}
+\begin{verbatim}
+(<count> < 20)
+\end{verbatim}
+\end{quote}
+
+If, at run-time, \verb|<COUNT>| is bound to a value of any non-numeric
+type, the expression above generates no warnings, but it always
+evaluates to \tt{FALSE}.
+
+Note that while relational expressions evaluate to either \tt{TRUE} or
+\tt{FALSE}, \tt{TRUE} and \tt{FALSE} themselves are not valid
+relational expressions in RuleWorks.
+
+You can use the relational operators \tt{AND}, \tt{NOT}, and OR to
+combine two (or invert one, in the case of \tt{NOT}) simple relational
+expressions into a more complex relational expression. For example:
+
+\begin{quote}
+\begin{verbatim}
+((<count> = 20) OR (<count> < 0))
+\end{verbatim}
+\end{quote}
+
+\subsection{Selecting Actions (Branching)}
+
+The \tt{IF}\ldots\tt{THEN}\ldots\tt{ELSE}\ldots{} action allows you to
+select between two sets of actions based on the result of a relational
+expression (see previous section). The syntax of this action is shown
+in the following example.
+
+\begin{quote}
+\verb|(IF| \verb|(|\it{relational-expression}\verb|)|\par
+\qquad\verb|THEN| \it{RHS-action}\ldots\par
+\qquad[\verb|ELSE| \it{RHS-action}\ldots]\verb|)|
+\end{quote}
+   
+The RHS actions in the \tt{THEN} clause are executed when the
+relational expression evaluates to \tt{TRUE}; the actions in the
+\tt{ELSE} clause (if any) are executed when the relational expression
+evaluates to \tt{FALSE}. The example show
+\tt{IF}\ldots\tt{THEN}\ldots\tt{ELSE}\ldots{} actions in \tt{ON-ENTRY}
+statements.
+
+\subsection{Repeating Actions (Looping)}
+
+The \tt{WHILE}\ldots\tt{DO}\ldots{} action allows you to repeat
+(iterate) a set of actions based on the result of a relational
+expression (see Relational Expressions). The syntax of this action is
+shown below:
+
+\begin{quote}
+\verb|(WHILE| \verb|(|\it{relational-expression}\verb|)| \verb|DO|\par
+\qquad\it{RHS-action}\ldots\verb|)|
+\end{quote}
+
+The RHS actions are repeated as long as the relational expression
+evaluates to \tt{TRUE}.  Remember to include an action that affects the
+relational expression somewhere in your loop.  In the following
+example, the \tt{BIND} action at the end of the
+loop resets the variable \verb|<IN-LINE>| which is part of the relational
+expression.
+
+\begin{quote}
+\begin{verbatim}
+; Uses the shared declarations for the phone book
+; contents, and reads PHONE.DAT for the actual names
+; and numbers.
+(entry-block read_phone_book
+    (uses phone_book))
+
+(on-entry 
+    ; First open the data file
+    (openfile phone-data-file phone.dat in)
+    (if (nil == (is-open phone-data-file))
+     then
+        (write (crlf) |Error: unable to read phone.dat| (crlf))
+        (quit))
+
+    ; Next read first line and bind it to a variable
+    (bind <in-line> (acceptline-compound phone-data-file))
+    ; Loop through file, making each line an object
+    (while (<in-line> <> (compound end-of-file)) do
+        ; Ignore lines without 3 fields; lines should look like:
+        ; |Dave| |Garter| |555-5283|
+        (if (3 == (length <in-line>))
+         then
+            (make person
+                ^first-name (nth <in-line> 1)
+                ^last-name (nth <in-line> 2)
+                ^phone (nth <in-line> 3)))
+        (bind <in-line> (acceptline-compound  phone-data-file)))
+        (closefile phone-data-file))
+
+(end-block read_phone_book)
+\end{verbatim}
+\end{quote}
+
+\section{Stopping Program Execution}
+
+Use the \tt{QUIT} action to terminate execution of the current image
+and return control to the operating system without executing any
+\tt{ON-EXIT} actions. Valid arguments for \tt{QUIT} include
+\verb|$FAILURE| and \verb|$SUCCESS|, as well as any integer.
+RuleWorks substitutes either 0 or 1, as appropriate for the operating
+system, for \verb|$FAILURE| and \verb|$SUCCESS|.
+
+The following example uses the \tt{QUIT} action to terminate execution
+with a return value indicating success.
+
+\begin{quote}
+\begin{verbatim}
+(rule success
+    (context ^$ID <context> ^task complete)
+  -->
+    (remove <context>)
+    (quit $success))
+\end{verbatim}
+\end{quote}
+
+
+When this rule fires, the \tt{QUIT} action causes the run-time system
+to stop executing recognize-act cycles immediately. The compiler
+provides a warning when any actions follow \tt{RETURN} or \tt{QUIT}
+actions.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "rwug"
+%%% End:

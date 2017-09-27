@@ -1,0 +1,370 @@
+\chapter{Portability and Compatibility Issues}
+
+This chapter provides information on differences between platforms. It
+includes:
+\begin{itemize}
+\item File specifications
+\item Input Source and Output Destination
+\item Hardware and Operating System Restrictions
+\item Internationalization Issues 
+\item RuleWorks and OPS5 Compatibility Issues
+\end{itemize}
+
+\section{File Specifications}
+
+The restrictions on file names vary according to operating system. The
+following characteristics are typical of file names on various
+platforms, but are restricted when using RuleWorks:
+
+Brackets (\verb|[]|) signify an index into a compound attribute. The
+comment character for RuleWorks is a semicolon (\verb|;|). Therefore,
+if the file specification you supply includes any of these characters,
+you must enclose it in vertical bars (\verb,||,).
+
+The following command illustrates VMS-style file specifications:
+\begin{quote}
+\begin{verbatim}
+@ |USER$1:[SMITH.WORK]INITIALIZE-MEMORY.WM|
+\end{verbatim}
+\end{quote}
+
+If your file specification needs to be passed to the operating system
+in lowercase letters, you must enclose it in vertical bars (\verb,||,).
+
+The following command illustrates UNIX-style file specifications:
+\begin{qv}
+@ |usr/users/smith/work/initialize-memory|
+\end{qv}
+
+If your file specification contains any of the following characters,
+you must enclose the file specification in vertical bars (\verb,| |,):
+caret (\verb|^|), tilde (\verb|~|), number sign (\verb|#|), percent
+sign (\verb|%|), ampersand (\verb|&|), parentheses (\verb|()|), and
+braces (\verb|{}|).
+
+The following command illustrates MS-DOS-style file specifications:
+\begin{qv}
+@ |C:\smith\work\init%mem.com|
+\end{qv}
+
+\section{Input Source and Output Destination}
+
+If you do not use the \tt{DEFAULT} command or action to specify
+otherwise, RuleWorks uses standard input and standard output
+(\verb|SYS$INPUT| and \verb|SYS$OUTPUT| on VMS systems).
+
+\section{Hardware and Operating System Restrictions}
+
+On VMS systems, you cannot write more than 252 atoms at a time.
+
+\section{Internationalization Issues}
+
+On VMS systems, RuleWorks collates symbols according to the Digital
+Multinational Character Set.
+
+This does not follow the I18N Guidelines. Please use the specified NCS
+routines.
+
+On MS-DOS, RuleWorks does not change the active code page (see your
+DOS manual for the \tt{chcp} command). On Windows NT, RuleWorks does not
+change the Internationalization setting.
+
+\section{Compatibility Issues}
+
+There are two major differences and numerous minor differences between
+RuleWorks and OPS5:
+\begin{itemize}
+\item The first major difference is that RuleWorks makes no attempt to
+  be 100\% compatible with the public domain OPS5. Constructs like
+  \tt{LITERALIZE}, \tt{LITVAL}, and \tt{VECTOR-ATTRIBUTE} are not
+  available in RuleWorks.
+
+\item The second major difference is that the public domain OPS5
+  provides none of the modularity features that RuleWorks provides,
+  although most of the other integration features were provided.
+
+  These modularity features are covered briefly in Chapter 12. See
+  Chapter 5 for more details.
+
+\item The minor differences include several match extensions, optional
+  data typing on attributes, some new actions and functions, and other
+  changes.
+\end{itemize}
+
+\subsection{Constructs Obsolete in RuleWorks}
+
+None of the features described as obsolescent in the OPS5
+Compatibility and Migration guide is implemented in
+RuleWorks. Constructs that were obsolescent in OPS5 and are obsolete
+in RuleWorks include:
+\begin{itemize}
+\item All of the \verb|OPS$...| API routines
+
+\item CE variables
+
+\item Value disjunctions or variables in the class position in a CE
+
+\item \tt{LITERAL}, \tt{LITVAL}, and \tt{LITERALIZE}
+
+\item \tt{SUBSTR} and \tt{VECTOR-ATTRIBUTE}
+
+\item \tt{EXTERNAL} declaration
+
+\item \tt{CALL} action and command
+
+\item \tt{CBIND} action
+
+\item \tt{HALT} action
+
+\item \tt{COMPUTE} function
+
+\item \tt{ACCEPT} function
+
+\item \tt{ACCEPTLINE} function
+\end{itemize}
+      
+\subsection{Features Added to RuleWorks}
+
+The following differences between RuleWorks and OPS5 are side-effects
+of the new modularity features:
+\begin{itemize}
+\item An \tt{ENTRY-BLOCK} (or \tt{DECLARATION-BLOCK}, or
+  \tt{RULE-BLOCK}) construct and an \tt{END-BLOCK} construct are now
+  required as wrappers around all other constructs.
+
+\item There is a new compiler command with a completely new set of
+  compiler qualifiers.
+
+\item There is now no negated refraction.  The new refraction
+  semantics are simply: ``Within an invocation of an entry-block, once
+  an instantiation has fired, that specific instantiation will never
+  fire again.''
+
+\item \tt{MEA} is now the default conflict resolution strategy.
+
+\item The conflict resolution strategy can only be set at compile time
+  as an \tt{ENTRY-BLOCK} clause, so there is now no \tt{STRATEGY}
+  command. An entry block checks when it starts up that each rule
+  block it activates has the same strategy as it does.
+
+\item There is no \tt{RUN} action, where in OPS5 it is allowed only in
+  the \tt{STARTUP}. By default, an entry block always starts running.
+
+\item The appearance of the command interpreter can now be controlled
+  by the programmer using the Debug compiler command qualifier, the
+  \tt{DEBUG} action, and the \verb|rul_debug| API routine. This is
+  unlike OPS5 where source code changes had to be made to control the
+  interpreter's appearance.
+
+\item Because the same entry block can now be invoked multiple times
+  recursively, when a rule instantiation is fired, it is not actually
+  removed from the conflict set, even though it ceases to be visible
+  there. If you are watching CS changes, be warned that you may see a
+  fired instantiation leaving the conflict set long after it ceased to
+  be visible via the CS command.
+
+\item There is no \verb|^C| handler in the interpreter, as this could
+  interfere with a user-supplied handler.
+
+\item Direct instances of the class
+  \verb|$ROOT| cannot be created in RuleWorks because of the data
+  modularity.
+
+\item The name \tt{MAIN} (or \verb,|main|,), when used as an entry
+  block name without an \tt{ACCEPTS} clause or a \tt{RETURNS} clause
+  for the \tt{ENTRY-BLOCK} creates a C compliant entry point named
+  "main" by automatically adding a return type of long.
+
+\item \tt{RETURN} is now a command as well as an action.
+
+\item The extra-name argument to all the API routines that accept
+  class names is now used. If supplied the extra-name should be the
+  name of the block where the class was declared. This allows
+  independent rule subprograms to each have a class defined that
+  happen to have the same class name.
+
+\item There is no \tt{RESTART} command.
+\end{itemize}
+
+\subsection{Minor Changes in RuleWorks}
+
+This section covers differences between RuleWorks and OPS5 that were
+not described as obsolescent in OPS5, and are not due to the new
+RuleWorks modularity features.
+
+\subsection{Match Extensions}
+
+Several new matching features have been added, including:
+\begin{itemize}
+\item Variables and other value expressions are now evaluated within a
+  value disjunctions, including variables bound in other condition
+  elements.
+
+\item Relational predicates (\verb|>|, \verb|<|, \verb|>=|, \verb|<=|,
+  \verb|=|) can compare integers versus floats, and symbols versus
+  symbols using localizable lexicographic ordering.
+
+\item New similarity predicate, \verb|~=|, that for numbers compares
+  integers and floats for equality within a 1\% margin, and for
+  symbols uses the SOUNDEX algorithm to compare phonetic (in English)
+  similarity.
+
+\item New dissimilarity predicate, \verb|-~=|, that matches when the
+  similarity test fails.
+
+\item Comparisons of compound attributes and a \tt{COMPOUND} function
+  are now supported.
+
+\item The containment and non-containment predicates can now be
+  applied to scalar attributes, as long as the argument to the
+  predicate is a compound value (e.g.  \verb|^name [+]|). In addition,
+  You can now use the containment and non-containment predicates in
+  conjunction with a scalar predicate. This allows you to specify the
+  test to be performed between a scalar value or attribute and each
+  element of a compound attribute or value. Previously, the
+  containment tests were always for identity.
+\end{itemize}
+      
+\subsection{Optional Attribute Data Type Restrictions}
+
+Optional attribute data types allow you to restrict the domain of an
+attribute to a specific type of value. The set of supported domain
+restrictions are: \tt{INTEGER}, \tt{SYMBOL}, \tt{FLOAT}, \tt{OPAQUE},
+and \tt{INSTANCE-ID}. If the \tt{INSTANCE-ID} domain is specified,
+then a specific class may optionally be identified by stating:
+\tt{INSTANCE-ID OF}
+ \verb|<class>|.
+
+For example:
+\begin{quote}
+\begin{verbatim}
+(object-class job-category
+    ^category-name symbol
+    ^max-salary float
+    ^min-salary float
+    ^employees compound instance-id of employee
+    ^salaries compound float)
+\end{verbatim}
+\end{quote}
+You are not required to supply attribute domain restrictions. If you
+do, however, the compiler (and if necessary, the run-time system)
+rigorously enforces those restrictions.
+
+The \tt{PPCLASS} command shows any domain restrictions along with the
+class's attributes.
+
+\subsection{New RHS Actions}
+
+The following RHS actions are new in RuleWorks
+\begin{itemize}
+\item The \tt{IF}\ldots\tt{THEN}\ldots\tt{ELSE}\ldots{} and
+  \tt{WHILE}\ldots\tt{DO}\ldots{} actions provide conditional
+  control over other RHS actions in rules or \tt{ON-} statements.
+\item The \tt{REMOVE-EVERY} action provides a means to delete objects
+  by class.
+\end{itemize}
+      
+\subsection{New Functions}
+
+The following functions are new in RuleWorks
+\begin{itemize}
+\item The \tt{EVERY} function (for RHS only) collects all instances of
+  a class.  Accepts a class name, returns a compound of
+  \tt{INSTANCE-ID}s.
+
+\item The \tt{GET} function (for RHS only) can retrieve arbitrary
+  attribute values from arbitrary instances. (Note: \tt{GET} can be
+  used with unmatched objects. Unmatched objects are objects that were
+  not in the firing instantiation. For example, a variable bound to
+  the \verb|^foo| attribute, if it was an instance identifier, would
+  be an unmatched object.)
+
+\item The new \tt{GENINT} function returns a system-generated
+  \tt{INTEGER}. The \tt{GENATOM} function changed to take an optional
+  argument that specifies a prefix for the generated symbol. The
+  default prefix is still \verb|G:|.
+
+\item The \tt{IS-OPEN} function checks whether a file stream is
+  open. It accepts a \it{file-id}; returns \tt{OUT} or \tt{IN} if open, \tt{NIL}
+  if not.
+
+\item The \tt{MAX} and \tt{MIN} functions find the largest or smallest
+  value among their arguments.
+
+\item The \tt{SUBCOMPOUND} function (and the new \tt{SUBSYMBOL}) can
+  be used on the LHS.
+
+\item The \tt{SUBSYMBOL} function extracts a segment of a symbol.
+
+\item The \tt{SYMBOL-LENGTH} function counts the characters in a
+  symbol. Accepts a symbolic value, returns an integer.
+\end{itemize}
+    
+\subsection{Miscellaneous Changes}
+
+\begin{itemize}
+\item As a result of the introduction of the new semantics for the
+  relational predicates, the predicate, \verb|=| (now called the equality
+  predicate), is no longer equivalent to the implied identity
+  predicate, and it cannot bind an unbound variable.
+
+\item The implied predicate is now identity, not equality. The
+  identity predicate can bind a variable.
+
+\item Definition of equality for symbols has changed: it is no longer
+  case-sensitive.
+
+\item Containment predicate has changed: you can now test whether a
+  scalar value is contained by a compound, as well as whether a
+  compound value contains a scalar.
+
+\item Variables inside disjunctions of values are evaluated in
+  RuleWorks.
+
+\item First argument to \tt{COPY}, \tt{MAKE}, \tt{MODIFY} and
+  \tt{SPECIALIZE} actions is no longer required to be a variable bound
+  to a \verb|^$ID| attribute on the LHS. Can be bound to a different
+  attribute or the result of a \tt{GET} function, but must evaluate to
+  an \tt{INSTANCE-ID} of an object class that is visible to the active
+  entry block.
+
+\item External routine names are not allowed to be the same as actions
+  or construct types.
+
+\item External routines can accept a dynamically-size array.
+
+\item Rules or classes can not have names that are predicate operators
+  or non-symbolic values.
+
+\item The name of the \tt{WATCH} command has been changed to
+  \tt{TRACE}.
+
+\item The output from \tt{PPWM}, \tt{WM}, and \tt{TRACE} \tt{WM} now shows the
+  readforms of all attribute values, instead of the printforms. The
+  output from \tt{WRITE} still shows the printforms.
+
+  The syntax for many of the debugging commands has changed. Using the
+  old syntax now generates a syntax error but also usage and example
+  messages.
+
+\item The behavior of the \tt{EXIT} command has changed since
+  OPS5. Previously, if the OPS5 routine was not your main program,
+  \tt{EXIT} would return control to the calling program. In RuleWorks,
+  \tt{EXIT} always returns to the operating system.
+
+\item Unmatched objects can now be acted upon by the \tt{REMOVE},
+  \tt{COPY}, \tt{MODIFY}, and \tt{SPECIALIZE} actions. The compiler
+  gives an informational message (and generates extra run-time
+  checking code) whenever it is unable to verify that the instance
+  argument passed to one of these actions is indeed a valid instance
+  identifier of an existing object.
+
+\item Two new special atoms; one for each of the new types: the null
+  Instance-id, \verb|#0|, and the null Opaque value, \verb|%x0|
+  (equivalent to C's \verb|NULL|).
+\end{itemize}
+      
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "rwug"
+%%% End:

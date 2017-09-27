@@ -1,0 +1,6694 @@
+\chapter{RuleWorks Reference Dictionary}
+
+\makeatletter
+\newenvironment{operands}
+               {\vspace{1ex}\noindent\textbf{Operands}\nopagebreak
+                 \list{}{\labelwidth\z@ \itemindent-\leftmargin
+                   \topsep=\z@                   
+                   \let\makelabel\operandlabel\let\labelsep=\textwidth}}
+               {\endlist}
+\newenvironment{arguments}
+               {\vspace{1ex}\noindent\textbf{Arguments}\nopagebreak
+                 \list{}{\labelwidth\z@ \itemindent-\leftmargin
+                   \topsep=\z@                   
+                   \let\makelabel\operandlabel\let\labelsep=\textwidth}}
+               {\endlist}
+\newcommand*\operandlabel[1]{\hspace\labelsep
+  \parbox[t]\textwidth{\normalfont\it{#1}\vspace{1.5ex}}}
+\makeatother
+
+This chapter contains complete descriptions of all constructs in the
+RuleWorks language, including tables and complete descriptions. The
+following tables, presented at the beginning of this chapter,
+summarize the RuleWorks language constructs by category:
+
+\begin{itemize}
+\item Operators
+\item Predicates and Relational Operators
+\item Statements
+\item Actions
+\item Functions
+\item Commands
+\item Declarations
+\item SQL Interface routines
+\end{itemize}
+
+Many of the constructs described in this Reference Dictionary can be
+specified with arguments. When you specify argument values, separate
+the categories with any combination of spaces, tabs, and carriage
+returns.
+
+The descriptions of all constructs are presented after the tables,
+alphabetically by name, with the non-alphabetic operators and
+predicates at the beginning. The descriptions include:
+
+\begin{itemize}
+\item usage details
+\item syntax
+\item format
+\item arguments
+\item examples
+\end{itemize}
+
+Note: you cannot use expressions that contain variables or function
+calls (except the \tt{COMPOUND} function) as argument values for
+commands.
+
+The RuleWorks run-time library routines are described in Appendix A.
+
+\section{Summary of Operators}
+
+\subsubsection{Summary of Operators---Arithmetic Operators}
+
+  \begin{tabularx}{\columnwidth}{cX}
+    \toprule
+    Operator & Description \\
+    \midrule
+    \tt{+} & Performs addition on numeric values \\
+    \tt{-} & Performs subtraction on numeric values \\
+    \tt{*} & Performs multiplication on numeric values \\
+    \tt{/} & Performs division on numeric values \\
+    \tt{\textbackslash} & Performs the modulus operation on integer value \\
+    \bottomrule
+ \end{tabularx}
+
+\subsubsection{Summary of Operators---Match Operators}
+
+\begin{tabularx}{\columnwidth}{cX}
+  \toprule
+  Operator & Description \\
+  \midrule
+  \ct & Specifies an attribute of an object \\
+  \tt{\{} \tt{\}} & Specifies a conjunction (logical AND) of values \\
+  \tt{<<} \tt{>>} & Specifies a disjunction (logical OR)
+                    between values \\
+  \bottomrule
+\end{tabularx}
+  
+\subsubsection{Summary of Operators - Logical Operators*}
+
+  \begin{tabularx}{\columnwidth}{cX}
+    \toprule
+    Operator & Description\\
+    \midrule
+    \tt{AND} & Performs a conjunction on two relational expressions \\
+    \tt{NOT} & Negates a relational expression\\
+    \tt{OR} & Performs an inclusive disjunction on two 
+              relational expressions \\
+    \bottomrule
+  \end{tabularx}
+
+\begin{note}
+  Logical operators can be used only within the context of
+  \tt{IF}\ldots\tt{THEN}\ldots\tt{ELSE}\ldots{} and
+  \tt{WHILE}\ldots\tt{DO}\ldots{} actions.
+\end{note}
+
+\section{Summary of Predicates and Relational Operators}
+
+Scalar predicates are those that are valid only for scalar
+attributes. The exceptions are identity and nonidentity (\tt{==} and
+\tt{<>}, which are also valid for comparing a compound attribute to a
+compound value. Compound predicates are those that are valid for
+compound attributes.
+
+\subsubsection{Summary of Scalar Predicates and Relational Operators}
+
+\begin{tabularx}{\columnwidth}{cccX}
+  \toprule
+  Domain & Predicate & Value Domain & Test \\
+  \midrule
+  ANY & \tt{==} & ANY & Identity: Same type as and equal to.
+                        This predicate is optional in
+                        LHS attribute-value tests. It is required
+                        in RHS relational expressions. \\
+  ANY & \tt{<>} & ANY & Nonidentity; converse of identity \\
+  ANY & \tt{=}  & ANY & Equality: Identical or equivalent numbers;
+                        identical symbols except for case;
+                        identical values of all other 
+                        data types                      \\
+  ANY & \tt{-=} & ANY & Inequality; converse of   
+                        equality \\
+  ANY & \tt{\textasciitilde=} & ANY & Similarity: Equal or phonetically
+                                      similar symbols; equal or
+                                      approximately equal  numbers; 
+                                      identical values of all other
+                                      data types \\
+  ANY & \tt{-\textasciitilde=} & ANY & Dissimilarity; converse of similarity \\
+  NUMBER & \tt{>} & NUMBER & Greater than \\
+  SYMBOL & \tt{>} & SYMBOL & Lexicographically after \\
+  ANY    & \tt{>=} & ANY & Greater than or equal numbers;
+                           lexicographically after or  equal symbols;
+                           identical values for all other data types \\
+  NUMBER & \tt{<} & NUMBER & Less than \\
+  SYMBOL & \tt{<} & SYMBOL & Lexicographically before \\
+  ANY    & \tt{<=} & ANY & Less than or equal numbers;
+                           lexicographically before or equal symbols;
+                           identical values  for all other data types \\
+  ANY & \tt{<=>} & ANY & Same type \\
+  ANY & \tt{<->} & ANY & Different type \\
+  \bottomrule
+\end{tabularx}
+
+\subsubsection{Summary of Compound Predicates and Relational Operators}
+
+\begin{tabularx}{\columnwidth}{cccX}
+  \toprule
+  Domain & Predicate & Value Domain & Test \\
+  \midrule
+  COMPOUND & \tt{[+]} & ATOM & Containment; compound contains atom \\
+  COMPOUND & \tt{[-]} & ATOM & Non-containment; converse of containment \\
+  COMPOUND & \tt{[=]} & INTEGER & Length equal \\
+  COMPOUND & \tt{[<>]} & INTEGER & Length not equal \\
+  COMPOUND & \tt{[>]} & INTEGER & Length greater \\
+  COMPOUND & \tt{[>=]} & INTEGER & Length greater than or  equal \\
+  COMPOUND & \tt{[<]}  & INTEGER & Length less than \\
+  COMPOUND & \tt{[<=]} & INTEGER & Length less than or equal \\
+  \bottomrule
+\end{tabularx}
+
+\section{Summary of Statements}
+
+Rules and catchers may be contained in either an entry block or a
+rule block, but \tt{ON-} statements must be contained in an entry
+block.
+
+\begin{tabularx}{\columnwidth}{lX}
+  \toprule
+  Statement & Description \\
+  \midrule
+  \tt{CATCH} & Contains actions that are executed after a 
+               specified number of recognize-act cycles (see    
+               also the \tt{AFTER} action) \\
+  \tt{ON-EMPTY} & Contains actions that are executed when the
+                  conflict set is empty \\
+  \tt{ON-ENTRY} & Contains actions that are executed when the entry
+                  block is called, before the first recognize-act
+                  cycle \\
+    \tt{ON-EVERY} & Contains actions that are executed after the act 
+                    phase of each recognize-act cycle except the last  \\
+  \tt{ON-EXIT} &  Contains actions that are executed after the act 
+                 phase of the last recognize-act cycle, except    
+                 when a \tt{QUIT} action is performed \\
+  \tt{RULE} & Contains actions that are executed when 
+              left-hand-side conditions are met and the 
+              instantiation wins conflict resolution \\
+  \bottomrule
+\end{tabularx}
+
+\section{Summary of Actions}
+
+\begin{longtable}{p{4cm}p{11cm}}
+  \toprule
+  Action & Description \\
+  \midrule
+  \tt{ADDSTATE} & Adds the contents of a file produced by the \tt{SAVESTATE}
+                  action or command to the current state of working memory
+                  and the conflict set \\\addlinespace
+  \tt{AFTER} & Specifies the number of recognize-act cycles that must be
+               executed before a specified
+               catcher is executed \\\addlinespace
+  \tt{BIND} & Binds a variable to a value \\\addlinespace
+  \tt{CLOSEFILE} & Closes the open files associated with specified file
+                   identifiers and dissociates the
+                   identifiers from the files \\\addlinespace
+  \tt{COPY} & Copies a new copy of an existing object \\\addlinespace
+  \tt{DEFAULT} & Sets the terminal or a file as the default
+                 input source for the \tt{ACCEPT-ATOM} and         
+                 \tt{ACCEPTLINE-COMPOUND} functions, or the default 
+                 output destination for the \tt{WRITE} action or for
+                 trace output  \\
+  \tt{FOR-EACH} & Iterates over a compound value, executing the 
+                  specified actions \\\addlinespace
+  \tt{IF}\ldots\tt{THEN}\ldots\tt{ELSE}\ldots & Provides a branch in the flow of control, as 
+                                                in procedural languages \\\addlinespace
+  \tt{MAKE} & Creates an object \\\addlinespace
+  \tt{MODIFY} & Changes one or more values in an existing
+                object \\\addlinespace
+  \tt{OPENFILE} & Opens a file and associates it with a file
+                  identifier \\\addlinespace
+  \tt{QUIT} & Stops execution of the active entry block and
+              passes control back to the operating system,
+              optionally returning a value \\\addlinespace
+  \tt{REMOVE} & Deletes one or more objects \\\addlinespace
+  \tt{REMOVE-EVERY} & Deletes all the working memory objects that  
+                      are instances of the specified class or its  
+                      subclasses \\\addlinespace
+  \tt{RESTORESTATE} & Clears and then restores working memory and  
+                      the conflict set to the state recorded in a  
+                      file produced by the \tt{SAVESTATE} action or     
+                      command  \\\addlinespace
+  \tt{RETURN} & Stops execution of the active entry block,    
+                executes the \tt{ON-EXIT} actions (if any), and    
+                passes control back to the caller of the entry
+                block. May also pass a return value. \\\addlinespace
+  \tt{SAVESTATE} & Copies the state of working memory and the    
+                   conflict set to a file \\\addlinespace
+  \tt{SPECIALIZE} & Converts an instance of one class to an 
+                    instance of a descendent class  \\\addlinespace
+  \tt{TRACE} & Displays or sets the run-time system's trace  
+               setting \\\addlinespace
+  \tt{WHILE}\ldots\tt{DO}\ldots & Provides a loop in the flow of control, as in
+                                  procedural languages \\\addlinespace
+  \tt{WRITE} & Sends output from a program to the terminal or
+               a file \\
+  \bottomrule
+\end{longtable}
+
+\section{Summary of Functions}
+
+\begin{longtable}{p{3.8cm}p{2.5cm}p{8.7cm}}
+  \toprule
+  Function & \raggedright OK on LHS? & Description \\
+  \midrule
+  \tt{ACCEPT-ATOM} & No & Reads an atom from the terminal  or a file \\\addlinespace
+  \tt{ACCEPTLINE-COMPOUND} & No & Reads a line of input from the terminal or file into a compound value \\\addlinespace
+  \tt{COMPOUND} & Yes & Creates a new compound value from any number of arguments, scalar or compound \\\addlinespace
+  \tt{CONCAT} & Yes & Concatenates the print forms of its arguments \\\addlinespace
+  \tt{CRLF} & No & Causes the \tt{WRITE} action to produce output on a new line  \\\addlinespace
+  \tt{EVERY} & No & Returns a compound value that contains the IDs of all instances of the specified class \\\addlinespace
+  \tt{FLOAT} & Yes & Converts a numeric value into a floating-point number \\\addlinespace
+  \tt{GENATOM} & No & Returns a system-generated atom \\\addlinespace
+  \tt{GET} & No & Given a variable bound to an object identifier and an attribute name, returns the value of that object's attribute \\\addlinespace
+  \tt{INTEGER} & Yes & Converts a numeric value into an integer \\\addlinespace
+  \tt{IS-OPEN} & No & Tests whether a file is open \\\addlinespace
+  \tt{LENGTH} & Yes & Returns the number of elements in a compound value \\\addlinespace
+  \tt{MAX} & Yes &  Returns the largest of its arguments \\\addlinespace
+  \tt{MIN} & Yes & Returns the smallest of its  arguments \\\addlinespace
+  \tt{NTH} & Yes & Returns the value of a specified element in a compound value \\\addlinespace
+  \tt{POSITION} & Yes & Finds the first occurrence of  an element in a compound value \\\addlinespace
+  \tt{RJUST} & No & Causes the \tt{WRITE} action to right justify output in a field of specified width \\\addlinespace
+  \tt{SUBCOMPOUND} & Yes & Returns a subrange of a compound value \\\addlinespace
+  \tt{SUBSYMBOL} & Yes & Returns a fragment of a symbolic value \\\addlinespace
+  \tt{SYMBOL} & Yes & Converts any atom into a symbol \\\addlinespace
+  \tt{TABTO} & No & Causes the \tt{WRITE} action to put output in a specified column \\
+  \bottomrule
+\end{longtable}
+
+\section{Summary of Commands}
+
+\begin{longtable}{p{4cm}p{11cm}}
+  \toprule
+  Command & Description \\
+  \midrule
+  \verb|@| & Opens a file containing RuleWorks commands and
+             executes the commands. \\\addlinespace
+  \tt{ADDSTATE} & Adds the contents of a file produced by the
+                  \tt{SAVESTATE} action or command to the current
+                  state of working memory. \\\addlinespace
+  \tt{AFTER} & Specifies the number of recognize-act cycles
+               that must be executed before a specified
+               catcher is executed. \\\addlinespace
+  \tt{CLOSEFILE} & Closes the open files associated with 
+                   specified file identifiers and dissociates the 
+                   identifiers from the files. \\\addlinespace
+  \tt{COPY} & Makes a new copy of an existing object. \\\addlinespace
+  \tt{CS} & Displays the current contents of the conflict 
+            set. \\\addlinespace
+  \tt{DEFAULT} & Sets the terminal or a file as the default 
+                 input source for the \tt{ACCEPT-ATOM} and 
+                 \tt{ACCEPTLINE-COMPOUND} functions, or the default
+                 output destination for the \tt{WRITE} action or 
+                 trace output. \\\addlinespace
+  \tt{DISABLE} & Disables the \tt{WMHISTORY} command and the display
+                 of block names. \\\addlinespace
+  \tt{EBREAK} & Displays entry blocks that have breakpoints 
+                set, sets breakpoints for entry blocks, or 
+                deletes breakpoints from entry blocks. \\\addlinespace
+  \tt{ENABLE} & Enables the \tt{WMHISTORY} command and the display  
+              of block names. \\\addlinespace
+  \tt{EXIT} & Synonym for \tt{QUIT} command. \\\addlinespace
+  \tt{MAKE} & Creates a working-memory object. \\\addlinespace
+  \tt{MATCHES} & Displays the identifiers and time-tags of 
+                 objects that match condition elements in a 
+                 specified rule. \\\addlinespace
+  \tt{MODIFY} & Changes one or more values in an existing 
+              working-memory object. \\\addlinespace
+  \tt{NEXT} & Displays the instantiation the run-time system 
+              will select from the conflict set for the act  
+              phase of the next recognize-act cycle. \\\addlinespace
+  \tt{OPENFILE} & Opens a file and associates it with a file 
+                  identifier. \\\addlinespace
+  \tt{PPCLASS} & Displays the ancestors of an object class. \\\addlinespace
+  \tt{PPWM} & Displays working-memory objects that match a 
+              specified pattern. \\\addlinespace
+  \tt{QUIT} & Stops execution and returns control to the 
+              operating system; optionally returns an 
+              integer value. \\\addlinespace
+  \tt{RBREAK} &  Displays rules that have breakpoints set, sets
+                breakpoints for rules, or deletes breakpoints
+                from rules. \\\addlinespace
+  \tt{REMOVE} & Deletes objects from working memory. \\\addlinespace
+  \tt{REMOVE-EVERY} & Deletes all working-memory objects that are 
+                      instances of a specified class or subclass. \\\addlinespace
+  \tt{RESTORESTATE} & Clears working memory and the conflict set,
+                      then loads them from a file produced by the 
+                      \tt{SAVESTATE} action or command. \\\addlinespace
+  \tt{RETURN} & Passes control back to the caller of the entry
+                block; optionally returns a value. \\\addlinespace
+  \tt{RUN} & Executes recognize-act cycles. \\\addlinespace
+  \tt{SAVESTATE} & Copies the state of working memory and the 
+                   conflict set to a file. \\\addlinespace
+  \tt{SPECIALIZE} & Changes a working-memory object from an 
+                    instance of one class to an instance of a 
+                    parent class. \\\addlinespace
+  \tt{TRACE} & Displays or sets the amount of debugging 
+               information displayed by the run-time system. \\\addlinespace
+  \tt{WBREAK} & Displays objects that have breakpoints set, 
+                sets breakpoints for objects, or deletes 
+                breakpoints from objects. \\\addlinespace
+  \tt{WM} &  Displays working-memory objects. \\\addlinespace
+  \tt{WMHISTORY} & Displays the revision history of an object. \\
+  \bottomrule
+\end{longtable}
+
+\section{Summary of Declarations}
+
+\begin{longtable}{p{4cm}p{11cm}}
+  \toprule
+  Declaration & Description \\
+  \midrule
+  \tt{DECLARATION-BLOCK} & Begins a set of shareable object class  
+                           and external routine declarations \\\addlinespace
+  \tt{END-BLOCK} & Ends an entry, declaration, or rule block \\\addlinespace
+  \tt{END-GROUP} & Ends a rule group \\\addlinespace
+  \tt{ENTRY-BLOCK} & Begins a callable RuleWorks routine \\\addlinespace
+  \tt{EXTERNAL-ROUTINE} & Declares a routine written in a language 
+                          other than RuleWorks, or another 
+                          RuleWorks entry block \\\addlinespace
+  \tt{OBJECT-CLASS} & Defines a class name and its list of 
+                      attribute names \\\addlinespace
+  \tt{RULE-BLOCK} &  Begins a set of shareable rules and 
+                    catchers \\\addlinespace
+  \tt{RULE-GROUP} & Begins a named set of rules and catchers \\
+  \bottomrule
+\end{longtable}
+
+
+\section{Summary of SQL Actions}
+
+\begin{longtable}{p{5cm}p{10cm}}
+  \toprule
+  Action & Description \\
+  \midrule
+  \tt{SQL-ATTACH} & Specifies the database that is to be
+                    accessed by the other RuleWorks SQL
+                    actions. \\\addlinespace
+  \tt{SQL-COMMIT} & Completes the current SQL 
+                    transaction and makes permanent any 
+                    changes made during the transaction. \\\addlinespace
+  \tt{SQL-DELETE} & Deletes specified records from the 
+                    database. \\\addlinespace
+  \tt{SQL-DETACH} & Commits any outstanding transaction
+                    and detaches from the database. \\\addlinespace
+  \tt{SQL-FETCH-EACH} & Binds field values to RuleWorks 
+                        variables and executes RuleWorks 
+                        actions that can use those 
+                        variables. \\\addlinespace
+  \tt{SQL-FETCH-AS-OBJECT} & Makes objects from database records. \\\addlinespace
+  \tt{SQL-INSERT} & Stores new records in the database. \\\addlinespace
+  \tt{SQL-INSERT-FROM-OBJECT} & Stores the contents of an object in
+                                a new database record. \\\addlinespace
+  \tt{SQL-ROLLBACK} & Completes the current SQL 
+                      transaction and undoes any changes
+                      made during the transaction. \\\addlinespace
+  \tt{SQL-START} & Starts an SQL transaction and sets 
+                   transaction options. \\\addlinespace
+  \tt{SQL-UPDATE} & Modifies existing database records. \\\addlinespace
+  \tt{SQL-UPDATE-FROM-OBJECT} & Modifies existing database records,
+                                using the contents of an object. \\
+  \bottomrule
+\end{longtable}
+
+\section{Operator Descriptions}
+
+This section contains a description of the RuleWorks operators,
+in alphabetical order.
+
+\subsection{\tt{+} (Addition)}
+
+Performs arithmetic addition on numeric values.
+
+\Format
+
+\it{numeric-expression} \tt{+} \it{numeric-expression}
+
+\begin{operands}
+\item[numeric-expression] The numeric expressions to be
+  added. These may be numeric constants, arithmetic expressions,
+  variables bound to numeric values, or functions that return numeric
+  values.
+\end{operands}
+
+\Example
+
+The following action shows addition of a bound variable and a
+constant.
+
+\begin{quote}
+\begin{verbatim}
+(modify <the-counter> ^count ( <c> + 1 ) )
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt- (Negation and Subtraction)}
+
+\textsc{As a Match Operator}
+
+Negates a condition element (see Chapter~\ref{c:conditionelements} for
+a discussion of negative CEs).
+
+\Format
+
+\tt- \it{condition-element}
+
+\begin{operands}
+\item[condition-element] The CE that is to be negated.
+\end{operands}
+
+\textsc{As an Arithmetic Operator}
+
+Performs arithmetic subtraction on numeric values.
+
+\Format
+
+\tt- \it{numeric-expression}
+
+\it{numeric-expression} \tt- \it{numeric-expression}
+
+\begin{operands}
+\item[numeric-expression]
+
+  The numeric expressions to be subtracted. These arguments may be
+  numeric constants, arithmetic expressions, variables bound to
+  numeric values, or functions that return numeric values.
+\end{operands}
+  
+\Example
+
+The following two CEs test for the existence of one and only one
+object of class \tt{MEMORY}:
+
+\begin{quote}
+\begin{verbatim}
+(memory ^$ID <the-mem>)
+-(memory ^$ID <> <the-mem>)
+\end{verbatim}
+\end{quote}
+
+The following action shows subtraction of a bound variable
+and a constant:
+
+\begin{quote}
+\begin{verbatim}
+(write (crlf) |Read| ( <c> - 1 ) |items from input.| (crlf))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt* (Multiplication)}
+
+Performs arithmetic multiplication on numeric values.
+
+\Format
+\it{numeric-expression} * \it{numeric-expression}
+
+\begin{operands}
+\item[numeric-expression]
+  The numeric expressions to be multiplied. These may be numeric
+  constants, arithmetic expressions, variables bound to numeric
+  values, or functions that return numeric values.
+\end{operands}
+
+\Example
+
+If the \tt{KIWI.RUL} program calculates sales tax, it can use the
+following action:
+
+\begin{quote}
+\begin{verbatim}
+(modify <the-total> ^cost (<cost> + (<cost> * <tax>)))
+\end{verbatim}
+\end{quote}
+
+
+\subsection{\tt/ (Division)}
+
+Performs arithmetic division on numeric values.
+
+\Format
+\it{numeric-expression} \tt/ \it{numeric-expression}
+
+\begin{operands}
+\item[numeric-expression]
+
+  The numeric expressions to be divided. These may be numeric
+  constants, arithmetic expressions, variables bound to numeric
+  values, or functions that return numeric values.
+
+  The second operand must not evaluate to zero, or a warning is
+  generated and the result is zero. The result is an integer only when
+  both operands are integers.
+\end{operands}
+
+\Example 
+
+The following action converts degrees Fahrenheit to degrees Celsius:
+
+\begin{quote}
+\begin{verbatim}
+(bind <degrees-c> ((<degrees-f> - 32) * 5 / 9))
+\end{verbatim}
+\end{quote}
+
+Note that the entire arithmetic expression must be enclosed in
+parentheses.
+
+\subsection{\tt\textbackslash{} (Modulus)}
+
+Performs the arithmetic modulus operation on integer values.
+
+\Format
+
+\it{integer-expression} \tt{\textbackslash} \it{integer-expression}
+
+\begin{operands}
+\item[integer-expression]
+
+  The dividend and divisor for the modulus operation. These may be
+  integers, arithmetic expressions that evaluate to integers,
+  variables bound to integers, or functions that return integers.
+\end{operands}
+
+\Example
+
+The following rule uses both division and modules on integers:
+
+\begin{quote}
+\begin{verbatim}
+(rule find-dozens
+    (start ^$ID <start>)
+  -->
+    (write (crlf) |Enter an integer: | )
+    (bind <eggs> (accept-atom))
+    (write (crlf) |There are| (<eggs> / 12) |dozen in|<eggs>) ; division
+    (write (crlf) | and there are| (<eggs> 12) |left over|) ; modulus
+    (modify <start>))
+\end{verbatim}
+\end{quote}
+
+This example produces the following output:
+
+\begin{quote}
+\begin{verbatim}
+Enter an integer: 13
+There are 1 dozen in 13
+and there are 1 left over
+Enter an integer: 39
+There are 3 dozen in 39
+and there are 3 left over
+Enter an integer:
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt\^ (Attribute)}
+
+Specifies an attribute of an object. You must define all attributes in
+an \tt{OBJECT-CLASS} declaration. For more information about
+attributes, see Chapter~\ref{c:workingmem}.
+
+\Format
+
+\ct\it{attribute-name}
+
+\begin{arguments}
+\item[attribute-name] The name of a declared attribute.
+
+  In condition elements on the LHS, this argument must be a symbolic
+  atom. In actions on the RHS, this argument can be a symbol or a
+  variable that is bound to a declared attribute name.
+\end{arguments}
+
+\Example
+
+The following \tt{OBJECT-CLASS} declaration defines the attribute
+\tt{\^{}ITEM} for the class \tt{INPUT-THING}:
+
+\begin{quote}
+\begin{verbatim}
+(object-class input-thing
+    ^item)
+\end{verbatim}
+\end{quote}
+
+The following CE matches objects of class \tt{INPUT-THING} whose
+\tt{\^{}ITEM} attribute has the value \tt{HOME-KIWI}. It also uses the
+built-in attribute \tt{\^\$ID} to bind an object variable:
+
+\begin{quote}
+\begin{verbatim}
+(input-thing ^item home-kiwi ^$ID <my-input-thing>)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{==} (Identity)}
+
+Produces a match, or evaluates to true, when both its operands have
+the same type and the same value.
+
+Two compound values are identical if they contain the same values in
+the same order.
+
+\textsc{As a Match Predicate}
+
+In an attribute-value test on the LHS, the identity predicate is
+optional.
+
+If the value following the identity predicate is an unbound variable,
+that variable is bound to the value of the specified attribute. The
+identity and length-equal (\tt{[=]}) predicates are the only
+predicates that can precede the first occurrence of a variable,
+because they are the only ones that can either bind a variable or
+compare its value.
+
+\Format
+
+\tt{\^}\it{attribute} \tt{==} \it{value-expression}
+
+\tt{\^}\it{attribute} \it{value-expression}
+
+\textsc{As a Relational Operator}
+\nopagebreak
+
+In a relational expression on the RHS, the identity operator is
+required. There is no default or implied operator inside relational
+expressions.
+
+\Format
+
+\it{value-expression} \tt{==} \it{value-expression}
+
+\begin{operands}
+\item[\ct attribute]
+
+  An attribute of a WMO whose value is to be tested.
+
+\item[value-expression]
+
+  Any RuleWorks expression, whose value is to be tested.
+\end{operands}
+
+\Example
+
+The following CE uses the implied identity predicate:
+
+\begin{quote}
+\begin{verbatim}
+(active-context ^name verify-configuration)
+\end{verbatim}
+\end{quote}
+
+The relational expression below, of necessity, uses the explicit
+identity predicate:
+
+\begin{quote}
+\begin{verbatim}
+(if ((is-open infile) = = nil)
+ then (openfile infile orders.dat in))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{<>} (Nonidentity)}
+
+Produces a match when the identity predicate (see previous fails to
+match; evaluates to true when the identity operator evaluates to
+false.
+
+\Example
+
+The following two CEs test for the existence of one and only
+one object of class \tt{MEMORY}:
+
+\begin{quote}
+\begin{verbatim}
+(memory ^$ID <the-mem>)
+-(memory ^$ID <> <the-mem>)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt= (Equality)}
+
+Produces a match, or evaluates to true, when its operands are
+identical or have equal values.
+
+The equality predicate and operator performs automatic type conversion
+between \tt{INTEGER} and \tt{FLOAT} values. For example, 2 is equal to 2.0, but
+2 is not identical to 2.0.
+
+The equality predicate and operator ignores case when comparing SYMBOL
+values. For example, \tt{|cat |} is equal to \tt{CAT}, but \tt{|cat |}
+is not identical to \tt{CAT}.
+
+You cannot use the equality predicate with the binding instance of a
+variable. You must use the identity predicate.
+
+\Format
+
+\tt{\^}\it{attribute} \tt= \it{value-expression}
+
+\begin{operands}
+\item[\ct attribute]
+
+  An attribute of a WMO whose value is to be tested.
+
+\item[value-expression]
+
+  Any RuleWorks expression, whose value is to be tested.
+\end{operands}
+
+\Example
+
+The following CE uses the less restrictive equality predicate:
+
+\begin{quote}
+\begin{verbatim}
+(active-context ^name = verify-configuration)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{-=} (Inequality)}
+
+Produces a match when the equality predicate (see previous page) fails
+to match; evaluates to true when the equality operator evaluates to
+false.
+
+\Example
+This attribute-value test is the converse of the previous
+example:
+\begin{quote}
+\begin{verbatim}
+(active-context ^name -= verify-configuration)
+\end{verbatim}
+\end{quote}
+
+
+\subsection{\tt{\~{}=} (Similarity)}
+
+Produces a match, or evaluates to true, when its arguments are either
+both numbers or the same type, and are similar to each
+other. Similarity is defined as follows:
+
+Two numbers are considered to be similar when the difference between
+their values is less than or equal to 1 percent of the larger absolute
+value. Like the equality predicate, the similarity predicate
+automatically converts between the \tt{INTEGER} and \tt{FLOAT} data types.
+
+Two symbols are similar when one of the following is true:
+
+They are identical or equal (equality is independent of case).
+
+Both symbols are at least three characters long, and adding a single
+character to one symbol makes it equal to the other.
+
+Both symbols are at least three characters long, and transposing two
+characters in one symbol makes it equal to the other.
+
+They have identical SOUNDEX values.
+
+SOUNDEX values are calculated according to an algorithm similar to
+that published in \emph{The Art of Computer Programming}, Volume 3,
+pages 391--392, by Donald Knuth.  The English-language rules are as
+follows:
+
+\begin{enumerate}
+\item Find the first alphabetic character in the symbol, and convert
+  it to uppercase.
+\item Convert all non-alphabetic characters to a code of 0.
+\item Ignoring case, replace each consonant (after the first
+  alphabetic character), except H's and W's, with its corresponding
+  consonant group code number:
+
+  B, F, P, V    1
+
+  C, G, J, K, Q, S, X, Z  2
+
+  D, T    3
+
+  L     4
+
+  M, N    5
+
+  R     6
+\item If two or more adjacent characters contain the same code, remove
+  all but the first.
+\item Ignoring case and leaving the first alphabetic character, remove
+  all the vowels (including Y), H's, and W's, and all remaining zeroes
+  and spaces.
+\end{enumerate}
+
+For all other data types, similarity is the same as identity.  For
+example, assuming \tt{<the-id>} is already bound, the two
+attribute-value tests shown below match under the same circumstances:
+
+\begin{quote}
+\begin{verbatim}
+^$ID == <the-id>
+^$ID ~= <the-id>
+\end{verbatim}
+\end{quote}
+
+The identity predicate is more efficient.
+
+You cannot use the similarity predicate with the binding instance of a
+variable.
+
+\Format
+
+\ct\it{attribute} \tt{\~{}=} \it{value-expression}
+
+\it{value-expression} \tt{\~{}=} \it{value-expression}
+
+\begin{operands}
+\item[\ct{attribute}]
+
+  An attribute of a WMO whose value is to be tested.
+
+\item[value-expression]
+
+  Any RuleWorks expression, whose value is to be tested.
+\end{operands}
+
+\Example
+
+The first table shows the results of several similarity tests on
+numbers:
+
+\begin{tabularx}{\columnwidth}{XXX}
+  \toprule
+  First Value & Second Value & Similar? \\
+  \midrule
+  4.0        & 4            & Yes \\
+  4.5        & 4            & No \\
+  9.9      & 10           & Yes \\
+  -9.9     &   -10          & Yes \\
+  \bottomrule
+\end{tabularx}
+
+The next table shows the SOUNDEX codes of several symbols.  Note that
+the last three codes match exactly:
+
+\begin{tabularx}{\columnwidth}{XX}
+  \toprule
+  Symbol      & SOUNDEX Code \\
+  \midrule
+  Tracy       & T62          \\
+  Larry       & L6           \\
+  St. Laurent & S34653       \\
+  Steven      & S315         \\
+  Stephen     & S315         \\
+  Stefano     & S315         \\
+  \bottomrule
+\end{tabularx}
+
+\subsection{\tt{-\~{}=} (Dissimilarity)}
+
+Produces a match, or evaluates to true, when the similarity predicate
+(see previous fails to match, or evaluates to false.
+
+\Example
+
+The table below shows the results of several dissimilarity tests:
+
+\begin{tabularx}{\columnwidth}{XXX}
+  \toprule
+  First Value & Second Value & Dissimilar? \\
+  \midrule
+  4.0         & 4            & No          \\
+  4.5         & 4            & Yes         \\
+  9.9         & 10           & No          \\
+  -9.9        & -10          & No          \\
+  \bottomrule
+\end{tabularx}
+
+\subsection{\tt> (Greater-than)}
+
+Produces a match, or evaluates to true, when its first operand is
+greater than its second. The operands must be either both numbers or
+both symbols.
+
+See Appendix E for information on the collating sequences used by
+RuleWorks to compare symbolic values.
+
+\Format
+
+\ct\it{attribute} \tt> \it{value-expression}
+
+\it{value-expression} \tt> \it{value-expression}
+
+\begin{operands}
+\item[\ct{attribute}]
+
+  An attribute of a WMO whose value is to be tested.
+
+\item[value-expression]
+
+  Any RuleWorks expression that evaluates to a symbol or a number.
+\end{operands}
+
+\Example
+
+The following table shows the results of several greater-than tests
+
+\begin{tabularx}{\columnwidth}{cccX}
+  \toprule
+  First Value      &   & Second Value & Match or True? \\
+  \midrule
+  4.0              & \verb|>| & 3            & Yes            \\
+  4                & \verb|>| & 5.0          & No             \\
+  aardwolf         & \verb|>| & aardvark     & Yes            \\
+  \verb,|, greater-than \verb,|, & \verb|>| & greater-than & No             \\
+  \bottomrule
+\end{tabularx}
+
+\subsection{\tt{>=} (Greater-than-or-equal)}
+
+Produces a match, or evaluates to true, when its first operand is
+greater than or equal to its second. The operands must be either both
+numbers or both symbols.
+
+See Appendix E for information on the collating sequences used by
+RuleWorks to compare symbolic values.
+
+\Format
+
+\ct\it{attribute} \tt{>=} \it{value-expression}
+
+\it{value-expression} \tt{>=} \it{value-expression}
+
+\begin{operands}
+
+\item[\ct{attribute}]
+
+  An attribute of a WMO whose value is to be tested.
+
+\item[value-expression]
+
+  Any RuleWorks expression that evaluates to a symbol or a number.
+\end{operands}
+
+\Example
+
+The following table shows the results of several greater-than-or-equal
+tests:
+
+\begin{tabularx}{\columnwidth}{cccX}
+  \toprule
+  First Value      &    & Second Value & Match or True? \\    
+  \midrule
+  5.0              & \verb|>=| & 5            & Yes            \\
+  6                & \verb|>=| & 7.0          & No             \\
+  aardvark         & \verb|>=| & Aardvark     & Yes            \\
+  \verb,|, greater-than \verb,|, & \verb|>=| & greater-than & Yes            \\
+  \bottomrule
+\end{tabularx}
+
+The aardvarks match because they are equal, which is a case
+insensitive comparison, not because the first value is greater than
+the second.
+
+\subsection{\tt< (Less-than)}
+
+Produces a match, or evaluates to true, when its first operand is less
+than its second. The operands must be either both numbers or both
+symbols.
+
+See Appendix E for more information on the collating sequences used by
+RuleWorks to compare symbolic values.
+
+\Format
+
+\tt{\^}\it{attribute} \tt< \it{value-expression}
+
+\it{value-expression} \tt< \it{value-expression}
+
+\begin{operands}
+\item[\ct attribute]
+
+  An attribute of a WMO whose value is to be tested.
+
+\item[value-expression]
+
+  Any RuleWorks expression that evaluates to a symbol or a number.
+\end{operands}
+
+\Example
+
+The following table shows the results of several less-than tests:
+
+Table 17. Less-than Testing
+
+\begin{tabularx}{\columnwidth}{cccX}
+  \toprule
+  First Value &   & Second Value & Match or True? \\
+  \midrule
+  2.0         & \verb|<| & 3            & Yes \\
+  5           & \verb|<| & 6.0          & Yes \\
+  zygosis     & \verb|<| & zygote       & Yes \\
+  zoology     & \verb|<| & Zoology      & No \\
+  \bottomrule
+\end{tabularx}
+
+\subsection{\tt{<=} (Less-than-or-equal)}
+
+Produces a match or evaluates to true, when its first operand is less
+than or equal to its second. The operands must be either both numbers
+or both symbols.
+
+See Appendix E for information on the collating sequences used by
+RuleWorks to compare symbolic values.
+
+\Format
+
+\tt{\^}\it{attribute} \tt{<=} \it{value-expression}
+
+\it{value-expression} \tt{<=} \it{value-expression}
+
+\begin{operands}
+\item[\ct{attribute}]
+
+  An attribute of a WMO whose value is to be tested.
+
+\item[value-expression]
+
+  Any RuleWorks expression that evaluates to a symbol or a number.
+\end{operands}
+
+\Example
+
+The following table shows the results of several less-than-or equal
+tests:
+
+Table 18 Less-than-or-equal Testing
+
+\begin{tabularx}{\columnwidth}{cccX}
+  \toprule
+  First Value &   & Second Value & Match or True? \\
+  \midrule
+  2.0         & \verb|<=| & 3            & Yes \\
+  5           & \verb|<=| & 5.0          & Yes \\
+  zygosis     & \verb|<=| & zygote       & Yes \\
+  zoology     & \verb|<=| & Zoology      & Yes \\
+  \bottomrule
+\end{tabularx}
+
+The symbols match because they are equal, which is a case insensitive
+comparison, not because the first value is less than the second.
+
+\subsection{\tt{<=>} (Same Type)}
+
+Produces a match, or evaluates to true, when both its operands are the
+same type. The RuleWorks data types are \tt{INTEGER}, \tt{FLOAT},
+\tt{SYMBOL}, \tt{INSTANCE-ID}, and \tt{OPAQUE}.
+
+For example, if you specify this predicate with a symbol or a variable
+bound to a symbol, a match is produced when the atom in the WMO is a
+symbol.
+
+The same-type predicate can be applied to scalar values only.
+
+\Format
+
+\ct\it{attribute} \tt{<=>} \it{value-expression}
+
+\it{value-expression} \tt{<=>} \it{value-expression}
+
+An attribute of a WMO whose value is to be tested.
+
+\begin{arguments}
+\item[value-expression]
+  
+  Any RuleWorks expression, whose value is to be tested.
+\end{arguments}
+
+\Example
+
+The following CE matches an object of class \tt{INPUT-THING} whose
+\ct\tt{ITEM} attribute has a symbolic value:
+
+\begin{quote}
+\begin{verbatim}
+(input-thing ^item <=> symbol)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{<->} (Different-type)}
+
+Produces a match when the same-type predicate (see previous page)
+fails to match; evaluates to true when the same-type operator
+evaluates to false.
+
+This predicate can be applied to scalar values only.
+
+\Example
+
+This CE is the converse of the previous example:
+
+\begin{quote}
+\begin{verbatim}
+(input-thing ^item <-> symbol)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{[+]} (Containment)}
+
+Produces a match, or evaluates to true, when its scalar operand is an
+element of its compound operand. That is, you can test whether a
+compound contains a scalar value, or you can test whether a scalar
+value is contained in a compound.
+
+By default, the containment predicate tests for identity; you can
+specify a different test with an optional scalar predicate. The scalar
+predicate must appear next to the scalar argument.
+
+\Format
+
+\ct\it{compound-attr} \tt{[+]} [\it{predicate}] \it{scalar-value}
+
+\ct\it{scalar-attr} [\it{predicate}] \tt{[+]} \it{compound-value}
+
+\it{compound-value} \tt{[+]} [\it{predicate}] \it{scalar-value}
+
+\it{scalar-value} [\it{predicate}] \tt{[+]} \it{compound-value}
+
+\begin{operands}
+\item[\ct{compound-attr}]
+
+  The compound attribute whose value is to be searched for a scalar
+  value.
+
+\item[predicate]
+
+  A predicate that specifies the comparison between elements of the
+  compound value and the scalar value. This argument is optional; if
+  you do not specify a predicate, RuleWorks uses the default identity
+  predicate.
+
+  You can use any scalar predicate except containment and
+  non-containment (see Table 4).
+
+\item[scalar-value]
+
+  The scalar value for which a compound attribute is to be searched.
+
+\item[\ct{scalar-attr}]
+
+  The scalar attribute for whose value a compound is to be searched.
+
+\item[compound-value]
+
+  The compound value which is to be searched for a scalar value.
+\end{operands}
+
+\Example
+
+The following CE matches an object class \tt{BOX} whose
+\ct\tt{CARD-IN-SLOT} attribute contains at least one \tt{MEMORY} element:
+
+\begin{quote}
+\begin{verbatim}
+(box ^card-in-slot <cards> [+] memory)
+\end{verbatim}
+\end{quote}
+
+The condition shown below is true when \tt{MEMORY} is contained by
+\tt{<CARDS>}:
+
+\begin{quote}
+\begin{verbatim}
+(memory [+] <cards>)
+\end{verbatim}
+\end{quote}
+
+The following attribute-value test uses the similarity
+predicate in conjunction with the containment predicate:
+
+\begin{quote}
+\begin{verbatim}
+^list [+] ~= color
+\end{verbatim}
+\end{quote}
+
+This test matches when the compound value of the \ct\tt{LIST}
+attribute contains an element similar to \tt{COLOR}, such as
+\tt{COLOUR} or \tt{COULEUR}.
+
+\subsection{\tt{[-]} (Non-containment)}
+
+Produces a match when the containment predicate (see previous
+page) fails to match; evaluates to true when the containment
+operator evaluates to false.
+
+\Example
+
+The following two CEs match a WMO of class \tt{BOX} whose
+\ct\tt{CARD-IN-SLOT-OBJ-ID} attribute does not contain the object
+whose ID is bound to \tt{<THE-MEM>}:
+
+\begin{quote}
+\begin{verbatim}
+(memory ^$ID <the-mem>)
+(box ^card-in-slot-obj-id [-] <the mem>)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{[=]} (Length-equal)}
+
+Produces a match, or evaluates to true, when the number of elements in
+its compound operand is identical to its numeric operand.
+
+As with identity predicate, the length-equal predicate can be used
+with the first appearance of a variable. This binds the variable to
+the actual number of elements in the compound attribute.
+
+\Format
+
+\ct\it{compound-attr} \tt{[=]} \it{integer-value}
+
+\it{compound-value} \tt{[=]} \it{integer-value}
+
+\begin{operands}
+\item[\ct{compound-attr}]
+
+  The compound attribute whose length is to be tested.
+
+\item[integer-value]
+
+  The integer value to which the length of a compound value is to be
+  compared. This operand may be any expression that evaluates to an
+  integer greater than or equal to zero.
+
+\item[compound-value]
+
+  The compound value whose length is to be tested. This operand may be
+  any expression that evaluates to a compound value.
+\end{operands}
+
+\Example
+
+The CE below matches an object of class \tt{BOX} whose
+\verb|^CARD-IN-SLOT| attribute is empty:
+
+\begin{quote}
+\begin{verbatim}
+(box ^card-in-slot [=] 0)
+\end{verbatim}
+\end{quote}
+
+This CE shows the syntax for testing the compound and binding a
+variable:
+
+\begin{quote}
+\begin{verbatim}
+(box ^card-in-slot {[=] 0 [=] <cards>})
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{[<>]} (Length-not-equal)}
+
+Produces a match when the length-equal predicate (see previous page)
+fails to match; evaluates to true when the length-equal operator
+evaluates to false.
+
+\Example
+
+The following CE matches an object of class \verb|BOX| whose
+\verb|^CARD-IN-SLOT| attribute is not empty:
+
+\begin{quote}
+\begin{verbatim}
+(box ^card-in-slot [<>] 0)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{[>]} (Length-greater-than)}
+
+Produces a match, or evaluates to true, if the number of elements in
+its compound operand is greater than its integer operand.
+
+\Format
+
+\ct\it{compound-attr} \tt{[>]} \it{integer-value}
+
+\it{compound-value} \tt{[>]} \it{integer-value}
+
+\begin{operands}
+\item[ct{compound-attr}]
+
+  The compound attribute whose length is to be tested.
+
+\item[integer-value]
+
+  The integer value to which the length of a compound value is to be
+  compared. This operand may be any expression that evaluates to an
+  integer greater than or equal to zero.
+
+\item[compound-value]
+
+  The compound value whose length is to be tested. This operand may be
+  any expression that evaluates to compound value.
+\end{operands}
+
+\Example
+
+The following CE matches an object of class \verb|BOX| whose
+\verb|^CARD-In-SLOT| attribute has more than two elements:
+
+\begin{quote}
+\begin{verbatim}
+(box ^card-in-slot [>] 2)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{[>=]} (Length-greater-than-or-equal)}
+
+Produces a match, or evaluates to true, if the number of elements in
+its compound operand is greater than or equal to its integer operand.
+
+\Format
+
+\ct\it{compound-attr} \tt{[>=]} \it{integer-value}
+
+\it{compound-value} \tt{[>=]} \it{integer-value}
+
+\begin{operands}
+\item[\ct{compound-attr}]
+
+  The compound attribute whose length is to be tested.
+
+\item[integer-value]
+
+  The integer value to which the length is to be tested. This operand
+  may be any expression that evaluates to an integer greater than or
+  equal to zero.
+
+\item[compound-value]
+
+  The compound value whose length is to be tested. This operand may be
+  any expression that evaluates to a compound value.
+\end{operands}
+
+\Example
+
+The following CE matches an object of class \verb|BOX| whose
+\verb|^CARD-IN-SLOT| attribute has two or more elements:
+
+\begin{quote}
+\begin{verbatim}
+(box ^card-in-slot [>=] 2)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{[<]} (Length-less-than)}
+
+Produces a match, or evaluates to true, if the number of elements in
+its compound operand is less than its integer operand.
+
+\Format
+
+\ct\it{compound-attr} \tt{[<]} \it{integer-value}
+
+\it{compound-value} \tt{[<]} \it{integer-value}
+
+\begin{operands}
+\item[\ct{compound-attr}]
+
+  The compound attribute whose length is to be tested.
+
+\item[integer-value]
+
+  The integer value to which the length of a compound value is to be
+  compared. This operand may be any expression that evaluates to an
+  integer greater than or equal to zero.
+
+\item[compound-value]
+
+  The compound value whose length is to be tested. This operand may be
+  any expression that evaluates to a compound value.
+\end{operands}
+
+\Example
+
+The following CE matches an object of class \verb|BOX| whose
+\verb|^CARD-IN-SLOT| attribute has fewer than two elements:
+
+\begin{quote}
+\begin{verbatim}
+(box ^card-in-slot [<] 2)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{[<=]} (Length-less-than-or-equal)}
+
+Produces a match, or evaluates to true, if the number of elements in
+its compound operand is less than or equal to its integer operand.
+
+\Format
+
+\ct\it{compound-attr} \tt{[<=]} \it{integer-value}
+
+\it{compound-value} \tt{[<=]} \it{integer-value}
+
+\begin{operands}
+\item[\ct{compound-attr}]
+
+  The compound attribute whose length is to be tested.
+
+\item[integer-value]
+
+  The integer value to which the length of a compound value is to be
+  compared. This operand may be any expression that evaluates to an
+  integer greater than or equal to zero.
+
+\item[compound-value]
+
+  This operand may be any expression that evaluates to a compound
+  value.
+\end{operands}
+
+\Example
+
+The following CE matches an object of class \verb|BOX| whose
+\verb|^CARD-IN-SLOT| attribute has two or fewer elements.
+
+\begin{quote}
+\begin{verbatim}
+(box ^card-in-slot [<=] 2)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt\{ \tt\} (Conjunction)}
+
+Specifies a conjunction. A conjunction is similar to a logical AND. It
+is a left-hand-side pattern containing one or more conditional tests,
+all of which a single attribute in an object must satisfy.
+
+For more information about conjunctions, see
+Chapter~\ref{c:conditionelements}.
+
+\Format
+
+\verb|{| \it{conditional-test} \ldots\verb|}|
+
+\begin{operands}
+\item[conditional-test]
+
+  One or more conditional tests that the value of an attribute in an
+  object is to satisfy.
+\end{operands}
+
+\Example
+
+The following CE matches teenagers by testing for age greater than or
+equal to 13 AND less than 20:
+
+\begin{quote}
+\begin{verbatim}
+(person ^age { >= 13 < 20 })
+\end{verbatim}
+\end{quote}
+
+The next CE contains a conjunction of two tests on the length of the
+compound attribute \verb|^CARD-IN-SLOT|. The first binds the length to
+the variable \verb|<LEN>|. The second tests that the length is less
+than 6:
+
+\begin{quote}
+\begin{verbatim}
+(box ^$ID <the-box> ^card-in-slot <{> [=] <len> [<] 6})
+\end{verbatim}
+\end{quote}
+
+You can use a conjunction when you want to bind as well as test an
+attribute. For example:
+
+\begin{quote}
+\begin{verbatim}
+(hardware-option ^in-slot { <slot-num> <> NIL })
+\end{verbatim}
+\end{quote}
+
+
+\subsection{\tt{<<} \tt{>>} (Disjunction)}
+
+Specifies a disjunction of values, similar to a logical inclusive
+OR. An attribute that matches any one of the values satisfies the
+disjunction (see also Chapter~\ref{c:conditionelements}).
+
+\Format
+
+\verb|<<| \it{value-expression} \ldots\verb|>>|
+
+\begin{operands}
+\item[value-expression]
+
+  The value that an attribute value in an object is to match.  This
+  argument can be a constant, a bound variable, an arithmetic
+  expression, or a function call. It must have the same structure as
+  the attribute, either scalar or compound.  You can specify one or
+  more values.
+
+  A disjunction of values is implicitly preceded by the identity
+  predicate (\verb|==|). You cannot use any other predicate with a
+  disjunction of values.
+\end{operands}
+
+\Example
+
+The following CE contains a disjunction of values:
+
+\begin{quote}
+\begin{verbatim}
+(input-thing ^item << NIL EOF END-OF-FILE >>)
+\end{verbatim}
+\end{quote}
+
+The next example shows the syntax for a compound attribute:
+
+\begin{quote}
+\begin{verbatim}
+(object ^$id <object-1>
+        ^integer-attr <I> ^symbol-attr <s> ^compound-attr <c>)
+(object ^$id {<object-2> <> <object-1>}
+        ^compound-attr << <c>
+                          (compound a <s> c)
+                          (subcompound <c> 1 ((length <c>) - <I>))
+                       >>)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt@ (At)}
+
+Opens a file containing RuleWorks commands and executes the
+commands. The file must contain only RuleWorks commands. If the file
+cannot be opened, the run-time system displays the following message:
+
+\begin{quote}
+\begin{verbatim}
+<FAC>-W-CANTOPEN, @ - Unable to open file filename for reading
+\end{verbatim}
+\end{quote}
+
+\Format
+
+\verb|@| \it{filespec}
+
+\begin{arguments}
+\item[filespec]
+
+  The file specification for a file containing RuleWorks commands to
+  be executed. The restrictions on file specifications vary according
+  to operating system; see Section C.1 for details.
+\end{arguments}
+
+\Example
+
+The first command illustrates a simple file specification:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> @ init-mem.wm
+\end{verbatim}
+\end{quote}
+
+The command below shows a file specification that includes a pathname,
+and must be quoted:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> @ |C:%MEM.COM|
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{ACCEPT-ATOM}}
+
+Reads an atom from the keyboard or a file. Ignores values after a
+semicolon (\verb|;|) until the end of the line.
+
+By default, the \tt{ACCEPT-ATOM} function reads input from the
+keyboard. If you want the function to read input from a file, call the
+function with the file identifier of an open input file, or change the
+default for input.
+
+\Format
+
+\tt{ACCEPT-ATOM} [ \it{file-id} ]
+
+\begin{arguments}
+\item[file-id]
+
+  The file identifier of the file from which input is to be read. The
+  file must have been opened and associated with the identifier in a
+  previous \tt{OPENFILE} action or command.
+
+  This argument is optional. If you do not specify a file identifier,
+  input is read from the current default for the \tt{ACCEPT-ATOM}
+  function (set with the \tt{DEFAULT} action or command).
+\end{arguments}
+
+\ReturnValue
+
+If the argument you specify is not associated with an open file, the
+run-time system issues a warning and the function returns the symbol
+\tt{NIL}.
+
+When the function reads past the end of a file, it returns the symbol
+\tt{END-OF-FILE}.
+
+\Example
+
+The following \tt{MAKE} action uses the \tt{ACCEPT-ATOM} function to
+create a Working Memory Object (WMO) that contains an atom read from
+the file associated with the file identifier \tt{INFIL}.
+
+\begin{quote}
+\begin{verbatim}
+(make input-thing ^item (accept-atom infil))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{ACCEPTLINE-COMPOUND}}
+
+Reads a line of input from the keyboard or a file and returns a
+compound value that contains the values read. Ignores values after a
+semicolon (\verb|;|) until the end of the line.
+
+If some of the atoms in the current line have already been read, the
+input line is defined as all the remaining atoms on the current
+line. If all the atoms on the current line have been read, the input
+line is the next. If the input line contains no atoms, the function
+returns the specified default compound value.
+
+By default, the \tt{ACCEPTLINE-COMPOUND} function reads input from the
+keyboard. If you want the function to read input from a file, call the
+function with the file identifier of an open input file, or change the
+default for input.
+
+\Format
+
+\tt{ACCEPTLINE-COMPOUND} [\it{file-id} [\it{default-compound-value}]]
+
+\begin{arguments}
+\item[file-id]
+
+  The file identifier of the file from which input is to be read. The
+  file must have been opened and associated with the identifier in a
+  previous \tt{OPENFILE} action or command.
+
+  This argument is optional. If you do not specify a file identifier,
+  input is read from the current default for the
+  \tt{ACCEPTLINE-COMPOUND} function (set with the \tt{DEFAULT} action
+  or command).
+
+\item[default-compound-value]
+
+  The compound value to be returned when the function reads a blank
+  line. This argument may be a bound compound variable or a function
+  call that returns a compound value.
+
+  If you want to specify a default compound value, you must also
+  specify a file identifier. If you want to specify a default compound
+  value when reading from the default input source, use the symbol
+  \tt{NIL} for the file identifier.
+\end{arguments}
+
+\ReturnValue
+
+A compound value that contains all the atoms on the current input
+line. If the input line contains no atoms, the function returns the
+specified default compound value.
+
+If the first argument you specify is not associated with an open file,
+the run-time system issues a warning and the function returns the
+empty compound value.
+
+When the function reads past the end of a file, it returns a compound
+value that contains the single element \tt{END-OF-FILE}.
+
+\Example
+
+The following actions read a line of input as a compound variable, and
+write it one element at a time:
+
+\begin{quote}
+\begin{verbatim}
+(bind <my-compound> (acceptline-compound))
+(for-each <x> in <my-compound>
+    (write (crlf) <x>))
+\end{verbatim}
+\end{quote}
+  
+\subsection{\tt{ADDSTATE}}
+
+Adds the objects in a file produced by the \tt{SAVESTATE} action or
+command to working memory.
+
+The added objects have new \tt{INSTANCE-ID}s and new time-tags. Any
+attributes in the added objects that have \tt{INSTANCE-ID} values that
+point to other added objects are automatically updated so that the
+references remain consistent.
+
+The \tt{ADDSTATE} action and command is scoped to the entry block; it
+creates visible objects only. Trying to add objects whose class
+declarations are not visible to the entry block causes a run-time
+warning, and the WMOs are not made.
+
+\Format
+
+\tt{ADDSTATE} \it{filespec}
+
+\begin{arguments}
+\item[filespec]
+
+  A file specification for a file previously produced by the
+  \tt{SAVESTATE} action or command. See Section C.1 for restrictions
+  on file names.
+\end{arguments}
+
+\Example
+
+Suppose you use the \tt{SAVESTATE} action or command to create the
+file \tt{CONFIG.DAT}. The following action adds the objects in the
+file to working memory:
+
+\begin{quote}
+\begin{verbatim}
+(addstate config.dat)
+\end{verbatim}
+\end{quote}
+
+The equivalent command is:
+\begin{quote}
+\begin{verbatim}
+RuleWorks> addstate config.dat
+\end{verbatim}
+\end{quote}
+
+On ULTRIX and Digital UNIX systems, the command could be:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> addstate |config.dat|
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{AFTER}}
+
+Specifies the number of recognize-act cycles that must be executed
+before a specified catcher is executed (see also
+Chapter~\ref{c:program}).
+
+Only one catcher can be active. Thus, the \tt{AFTER} action and
+command disables the current catcher, if any, before it enables the
+new one.
+
+The rule-firing counter is local to the current invocation of the
+active entry block. Recognize-act cycles executed by an entry block
+called from the entry block that contains the \tt{AFTER} and
+\tt{CATCH} actions are not counted.
+
+\Format
+
+\tt{AFTER} \it{cycles} \it{catcher-name}
+
+\begin{arguments}
+\item[cycles]
+
+  A positive integer that specifies the number of recognize-act cycles
+  that are to be executed before the specified catcher is executed. If
+  this number of cycles is never reached, the catcher is not executed.
+
+\item[catcher-name]
+
+  A symbol that names a catcher.
+
+  If the catcher executes another \tt{AFTER}, the counter restarts.
+\end{arguments}
+
+\Example
+
+The following command specifies that the catcher named
+\tt{TOO-MANY-CYCLES} is to be executed after 100 recognize-act
+cycles have been executed:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> AFTER 100 TOO-MANY-CYCLES
+\end{verbatim}
+\end{quote}
+
+The equivalent action is:
+
+\begin{quote}
+\begin{verbatim}
+(AFTER 100 TOO-MANY-CYCLES)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{AND}}
+
+Performs a logical conjunction on its two operands, that is, returns
+true only when both of its operands are true.
+
+\begin{note}
+  This is a relational operator only, not a match predicate. \tt{AND}
+  may be used only in relational expressions within
+  \tt{IF}\ldots\tt{THEN}\ldots\tt{ELSE} or
+  \tt{WHILE}\ldots\tt{DO}\ldots{} actions.
+\end{note}
+
+\Format
+
+\it{rel-expr} \tt{AND} \it{rel-expr}
+
+\begin{operands}
+\item[rel-expr]
+
+  The relational expressions to be combined. These arguments must
+  evaluate to either true or false.
+\end{operands}
+
+\Example
+
+The following code fragment shows the \tt{AND} operator in a
+\tt{WHILE}\ldots\tt{DO}\ldots{} action:
+
+\begin{quote}
+\begin{verbatim}
+(while ((<cards-dealt> < 5) AND (<dealing> == true)) do
+       (deal-a-card))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{BIND}}
+
+Binds a variable to a value.
+
+The scope of the variable binding depends on the construct that
+contains the \tt{BIND} action. Variables bound in rules, catchers, and
+methods are local. Variables bound to the input arguments of an entry
+block, and variables bound in any \tt{ON}- statement, are visible to
+all subsequent \tt{ON}- statements.
+
+\Format
+
+\tt{BIND} \it{variable} \it{value-expression}
+
+\begin{arguments}
+\item[variable]
+
+  The variable to which a value is to be bound.
+
+\item[value-expression]
+
+  An expression that can evaluate to either a scalar or compound
+  value. The action binds the specified variable to the value that
+  results from the evaluation.
+\end{arguments}
+
+\begin{note}
+  \tt{MAKE}, \tt{COPY}, \tt{MODIFY}, and \tt{SPECIALIZE} actions
+  return a value of type \tt{INSTANCE-ID}. You can use them as the
+  second argument to the \tt{BIND} action, as well as anywhere else a
+  value expression is permitted.
+\end{note}
+
+\Example
+
+The following action binds the variable \verb|<NEW-OBJECT>| to the
+\tt{INSTANCE-ID} returned by a \tt{MAKE} action. (See Chapter 3-3 for
+an example of a complete program):
+
+\begin{quote}
+\begin{verbatim}
+(bind <new-object>
+      (make example-object 
+            ^next <first-object> 
+            ^last <instance-id>
+            ^value (<val> + 1)))
+\end{verbatim}
+\end{quote}         
+
+\subsection{\tt{CATCH}}
+
+Creates a catcher, which is a list of actions that are executed after
+a specified number of recognize-act cycles have been executed. An
+\tt{AFTER} action or command specifies the number of recognize-act
+cycles to be executed before the catcher is executed.
+
+The \tt{AFTER} and the \tt{CATCH} must be contained in the same
+block. The recognize-act cycles count includes only rule firings in
+the entry block that contains or activates the \tt{AFTER} and the
+\tt{CATCH}.
+
+\Format
+
+\tt{CATCH} \it{catcher-name} \it{action}
+
+\begin{arguments}
+\item[catcher-name]
+
+  A symbol that names the catcher being created. The symbol cannot be
+  the name of another catcher, a rule, a rule group that already exits
+  in the entry block.
+
+\item[action]
+
+  Any RHS action. You can specify one or more actions.
+\end{arguments}
+
+\Example
+
+The following \tt{CATCH} statement creates a catcher named
+\tt{TOO-MANY-CYCLES}, which displays a message after the number of
+recognize-act cycles specified in an \tt{AFTER} action or command have
+been executed, and stops execution:
+
+\begin{quote}
+\begin{verbatim}
+(catch too-many-cycles
+       (write (crlf) |Program appears to be looping.|)
+       (quit))
+\end{verbatim}
+\end{quote}
+     
+\subsection{\tt{CLOSEFILE}}
+
+Closes the open files associated with specified file identifiers and
+dissociates the identifiers from the files.
+
+\Format
+
+\tt{CLOSEFILE} \it{file-id} \ldots
+
+\begin{arguments}
+\item[file-id]
+
+  The file identifier of the file to be closed. The file must have
+  been opened and associated with the identifier in a previous
+  \tt{OPENFILE} action or command.
+
+  You can specify one or more file identifiers.
+\end{arguments}
+
+\Example
+
+The following command closes the open files associated with the file
+identifiers \tt{INFIL} and \tt{OUTFIL}:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> closefile infil outfil
+\end{verbatim}
+\end{quote}
+
+The equivalent action is:
+
+\begin{quote}
+\begin{verbatim}
+(closefile infil outfil)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{COMPOUND}}
+
+Creates a new compound value from an arbitrary number of elements. If
+no elements are specified, the function returns the empty list.
+
+\tt{COMPOUND} is a stateless function and can be used on either the
+LHS or RHS.
+
+\Format
+
+\tt{COMPOUND} [ \it{element} ] \ldots
+
+\begin{arguments}
+\item[element]
+
+  Any valid scalar or compound value expression.
+\end{arguments}
+
+\ReturnValue
+
+A compound value that contains all the elements of the
+specified arguments.
+
+\Example
+
+The following rule pushes a new value onto a stack by creating a new
+compound value from the new scalar value plus the current compound
+value.
+
+\begin{quote}
+\begin{verbatim}
+(rule push-stack
+      (agenda ^$ID <agenda-object> ^tasks <task-list>)
+      -->
+      (modify <Agenda-object> ^tasks (compound new-task
+                                      <task-list>)))
+\end{verbatim}
+\end{quote}
+
+\begin{note}
+  RuleWorks does not support multilevel lists; the value returned
+  above is a compound value whose elements are all scalar, not a
+  compound value with one scalar element and a nested compound value.
+\end{note}
+
+\tt{COMPOUND} is the only function you can use in commands to the
+RuleWorks interpreter:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> make box ^card-in-slot (compound memory keyboard)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{CONCAT}}
+
+Concatenates (splices) the print forms of its arguments.
+
+\Format
+
+\tt{CONCAT} [\it{value-expr}] \ldots
+
+\begin{arguments}
+\item[value-expr]
+
+  A RuleWorks expression that evaluates to a value to be
+  concatenated. You can specify any number of values.
+
+  If you specify a compound value, RuleWorks treats each element as a
+  separate argument.
+\end{arguments}
+
+\ReturnValue
+
+A single scalar symbolic atom whose print name is the result of
+splicing together all of its arguments without inserting any
+spaces. If the result is too big to fit in a single atom, the function
+truncates it at the maximum symbol size (see
+Chapter~\ref{c:workingmem}) and issues a warning.
+
+\Example
+
+The following table shows three calls to the \tt{CONCAT} function and
+their results:
+
+\begin{tabularx}{\columnwidth}{Xl}
+  \toprule
+  Function Call & Print Form of Return Value \\
+  \midrule
+  \verb,(CONCAT a b c), & ABC \\
+  \verb,(CONCAT A |b| c), & AbC \\
+  \raggedright
+  \verb,(bind <x> |Fast |), \verb,(bind <y> |program!|), \verb,  (CONCAT <x> || <y>), &  Fast program! \\
+  \bottomrule
+\end{tabularx}
+
+
+\subsection{\tt{COPY}}
+
+Makes a new object from an existing object. The existing object
+remains unchanged as a result of this operation. If you specify
+one or more attributes and values in the \tt{COPY}, the new object is
+created with the new values you supply. In any case, the new
+object has a new \verb|$ID| and a new time-tag. For more information
+about objects, see Section 2.2.
+
+Note that the first argument to the \tt{COPY} action must be a
+variable, while the first argument to the \tt{COPY} command must be a
+constant.
+
+You can also use \tt{COPY} as a function with the \tt{BIND} action.
+
+\Format (for action)
+
+\tt{COPY} \it{ID-variable} [\{\ct\it{attribute} \it{value-expression}\} \ldots]
+
+\Format (for command)
+
+\tt{COPY} \it{instance-id} [ \{\ct\it{attribute} \it{value}\} \ldots]
+
+\begin{arguments}
+\item[ID-variable]
+
+  A variable bound to a value of type \tt{INSTANCE-ID}, indicating the
+  object to be duplicated. The object must be visible to the active
+  entry block. This argument can be used only in source code.
+
+\item[instance-id]
+
+  A constant of type \tt{INSTANCE-ID}, indicating the object to be
+  duplicated. The object must be visible to the active entry
+  block. This argument can be used only at the command interpreter
+  level.
+
+\item[attribute]
+
+  An optional argument, this represents an attribute whose value is to
+  be changed during the copy operation. You must specify a value with
+  each attribute; you can specify any number of attribute-value pairs.
+
+\item[value-expression]
+
+  Any scalar or compound value (if you specify a compound attribute)
+  is a valid argument to the \tt{COPY} action, including function
+  calls and arithmetic expressions.
+
+\item[value]
+
+  A scalar or compound value (if you specify a compound
+  attribute). You cannot use expressions or call functions (except the
+  \tt{COMPOUND} function) in an argument to the \tt{COPY} command.
+\end{arguments}
+
+\ReturnValue
+
+The \tt{COPY} action returns the \tt{INSTANCE-ID} atom that identifies
+the new WMO.
+
+\Example
+
+The following example shows a rule from the sample program,
+\tt{KIWI.OPS}, rewritten to use a \tt{COPY} action.
+
+\begin{quote}
+\begin{verbatim}
+(rule verify-configuration:kiwindows-needs-2-memory-cards-found-one
+    (active-context ^name verify-configuration)
+    (kiwindows)
+    (memory ^$ID <mem-id>)
+    -(memory ^$ID <> <mem-id>)
+  -->
+    (make error ^severity warning ^message |Insufficient memory|)
+    (write (crlf) |Caution: KiWindows requires two memory cards,|
+           (crlf) | but you have only one memory card.|
+           (crlf) | Fixup: adding another memory card to your order.|
+           (crlf))
+    (copy <mem-id>))
+\end{verbatim}
+\end{quote}
+
+The following example shows the equivalent \tt{COPY} command and its
+results:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> ppwm memory
+#31 [CONVERT-SINGLE-ITEM-INPUT-THING-TO-PARTS:MEMORY] (MEMORY)
+RuleWorks> copy #31
+RuleWorks> ppwm memory
+#31 [CONVERT-SINGLE-ITEM-INPUT-THING-TO-PARTS:MEMORY] (MEMORY)
+#32 [| main |] (MEMORY)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{CRLF}}
+
+Causes the \tt{WRITE} action to move to the next line. Valid inside a
+\tt{WRITE} action only.
+
+\Format
+
+\tt{CRLF}
+
+\Arguments
+
+None.
+
+\Example
+
+The following \tt{WRITE} action:
+
+\begin{quote}
+\begin{verbatim}
+(write (crlf) |Caution: You need to buy the base CPU unit.|
+       (crlf) |  Fixup: adding a CPU BOX to your order.|
+       (crlf))
+\end{verbatim}
+\end{quote}
+
+produces the following output:
+
+\begin{quote}
+\begin{verbatim}
+Caution: You need to buy the base CPU unit.
+  Fixup: adding a CPU BOX to your order.
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{CS}}
+
+Displays the active contents of the conflict set, that is,
+instantiations of rules contained in or activated by the active entry
+block.
+
+The command displays instantiations in the following format:
+\begin{quote}
+  \it{rule-name} \verb|#|\it{instance-id-1} \it{time-tag-1}
+  \verb|#|\it{instance-id-2} \it{time-tag-2} \ldots
+\end{quote}
+where:
+
+\verb|#|\it{instance-id-1} is the \tt{INSTANCE-ID} of an object that matches
+the first CE on the left-hand side and \it{time-tag-1} is its
+time-tag, \verb|#|\it{instance-id-2} matches the second CE, and so on.
+
+\Format
+
+\tt{CS}
+
+\Example
+
+The following command displays the contents of the conflict set:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> cs
+POP-ACTIVE-CONTEXT #35 40
+VERIFY-CONFIGURATION:APPLICATION-NEEDS-KIWOS #35 40 #32 37
+VERIFY-CONFIGURATION:APPLICATION-NEEDS-KIWOS #35 40 #29 34
+VERIFY-CONFIGURATION:NEED-DISK #35 40
+VERIFY-CONFIGURATION:NEED-OUTPUT #35 40
+MAKE-CONTEXT-ACTIVE #6 6
+MAKE-CONTEXT-ACTIVE #5 5
+MAKE-CONTEXT-ACTIVE #4 4
+MAKE-CONTEXT-ACTIVE #3 3
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{DEBUG}}
+
+Pauses execution after the current rule or \tt{ON-} construct and
+invokes the RuleWorks command interpreter.
+
+This action is effective only when contained in an entry or rule block
+that was compiled with the Debug qualifier set to \tt{YES} or
+\tt{MAYBE} (see Chapter 8 for more information on compiling RuleWorks
+programs). If the block was compiled with Debug \tt{NO}, the
+\tt{DEBUG} action is a no-op.
+
+When you compile an entry block with Debug set to \tt{YES}, the
+command interpreter automatically appears when the entry block begins
+executing and when it ends. To achieve this effect with Debug set to
+\tt{MAYBE}, put a \tt{DEBUG} action in your \tt{ON-ENTRY} and
+\tt{ON-EXIT} statements. Other good places to put \tt{DEBUG} actions
+are in error-checking rules (rules that match when your program is not
+running correctly) and catchers.
+
+\Format
+
+\tt{DEBUG}
+
+\Arguments
+
+None.
+
+\Example
+
+RuleWorks debugging commands are allowed after the \tt{DEBUG} action,
+and will be executed by the command interpreter. For example:
+
+\begin{quote}
+\begin{verbatim}
+(on-entry
+    (make agenda ^tasks (compound start work stoop))
+    (debug)
+    (watch rules)
+    (make control ^name print-err-messages))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{DECLARATION-BLOCK}}
+
+Names a group of object class, method, or external routine
+declarations so that they can be shared among multiple entry block or
+rule blocks.
+
+Declaration blocks are optional; both object classes and external
+routines can be declared inside entry blocks or rule blocks.  However,
+if a declaration is inside an entry block or rule block, that
+declaration is private and cannot be shared. Instances of objects
+declared privately are not visible to any other block.
+
+All object classes that are related by inheritance must be contained
+in the same block. A subclass cannot inherit from a parent class
+declared in a different block. Similarly, methods must be declared in
+the same block as the class to which they are attached.
+
+A declaration block must not contain any executable program statements
+(that is, rules, catchers, or \tt{ON-} constructs). It must be
+entirely contained in a single source file.
+
+The block must be terminated with an \tt{END-BLOCK} declaration.
+
+\Format
+
+\tt{DECLARATION-BLOCK} \it{block-name}
+
+\begin{arguments}
+\item[block-name]
+
+  A symbol that names the block. This name must be distinct from all
+  other block names in your program.
+\end{arguments}
+
+\Example
+
+This example shows a block of two \tt{OBJECT-CLASS} declarations:
+\begin{quote}
+\begin{verbatim}
+(declaration-block line-items)
+
+(object-class item
+    ^item-code
+    ^item-name
+    ^quantity
+    ^price-per
+    ^item-total)
+
+(object-class shippable-item
+    (inherits-from item)
+    ^part-number)
+
+(end-block line-items) ; the block name is optional here,
+                       ; but is checked if supplied
+\end{verbatim}
+\end{quote}
+                    
+\subsection{\tt{DEFAULT}}
+
+Sets the default input source for the \tt{ACCEPT-ATOM} and
+\tt{ACCEPT-LINE-COMPOUND} functions, or the default output destination
+for the \tt{WRITE} action or trace output. If you do not use the
+\tt{DEFAULT} command or action to specify otherwise, RuleWorks reads
+input from the keyboard and sends output to the screen (see Chapter~\ref{c:workingmem} for platform-specific details.)
+
+\Format
+
+\tt{DEFAULT} \it{file-id} \it{io-type}
+
+\begin{arguments}
+\item[file-id]
+
+  The source from which input is to be read or the destination to
+  which output is to be written. The value can be either a file
+  identifier or the symbol \tt{NIL}. If you specify a file identifier,
+  \tt{DEFAULT} sets the source or destination to the open file
+  associated with that name. If you specify \tt{NIL}, the input is
+  read from the keyboard or output is sent to the screen.
+
+  Use the \tt{OPENFILE} action or command to open a file for access in
+  a specified mode and create a file identifier.
+
+\item[io-type]
+
+  A keyword that specifies whether the default is to be set for input,
+  debugging output, or program output. The following table lists the
+  keywords you can specify.
+\end{arguments}
+
+\begin{tabularx}{\columnwidth}{ccX}
+  \toprule   
+  I/O Type & Mode  &       Description  \\
+  \midrule
+  \tt{ACCEPT} & \tt{IN}  &  Input read by the \tt{ACCEPT-ATOM}
+                           and \tt{ACCEPT-LINE-COMPOUND}
+                           functions. \\
+  \tt{TRACE} & \tt{OUT}, \tt{APPEND}  & Output generated by the \tt{TRACE} debugging command. \\
+  \tt{WRITE} & \tt{OUT}, \tt{APPEND} & Output produced by the \tt{WRITE} action. \\
+  \bottomrule
+\end{tabularx}
+
+\Example
+
+The following commands open a file for input, associate it with a file
+identifier \tt{INFIL}, and set it to be the default source for the
+\tt{ACCEPT-ATOM} and \tt{ACCEPTLINE-COMPOUND} functions:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> openfile infil order.dat in
+RuleWorks> default infil accept
+\end{verbatim}
+\end{quote}
+
+The equivalent actions are:
+
+\begin{quote}
+\begin{verbatim}
+(openfile infil order.dat in)
+(default infil accept)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{DISABLE}}
+
+Revokes a run-time feature that you had previously set with an
+\tt{ENABLE} command. To disable a feature, specify the appropriate
+keyword.
+
+\begin{center}
+\begin{tabular}{ll}
+  \toprule
+  Keyword     & Feature \\
+  \midrule
+  \tt{BLOCK-NAMES} & Block names displayed with rule names \\
+  \tt{WARNING}     & Run-time warning and error messages   \\
+  \tt{WMHISTORY}   & \tt{WMHISTORY} command \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\Format
+
+\tt{DISABLE} \it{keyword}
+
+\begin{arguments}
+\item[keyword]
+
+  A keyword that specifies the feature to be disabled. The keywords
+  and the features they disable are listed in \tt{DISABLE} Keywords
+  table.
+\end{arguments}
+
+Table 21. DISABLE Keywords
+
++-----------------------------------------------------+
+| Keyword     | Feature                               |
+|-------------+---------------------------------------|
+| BACK        | BACK command                          |
+|-------------+---------------------------------------|
+| TIMING      | PME package                           |
+|-------------+---------------------------------------|
+| BLOCK-NAMES | Block names displayed with rule names |
+|-------------+---------------------------------------|
+| WARNING     | Run-time warning and error messages   |
+|-------------+---------------------------------------|
+| WMHISTORY   | WMHISTORY command                     |
++-----------------------------------------------------+
+
+\Example
+
+The following command disables the \tt{WMHISTORY} command:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> disable wmh
+\end{verbatim}
+\end{quote}
+
+
+\subsection{\tt{EBREAK}}
+
+Controls breakpoints on entry blocks.
+
+When used with no arguments, the command displays a numbered list of
+the entry blocks that have breakpoints set. When used with the \tt{ON}
+and \tt{OFF} keywords, respectively, \tt{EBREAK} sets and clears
+breakpoints for entry blocks. Breakpoints are set or cleared on both
+the \tt{ON-ENTRY} and \tt{ON-EXIT} clauses by a single command.
+
+When the run-time system encounters a breakpoint on an entry block, it
+finishes the \tt{ON-ENTRY} or \tt{ON-EXIT} construct (if-any),
+displays a message in the following format, and invokes the command
+interpreter:
+
+\begin{quote}
+\begin{verbatim}
+%RUL-I-BREAKNOTED, Execution paused by break
+EBREAK entering entry-block-name
+\end{verbatim}
+or
+\begin{verbatim}
+EBREAK exiting entry-block-name
+\end{verbatim}
+\end{quote}
+
+Note that the block name is always displayed in \tt{EBREAK} messages,
+whether \tt{BLOCK-NAMES} is enabled or disabled.
+
+\Format
+
+\tt{EBREAK}
+
+\begin{arguments}
+\item[entry-block-name] 
+
+  The name of an entry block. You can specify one or more entry block
+  names.
+
+\item[number]
+
+  An integer displayed with the list of entry blocks when you give an
+  EBREAK command with no argument. This argument is valid with the OFF
+  keyword only.
+
+\item[*] 
+
+  All entry blocks.
+\end{arguments}
+
+\subsection{\tt{ENABLE}}
+
+Enables the run-time feature specified by a keyword argument (see
+\tt{ENABLE} Keywords). The default state for all features is disabled.
+
+Giving an \tt{ENABLE} command with no argument results in a display of
+the features that are currently enabled. You can revoke a feature with
+the \tt{DISABLE} command.
+
+\Format
+
+\tt{ENABLE} \it{keyword}
+
+\begin{arguments}
+
+\item[keyword]
+
+  A keyword that specifies the feature to be enabled.
+\end{arguments}
+
+\begin{tabularx}{\columnwidth}{lX}
+  \toprule
+  Keyword     & Feature \\
+  \midrule
+  \tt{BACK} [\it{n}] & \tt{BACK} command. The optional argument, \it{n}, is  
+                       an integer that specifies the number of    
+                       cycles that may be backed over. The default 
+                       is 64. \\
+  \tt{TIMING} &  PME package. \\
+  \tt{BLOCK-NAMES} & Block names displayed with rule names. \\
+  \tt{WARNING} & Run-time warning and error messages. \\
+  \tt{WMHISTORY} & \tt{WMHISTORY} command. \\
+  \bottomrule
+\end{tabularx}
+
+\Example
+
+The following command enables run-time messages.
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> enable war
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{END-BLOCK}}
+
+Closes a block construct. Each \tt{DECLARATION-BLOCK},
+\tt{ENTRY-BLOCK}, and \tt{RULE-BLOCK} declaration must end with an
+\tt{END-BLOCK}. If you want, you can repeat the name of the block in
+the \tt{END-BLOCK} declaration.
+
+\Format
+
+\tt{(END-BLOCK} [\it{block-name}]\tt{)}
+
+\begin{arguments}
+
+\item[block-name]
+
+  The symbol that names the block being terminated. This argument is
+  optional, but if you provide it the compiler checks it.
+\end{arguments}
+
+\Example
+
+This example shows a simple \tt{DECLARATION-BLOCK} with a matching
+\tt{END-BLOCK}:
+\begin{quote}
+\begin{verbatim}
+(declaration-block line-items)
+
+(object-class item
+    ^item-code
+    ^item-name
+    ^quantity
+    ^price-per
+    ^item-total)
+
+(object-class shippable-item
+    (inherits-from item)
+    ^part-number)
+
+(end-block line-items) ; the block name is optional here,
+                       ; but is checked if supplied
+\end{verbatim}
+\end{quote}
+                     
+\subsection{\tt{END-GROUP}}
+
+Closes a rule group. Each \tt{RULE-GROUP} declaration must end with an
+\tt{END-GROUP}. If you want, you can repeat the name of the group in
+the \tt{END-GROUP} declaration.
+
+\Format
+
+\tt{END-GROUP} [\it{group-name}]
+
+\begin{arguments}
+\item[group-name]
+
+  The symbol that names the group being terminated. This argument is
+  optional, but if you provide it the compiler checks it.
+\end{arguments}
+
+\subsection{\tt{ENTRY-BLOCK}}
+
+Defines an entry point that is visible to the system linker and is
+callable by RuleWorks and other languages.
+
+At least one \tt{ENTRY-BLOCK} declaration is required for each
+RuleWorks routine. To make a RuleWorks program that you can run, at
+least one entry block must be named \tt{MAIN} (or \tt{|main|}).
+
+RuleWorks entry blocks can accept arguments and return a value.
+You declare arguments with an \tt{ACCEPTS} clause and the return value
+with a \tt{RETURNS} clause.
+
+An entry block can contain object class, and external routine
+declarations, and executable RuleWorks statements (that is, \tt{ON-}
+statements, rules and catchers). It must be entirely contained in a
+single source file. However, an entry block can invoke rule blocks and
+declaration blocks that are contained in other files.
+
+The entry block must close with an \tt{END-BLOCK} declaration.
+
+\Format
+
+\tt{ENTRY-BLOCK} \it{block-name}
+
+\qquad[\tt{(ACCEPTS} \{\verb|<|\it{f-param-name}\verb|>|
+[\verb|[|\it{size}\verb|]|] \it{ext-type} [\it{passing-mech}]\}\ldots\verb|)|]
+
+\qquad[\tt{(RETURNS} \{\verb|<|\it{f-param-name}\verb|>|
+[\verb|[|\it{size}\verb|]|] \it{ext-type} [\it{passing-mech}]\}\ldots\verb|)|]
+
+\qquad[\tt{(ACTIVATES} \it{rule-block-name}\verb|)|]
+
+\qquad[\tt{(USES} \it{decl-block-name}\verb|)|]
+  
+\qquad[\tt{(STRATEGY} \tt{MEA}\verb,|,\tt{LEX}\verb|)|]
+
+\begin{arguments}
+\item[block-name]
+
+  A symbol that names the block. This name must be distinct from all
+  routine names and other block names in your program and must conform
+  to any restrictions imposed by your platform's linker. It must also
+  satisfy the C language requirements for a function name:
+
+  \qquad cannot contain the characters \verb,"<>[]%^-,
+
+  \qquad less than 32 characters long
+
+  \qquad different from all C keywords
+\end{arguments}
+
+\begin{note}
+  Naming an entry block \tt{MAIN} (or \verb,|main|,), with no
+  \tt{ACCEPTS} or \tt{RETURNS} clause, generates a C-compliant ``main
+  function.''  RuleWorks automatically adds a return value of type
+  \tt{LONG}.
+\end{note}
+
+The RuleWorks compiler generates a warning if an entry block named
+\tt{MAIN} violates the C language restrictions on passing parameters
+to the main function: either zero or two parameters, one \tt{SHORT}
+and one array of strings.
+
+\Clauses
+
+\tt{ACCEPTS}
+
+Defines the input argument list of the entry block. Note that the name
+and data type are required for each argument; the size (of an array)
+and passing mechanism are optional.
+
+f-param-name A RuleWorks variable name for the formal
+parameter.
+Variables bound to input arguments are visible
+to the entry block's ON-statements. They are not
+visible to rules unless you put them in working
+memory in your ON-ENTRY or ON-EVERY statement.
+[[size]]     If a parameter is an array, you can indicate its
+expected size with either an integer or a
+variable bound to a previous parameter. The size
+is optional; the brackets are not.
+ext-type     The external data type of input argument is
+passed. This argument is optional; the default
+mechanism is determined by the argument's
+external data type (see Table 6-1)
+passing-mech The mechanism by which the argument is passed.
+This arument is optional; the default mechanism
+is determined by the arguments external data
+type.
+
+\tt{RETURNS}
+
+Specifies the external data type and passing mechanism
+information for the entry block's return value, if any. This
+clause is optional, but if you provide one RuleWorks checks
+that you also provide at least one RETURN action.
+
+A variable name for the return value. This
+f-param-name argument is optional; you can use a name to make
+your code easier to read.
+If the return value is compound, you must
+indicate its expected size. You can use either
+[size]       an input parameter of an integer type (byte,
+short long, and so on; see Table 6-2), or an
+integer constant.
+Ext-type     The external data type of the return value. See
+Table 6-1 for RuleWorks external data types.
+The passing mechanism by which the value is
+Passing-mech returned. This argument is optional; the default
+mechanism is determined by the value's external
+data type (see Table 6-1)
+
+\tt{ACTIVATES}
+
+Indicates which rule blocks are eligible to fire. This clause
+is optional.
+
+Rule-block-name. A symbol that names a rule block. You
+specify one or more rule blocks.
+
+All rule blocks activated by an entry block are enabled
+automatically when the entry block is called. They must all
+use the same conflict-resolution strategy as the entry block
+that invoke them.
+
+\tt{USES}
+
+Indicates which declaration blocks are shared by the entry
+block. This clause is optional.
+
+Declaration
+
+decl-block-name.  A symbol that names a declaration block.
+You can specify one or more declaration blocks.
+
+The declaration block(s) used by an entry block must be
+compiled before the entry block itself can be compiled.
+
+\tt{STRATEGY}
+
+Specifies the conflict-resolution strategy (see section 1.5).
+This clause is optional. If you do not declare a strategy,
+the default MEA is used.
+
+\tt{LEX} The lexicographic-sort strategy.
+
+\tt{MEA}  The means-end analysis strategy
+
+\Example
+
+This example shows a simple counting program:
+\begin{quote}
+\begin{verbatim}
+(entry-block |main|
+    (accepts <argc> long
+             <argv> [2] asciz)
+    (returns long))
+
+(object-class iterator ^count)
+
+(object-class limit ^value)
+
+(on-entry
+    (write |argC is| <argc> |argV is| <argv> (crlf))
+    (bind <num-arg> (integer (nth <argv> 2)))
+    (make limit ^value <num-arg>)
+    (make iterator ^count 1))
+
+(on-exit (return 0))
+
+(rule increment-rule
+    (limit ^value <lim>)
+    (iterator ^$id <it> ^count {<num> < <lim> })
+  -->
+    (write <num> (crlf))
+    (modify <it> ^count (<num> +1)))
+
+(rule now-done
+    (limit ^$id <limit-id> ^value <lim>)
+    (iterator ^$id <it> ^count <lim>)
+  -->
+    (write <lim> (crlf))
+    (remove <it>)
+    (remove <limit-id>)
+
+(end-block |main|)
+\end{verbatim}
+\end{quote}
+
+This example produces the following output, when compiled with
+Debug \tt{YES}:
+\begin{quote}
+\begin{verbatim}
+System> count 5
+ArgC is 2 argV is $1$dua0:[williams.ruleworks]count.exe;4 5
+%RUL-I-EBREAK, EBREAK encountered on |main| &ON-ENTRY
+RuleWorks> run
+1
+2
+3
+4
+5
+%RUL-I-EBREAK, EBREAK encountered on |main| &On-EXIT
+RuleWorks> run
+System>
+\end{verbatim}
+\end{quote}
+
+
+\subsection{\tt{EVERY}}
+
+Finds all instances of a specific class, including descendents of that
+class.
+
+\Format
+
+\tt{EVERY} \it{class-name}
+
+\begin{arguments}
+\item[class-name]
+
+  A symbolic atom that names an object class visible to the active
+  entry block.
+\end{arguments}
+
+\ReturnValue
+
+A compound value whose elements are the \tt{INSTANCE-ID}s of all WMOs
+that belong to class-name. If class-name has children, instances of
+those children are included in the returned compound.
+
+The \tt{INSTANCE-ID}s are returned in no particular order.
+
+If the specified class is not visible, returns the empty list
+(\tt{(COMPOUND)}).
+
+\Example
+
+The following uses the value returned by the \tt{EVERY} function
+in a \tt{FOR-EACH} action:
+\begin{quote}
+\begin{verbatim}
+(bind <dogs> (every dog))
+(for-each <dog> in <dogs>
+    (wash-pet <dog>)
+    (pet-to-vet <dog>)
+    (pet-gets-treat <dog>))
+\end{verbatim}
+\end{quote}
+
+(\tt{wash-pet}, \tt{pet-to-vet}, and \tt{pet-gets-treat} are
+hypothetical external routines. Their definitions are left as an
+exercise for the reader.)
+
+\subsection{\tt{EXIT}}
+
+An obsolescent synonym for the \tt{QUIT} command.
+
+\Format
+
+\tt{EXIT}
+
+\Example
+
+The following command exits from the command interpreter and returns
+control to the operating system:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> exit
+System>
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{EXTERNAL-ROUTINE}}
+
+Declares a function or subroutine written in a language other than
+RuleWorks. Defines the data types and passing mechanisms of the
+arguments needed to call the external routine. (See Chapter 6.1 for
+information on data types and passing mechanisms.)
+
+Other RuleWorks entry blocks must also be declared as external
+routines. However, an entry block can call itself recursively with no
+external routine declaration.
+
+\Format
+
+\tt{EXTERNAL-ROUTINE} \it{routine-name}
+
+\qquad[\tt{(ALIAS} \it{actual-routine-name}\tt{)}]
+
+\qquad[\tt{(ACCEPTS} \{ [\verb|<|\it{f-param-name}\verb|>|
+[\verb|[|\it{size}\verb|]|] \it{ext-type} [\it{passing-mech}]
+\}\ldots\verb|)|]
+
+\qquad[\tt{(RETURNS} \{ [\verb|<|\it{f-param-name}\verb|>|
+[\verb|[|\it{size}\verb|]|] \it{ext-type} [\it{passing-mech}]
+\}\ldots\verb|)|]
+
+\begin{arguments}
+\item[routine-name]
+
+  The name of the external routine. This must be a symbol that is
+  different from all other routine names and all block names in the
+  program. It must also be different from all RuleWorks actions,
+  built-in functions, and relational operators (\tt{AND}, \tt{NOT},
+  and \tt{OR}). These restrictions are enforced by the RuleWorks
+  compiler.
+
+  The routine name must also satisfy the C language requirements for a
+  function name:
+
+  \qquad cannot contain the characters \verb|"<>[]%^-|
+
+  \qquad less than 32 characters long
+
+  \qquad different from all C keywords
+\end{arguments}
+
+\Clauses
+
+\tt{ALIAS}
+
+Declares that the external routine's name is not the actual name
+against which it is to be linked. The most common use of this clause
+is to map a case-sensitive routine name to a RuleWorks symbol.
+
+\it{actual-routine-name} The real name of the external routine.
+
+\tt{ACCEPTS}
+
+Specifies the name, data type and passing mechanism of the arguments
+to be passed out to the external routine. The \tt{ACCEPTS} clause is
+optional. If you declare any arguments you must also declare the data
+type of each argument; the name and passing mechanism are
+optional. Arguments for the \tt{ACCEPTS} clause are as follows:
+
+f-param-name A formal parameter name for an argument to be
+passed out, for documentation purposes.
+If included, this declares the argument to be an
+array. The size of the array is optional; the
+[ [size] ]   brackets are not. The size may be an integer or
+a variable previously bound to an integer in
+this ACCEPTS clause.
+The name of the external data type. Valid
+external types are: BYTE, SHORT, LONG,
+ext-type     UNSIGNED-BYTE, UNSIGNED-SHORT, UNSIGNED-LONG,
+SINGLE-FLOAT, DOUBLE-FLOAT, ASCIZ, ASCID, and
+ATOM.
+
+\it{passing-mech} Valid passing mechanisms are: \tt{BY REFERENCE
+  READ-ONLY}, \tt{BY REFERENCE READ-WRITE}, and \tt{BY VALUE}.
+
+\tt{RETURNS}
+
+Also an optional clause, this describes the external routine's return
+value. Arguments for the \tt{RETURNS} clause are as follows:
+
+f-param-name A formal parameter name for the return value,
+for documentation purposes.
+If the return value is an array, you must
+[size]       declare its size. You can use a constant or a
+variable.
+The name of the external data type. Valid
+external types are: BYTE, SHORT, LONG,
+ext-type     UNSIGNED-BYTE, UNSIGNED-SHORT, UNSIGNED-LONG,
+SINGLE-FLOAT, DOUBLE-FLOAT, ASCIZ, ASCID, and
+ATOM.
+passing-mech Valid passing mechanisms are BY REFERENCE and BY
+VALUE.
+
+\Example
+
+The following example declares a VMS routine that returns a
+random number:
+\begin{quote}
+\begin{verbatim}
+(external-routine mth$random
+    (accepts <seed> long by reference)
+    (returns long by value))
+\end{verbatim}
+\end{quote}
+
+The next example maps the case-sensitive name \tt{XtParent} to the
+RuleWorks symbol \verb|XT_PARENT|:
+
+\begin{quote}
+\begin{verbatim}
+(external-routine xt_parent
+    (accepts <param1> integer)
+    (returns <param2> integer)
+    (alias "XtParent"))
+\end{verbatim}
+\end{quote} 
+
+The following example declares the ULTRIX routine that
+returns an environment variable:
+
+\begin{quote}
+\begin{verbatim}
+(external-routine getenv__; from the POSIX library
+    (accepts <env-name> asciz by reference read-only)
+    (returns <env-value> asciz by reference))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{FOR-EACH}}
+
+Allows iteration over each element in a compound
+\verb|<CONDITION> (TIN)| or table value. The index variable is bound
+and the specified RHS actions are executed once for each iteration.
+
+\Format (for a compound)
+
+\tt{FOR-EACH} \verb|<|\it{element}\verb|>| \tt{IN} \it{compound-value}
+\it{RHS-action} \ldots
+
+\begin{arguments}
+\item[\tt{<}element\tt{>}]
+
+  The index variable that is bound to each element of the compound
+  value.
+
+\item[compound-value]
+
+  The compound value to be acted upon. This argument may be a bound
+  compound variable or an expression that returns a compound value.
+
+\item[RHS-action]
+
+  Any valid RHS action. You can specify any number of actions.
+
+\item[\tt{<}data-value\tt{>}]
+
+  The index variable that is bound to each data value in the table
+  value.
+
+\item[\tt{<}key-name\tt{>}]
+
+  The index variable that is bound to each key value in the table
+  value.
+
+\item[table-value]
+
+  The table value to be acted upon. This argument may be a bound table
+  variable or an expression that returns a table value.
+\end{arguments}
+
+\Example
+
+The following examples uses the \tt{FOR-EACH} action to print out the
+names of all the cards in a Kiwi-9200 computer card cage.  Note that
+this also shows how to bind an index variable.
+
+\begin{quote}
+\begin{verbatim}
+(rule print-out-cage:do-it
+    (active-context ^name print-out-cage)
+    (box ^cards-in-slot <cards> )
+  -->
+    (write (crlf) |The card cage will contain: |)
+    (bind <slot-counter> 1)
+    (for-each <card> in <cards>
+        (write (crlf) (tabto 20) |Slot number| <slot-counter>
+            |contains a| <card>)
+        (bind <slot-counter> ( <slot-counter> + 1 ))))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{FLOAT}}
+
+Converts a numeric value into a floating-point number. \tt{FLOAT} is a
+stateless function and can be used on either the LHS or RHS.
+
+\Format
+
+\tt{FLOAT} \it{numeric-expr}
+
+\begin{arguments}
+\item[numeric-expr]
+
+  An expression that evaluates to an \tt{INTEGER} or \tt{FLOAT}. If
+  supplied with a \tt{SYMBOL}, the \tt{FLOAT} function converts the
+  first white space delimited token, if possible. If not, or if the
+  argument is an \tt{OPAQUE} or \tt{INSTANCE-ID}, the function issues
+  a warning message and returns the floating-point number zero.
+\end{arguments}
+
+\begin{center}
+  \begin{tabular}{lll}
+    \toprule
+    Function Call & Return Value &  Warning Message? \\
+    \midrule
+    \verb,(FLOAT 3), & 3.0  & No \\
+    \verb,(FLOAT 3.2), &  3.2 & No \\
+    \verb,(FLOAT |3.2|), &  3.2 & No \\
+    \verb,(FLOAT |76 trombones|), & 76.0 &  No \\
+    \verb,(FLOAT 2+2), & 0.0 & Yes \\
+    \verb,(FLOAT #32), &  0.0 &  Yes \\
+    \bottomrule
+  \end{tabular}
+\end{center}
+
+\subsection{\tt{GENATOM}}
+
+Returns a system-generated atom, with an optional prefix.
+
+The RuleWorks atom generator is used by the \tt{GENATOM} and
+\tt{GENINT} actions, and by the \verb|rul_genint|, \verb|rul_gensym|,
+and \verb|rul_gensymp| routines. Every atom generated for any of these
+routines is unique while the program is running. The atom generator is
+global, so that all entry blocks called in a program have unique
+generated atoms.
+
+The generated atoms consist of an integer and an optional
+prefix. Within a program run, the first use of the atom generator
+returns 1, the second 2, and so on. The \verb|rul_genint| routine and
+the \tt{GENINT} action return an integer with no prefix. The
+\verb|rul_gensymp| routine and the \tt{GENATOM} action return an
+integer with a prefix that you can specify, or use the default prefix
+\tt{G:}. The \verb|rul_gensym| routine returns an integer prefixed by
+\tt{G:}. The table below shows several uses of the atom generator and
+the atoms it returns:
+
+\begin{center}
+  \begin{tabular}{lll}
+    \toprule
+    Routine Call or RHS Action & Atom Generated \\
+    \midrule
+    \verb|rul_genint| &  \verb|1| \\
+    \verb|rul_gensymp(R:)| & \verb|R:2| \\
+    \verb|(GENATOM)| & \verb|G:3| \\
+    \verb|(GENINT)| & \verb|4| \\
+    \verb|rul_gensym| & \verb|G:5| \\
+    \bottomrule
+  \end{tabular}
+\end{center}
+
+The atom generator is reset by the \tt{RESTORESTATE} action and
+command.
+
+\Format
+
+\tt{GENATOM} [\it{prefix}]
+
+\begin{arguments}
+\item[prefix]
+
+  A RuleWorks expression, the print form of which will be the first
+  part of the return value. The default prefix is \tt{G:}.
+\end{arguments}
+
+\ReturnValue
+
+A symbol that consists of the prefix you specify (if any) with an
+integer appended to it.
+
+\Example
+
+The following \tt{BIND} action binds the variable \tt{<TRANSACTION-ID>}
+to the atom produced by the \tt{GENATOM} function:
+
+\begin{quote}
+\begin{verbatim}
+(bind <transaction-id> (genatom trans-))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{GENINT}}
+
+Returns a system-generated \tt{INTEGER}. See \tt{GENATOM} for details
+on the RuleWorks atom generator.
+
+\Format
+
+\tt{GENINT}
+
+\ReturnValue
+
+An \tt{INTEGER} value.
+
+\Example
+
+The following \tt{BIND} action binds the variable \tt{<TRANSACTION-ID>}
+to the atom produced by the \tt{GENINT} function:
+
+\begin{quote}
+\begin{verbatim}
+(bind <transaction-id> (genint))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{GET}}
+
+Given a variable bound to an object identifier and an attribute name,
+returns the value of that attribute of that object. The variable can
+be bound on either the LHS or the RHS, but \tt{GET} is allowed on the
+RHS only.
+
+The \tt{GET} function lets you access attribute values on the RHS that
+you did not bind to variables on the LHS. You can bind the identifier
+of the object on the LHS, and then use the \tt{GET} function to return
+the value of any attribute in that object.  You do not need to bind
+each attribute value separately, only the \tt{INSTANCE-ID}.
+
+\Format
+
+\tt{GET} \it{object-id} \ct\it{attribute-name}
+
+\begin{arguments}
+\item[object-id]
+
+  A variable bound to, or an expression that evaluates to, an
+  \tt{INSTANCE-ID} value. Variables can be bound on either the LHS or
+  the RHS of the rule. The class of the object must be visible to the
+  active entry block.
+
+  The RuleWorks compiler issues a warning if it is unable to verify
+  that this argument is an \tt{INSTANCE-ID}.
+
+\item[\ct{attribute-name}]
+
+  A symbolic expression that names an attribute in the specified
+  object. It is a run-time warning to use an attribute that is not
+  declared for the specified class.
+\end{arguments}
+
+\ReturnValue
+
+The value of the specified attribute in the specified instance; or
+\tt{NIL} if the arguments are not correct.
+
+\Example
+
+The following example shows one use of the \tt{GET} function:
+
+\begin{quote}
+\begin{verbatim}
+(object-class fruit
+    ^fruit-name
+    ^color)
+
+(rule make-a-similar-one
+    (fruit ^$ID <The-fruit> ^fruit-name apple)
+  -->
+    (make fruit
+        ^fruit-name apple 
+        ^color (get <The-fruit> ^color)))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{IF}\ldots\tt{THEN}\ldots\tt{ELSE}\ldots}
+
+Executes one or more RHS actions when a relational expression is true,
+or executes one or more different RHS actions when the expression is
+false. In other words, provides a branch in the flow of control.
+
+\Format
+
+\tt{IF} (\it{rel-expr})
+     \tt{THEN} \it{RHS-action}
+     [\tt{ELSE} \it{RHS-action}]
+
+\begin{arguments}
+\item[rel-expr]
+
+  A relational expression that determines which RHS actions are to be
+  executed. This argument must evaluate to either true or false. It
+  may not contain any SQL functions.
+  \begin{note}
+    RuleWorks does not have Boolean values. Therefore, this argument
+    must be a comparison of two expressions. It must not be a single
+    value. For example, RuleWorks does not allow
+    \verb|IF (TRUE) THEN)|.
+  \end{note}
+
+\item[RHS-action]
+
+  Any RuleWorks action. You can specify any number of actions.
+\end{arguments}
+
+\Clauses
+
+\tt{THEN}
+
+Specifies the actions that are to be executed when the
+relational expression is true. This clause is required.
+
+\tt{ELSE}
+
+Specifies the actions that are to be executed when the
+relational expression is false. This clause is optional.
+
+\subsection{\tt{INTEGER}}
+
+Converts a numeric atom into an integer. \tt{INTEGER} is a stateless
+function and can be used on either the LHS or RHS.
+
+\Format
+
+\tt{INTEGER} \it{numeric-expr}
+
+\begin{arguments}
+\item[numeric-expr]
+
+  An expression that evaluates to an \tt{INTEGER} or \tt{FLOAT}. If
+  supplied with a \tt{SYMBOL}, the \tt{INTEGER} function converts the
+  firs-t white space delimited token, if possible. If not, or if the
+  argument is an \tt{OPAQUE} or \tt{INSTANCE-ID}, the function issues
+  a warning message and returns the integer zero.
+\end{arguments}
+
+\ReturnValue
+
+The nearest integer (by rounding) that corresponds to the
+specified value.
+
+\Example
+
+The following table shows several calls to the \tt{INTEGER}
+function and their results:
+
+\begin{center}
+  \begin{tabular}{lll}
+    \toprule
+    Function Call & Return Value &  Warning Message? \\
+    \midrule
+    \verb|(INTEGER 3)| &  3 & No \\
+    \verb|(INTEGER 3.5)| &  4  & No \\
+    \verb|(INTEGER 3.5e4)| &  35000 & No \\
+    \verb,(INTEGER |3.2|), &  3 & No \\
+    \verb,(INTEGER |110 cornets|), & 110 & No \\
+    \verb|(INTEGER 2+2)| &  0 & Yes \\
+    \verb|(INTEGER #12)| &  0 & Yes \\
+    \bottomrule
+  \end{tabular}
+\end{center}
+
+\subsection{\tt{IS-OPEN}}
+
+Tests whether a file has already been opened. \tt{IS-OPEN} is valid on
+the RHS only.
+
+\Format
+
+\tt{IS-OPEN} \it{file-id}
+
+\begin{arguments}
+\item[file-id]
+
+  A symbolic atom that was associated with a filespec in an
+  \tt{OPENFILE} action. (See Section 4.5 for more information on input
+  and output.)
+\end{arguments}
+
+\ReturnValue
+
+The mode (\tt{IN} or \tt{OUT}) if the file is open; \tt{NIL} if it is
+not.  If the file is open in mode \tt{APPEND}, the function returns
+\tt{OUT}.  (See the \tt{OPENFILE} action for more information on I/O
+mode.)
+
+\Example
+
+The following \tt{IF}\ldots\tt{THEN}\ldots\tt{ELSE}\ldots{} action
+uses the \tt{IS-OPEN} function:
+
+\begin{quote}
+\begin{verbatim}
+(if ((is-open infil) <> nil)
+ then
+    (closefile infil))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{LENGTH}}
+
+Returns the number of elements in a compound value. \tt{LENGTH} is a
+stateless function and can be used on either the LHS or RHS.
+
+\Format
+
+\tt{LENGTH} \it{compound-val}
+
+\begin{arguments}
+\item[compound-val]
+
+  The compound value to be counted. This argument can be a bound
+  compound variable or a function that returns a compound value.
+\end{arguments}
+
+\ReturnValue
+
+An integer that specifies the number of elements in the
+compound value.
+
+\Example
+
+The following condition element shows the \tt{LENGTH} function used on
+the LHS:
+
+\begin{quote}
+\begin{verbatim}
+(box ^card-in-slot <cards> ^max-cards <= (length <cards>))
+\end{verbatim}
+\end{quote}
+
+The following action shows the \tt{LENGTH} function used on the RHS:
+
+\begin{quote}
+\begin{verbatim}
+(write |The card cage contains| (length <cards> ) |cards.|)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{MAKE}}
+
+Creates a working-memory object of the specified class, with the
+specified attribute values (if any). RuleWorks uses the default values
+for attributes you do not specify (see Chapter~\ref{c:workingmem}).
+
+\begin{note}
+  When you create WMOs at the command interpreter prompt, the first
+  argument to the \tt{MAKE} command must be a constant. In contrast,
+  when you create WMOs in source code, the first argument to the
+  \tt{MAKE} action can be a variable or a call to the \tt{GET}
+  function.
+\end{note}
+
+You can also use \tt{MAKE} as a function with the \tt{BIND} action.
+
+\Format (for action)
+
+\tt{MAKE} \it{class-name} [\{\ct\it{attribute} \it{value-expression}\}\ldots]
+
+\Format (for command)
+
+\tt{MAKE} \it{class-name} [\{\ct\it{attribute} \it{value}\} \ldots]
+
+\begin{arguments}
+\item[class-name]
+
+  A symbol or variable that names the class of the object to be
+  created; it must be visible to the active entry block.
+
+\item[\ct{attribute}]
+
+  A symbol that names an attribute declared in the specified
+  class. This argument is optional, but if you specify any attributes,
+  you must specify a value with each attribute.
+
+\item[value-expression]
+
+  Any scalar or compound expression (if you specify a compound
+  attribute) is a valid argument to the \tt{MAKE} action, including
+  function calls and arithmetic expressions.
+
+\item[value]
+
+  A scalar or compound value (if you specify a compound
+  attribute). You cannot use expressions or call functions (except the
+  \tt{COMPOUND} function) in an argument to the \tt{MAKE} command.
+\end{arguments}
+
+\ReturnValue
+
+The \tt{MAKE} action returns the \tt{INSTANCE-ID} atom that identifies
+the new WMO.
+
+\Example
+
+The following rule uses the \tt{MAKE} action to create an object of
+class \tt{ACTIVE-CONTEXT}, with a bound variable as the value of the
+\verb|^NAME| attribute.
+
+\begin{quote}
+\begin{verbatim}
+(rule make-context-active
+    (context ^name <context-name> ^$ID <context-id>)
+  -->
+    (make active-context ^name <context-name>)
+    (remove <context-id>))
+\end{verbatim}
+\end{quote}
+
+The following \tt{MAKE} command creates an object of class \tt{BOX}
+with one element each in the compound attributes \verb|^CARD-IN-SLOT|
+and \verb|^CARD-IN-SLOT-OBJ-ID|:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> (make box ^card-in-slot (compound memory)
+            (^card-in-slot-obj-id (compound #32)))
+\end{verbatim}
+\end{quote}
+
+The \tt{MAKE} command below uses the bracket notation to index a
+compound attribute:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> make box ^card-in-slot[3] keyboard 
+                    ^card-in-slot-obj-id[3] #49
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{MATCHES}}
+
+Displays the \tt{INSTANCE-ID}s of the objects that match CEs in
+the specified rule(s). The command lists the objects that
+match the first CE, then the second CE, then the first two
+CEs, and so on. The class name of each CE is shown as part of
+its heading. The output is in the following format:
+
+\verb|>>>RULE_NAME<<<|
+
+\verb|***matches for| (\it{class-name-1})\verb|***|
+
+\#\it{instance-id}
+
+.
+
+\verb|***matches for| (\it{class-name-2})\verb|***|
+
+\#\it{instance-id}
+
+.
+
+\verb|***matches for 1 2 ***|
+
+\#\it{instance-id} \textasciitilde\it{instance-id}
+
+.
+
+\verb|***complete instantiations***|
+
+\#\it{instance-id} \it{time-tag} \#\it{instance-id} \it{time-tag}
+
+For more information about displaying match information, see
+Chapter 9.
+
+\Format
+
+\tt{MATCHES} \it{rule-name}\ldots
+
+\begin{arguments}
+\item[rule-name]
+
+  The name of a rule for which match information is to be
+  displayed. You can specify the name of one or more rules.
+\end{arguments}
+
+\Example
+
+The following command displays match information of a rule that is not
+eligible for the conflict set.
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> matches foo
+
+>>> foo <<<
+
+to be specified
+\end{verbatim}
+\end{quote}
+
+\begin{note}
+  There is no instantiation displayed after the last heading. The next
+  command displays the matches of a rule that is eligible for the
+  conflict set:
+\end{note}
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> matches bar
+
+>>> bar <<<
+
+to be specified
+\end{verbatim}
+\end{quote}
+
+(The third CE in this rule is negative, so no matches for 3, with a
+match for 1 and 2, means the rule can fire.)
+
+\subsection{\tt{MAX}}
+
+Given one or more arguments, returns the largest. The
+elements of compound values are added to the argument list as
+if they were separate scalar values.
+
+\Format
+
+\tt{MAX} \it{value}\ldots
+
+\begin{arguments}
+
+\item[value]
+
+  Any RuleWorks expression. The first value determines the valid data
+  type; using mixed types causes a warning message.  You may specify
+  any number of value, either compound or scalar.
+\end{arguments}
+
+\ReturnValue
+
+The greatest of the arguments.
+
+\Example
+
+The following table shows several calls to the \tt{MAX} function and
+their results:
+
++-----------------------------------------------------------+
+| *Function Call           | *Return | *Warning Message? |
+|                           |   Value  |                    |
+|---------------------------+----------+--------------------|
+| *(MAX 3 2.0 1)           | *3      | *No               |
+|                           |          |                    |
+|   (MAX 3.2 10)            |   10     |   No               |
+|                           |          |                    |
+|   (MAX -3.2 -10)          |   -3.2   |   No               |
+|                           |          |                    |
+|   (MAX boy (COMPOUND man  |   WOMAN  |   No               |
+|   woman) girl)            |          |                    |
+|                           |   10     |   Yes              |
+|   (MAX 3.2 cat 10)        |          |                    |
++-----------------------------------------------------------+
+
+\begin{note}
+  Ruleworks issues a warning when it finds a value of an invalid data
+  type, but it does process the rest of the arguments list. (See
+  Appendix E for the collating sequences for symbols.)
+\end{note}
+
+\subsection{\tt{MIN}}
+
+Given one or more arguments, returns the smallest. The elements of
+compound values are added to the argument list as if they were
+separate scalar values.
+
+\Format
+
+\tt{MIN} \it{value}\ldots
+
+\begin{arguments}
+\item[value]
+
+  Any RuleWorks expression. The first value determines the valid data
+  type; using mixed types causes a warning message.  You may specify
+  any numbert of values, either compound or scalar.
+\end{arguments}
+
+\ReturnValue
+
+The smallest of the arguments.
+
+\Example
+
+The following table shows several calls to the \tt{MIN} function and their
+results:
+
++-----------------------------------------------------------+
+| *Function Call           | *Return | *Warning Message? |
+|                           |   Value  |                    |
+|---------------------------+----------+--------------------|
+| *(MIN 3 2.0 2)           | *1      | *No               |
+|                           |          |                    |
+|   (MIN 3.2 10)            |   3.2    |   No               |
+|                           |          |                    |
+|   (MIN -3.2 -10)          |   -10    |   No               |
+|                           |          |                    |
+|   (MIN boy (COMPOUND man  |   BOY    |   No               |
+|   woman) girl)            |          |                    |
+|                           |   3.2    |   Yes              |
+|   (MIN 3.2 cat 10)        |          |                    |
++-----------------------------------------------------------+
+
+\begin{note}
+  RuleWorks issues a warning when it find a value of an invalid data
+  type, but it does process the rest of the arguments list.
+\end{note}
+
+\subsection{\tt{MODIFY}}
+
+Changes one or more values in an existing working-memory object. The
+object must be visible to the active entry block.  The object's
+time-tag is updated but its \tt{INSTANCE-ID} remains the same.
+
+\begin{note}
+  When you change WMOs at the command interpreter prompt, the first
+  argument to the \tt{MODIFY} command must be a constant.  In
+  contrast, when you change WMOs in a rule, the first argument to the
+  \tt{MODIFY} action can be a variable or a call to the \tt{GET}
+  function.
+\end{note}
+
+You can also use \tt{MODIFY} as a function with the \tt{BIND} action.
+
+\Format (for action)
+
+\tt{MODIFY} \it{ID-variable} \{\ct\it{attribute} \it{value-expression}\}\ldots
+
+\Format (for command)
+
+\tt{MODIFY} \it{instance-id} \{\ct\it{attribute} \it{value}\}\ldots
+
+\begin{arguments}
+\item[ID-variable]
+
+  An expression of type \tt{INSTANCE-ID}, indicating the object to be
+  modified. This argument can be used in rules only.
+
+\item[instance-id]
+
+  A constant of type \tt{INSTANCE-ID}, indicating the object to be
+  modified. This argument can be used only at the command interpreter
+  level.
+
+\item[attribute]
+
+  An attribute name that specifies which value in the object is to be
+  changed. You must specify a value with each attribute.
+
+\item[value-expression]
+
+  Any scalar or compound value (if you specify a compound attribute)
+  is a valid argument to the \tt{MODIFY} action, including function
+  calls and arithmetic expressions.
+
+\item[value]
+
+  A scalar atom or a compound value containing constants (if you
+  specify a compound attribute). You cannot use expressions or call
+  functions (except \tt{COMPOUND}) in an argument to any command.
+\end{arguments}
+
+\ReturnValue
+
+The \tt{MODIFY} action returns the \tt{INSTANCE-ID} atom that
+identifies the changed WMO.
+
+\Example
+
+The following action changes on attribute of a \tt{SOFTWARE-OPTION}
+object:
+
+\begin{quote}
+\begin{verbatim}
+(modify <the-software> ^media-type FD-35)
+\end{verbatim}
+\end{quote}
+
+The equivalent command is shown below:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> WM #29
+#29 [EXPAND-PART-SKELETONS:KIWICALC] (KIWICALC ^NAME KIWICALC
+^PART-NUMBER S-CA-9200 ^PRINTNAME KiwiCalc Spreadsheet Software ^PRICE
+29.95 ^IS-EXPANDED YES
+RuleWorks> MODIFY #29 ^MEDIA-TYPE FD-35
+RuleWorks> WM #29
+#29 [ | | ] (KIWICALC ^MEDIA-TYPE FD-35 ^NAME KIWICALC
+^PART-NUMBER S-CA
+-9200 ^PRINTNAME KiwiCalc Spreadsheet Software ^PRICE 29.95
+^IS-EXPANDED YES)
+\end{verbatim}
+\end{quote}
+
+See Chapter 4.4 for examples of modifying compound attributes.
+
+\subsection{\tt{NOT}}
+
+Performs a logical negation on its operand, that is, returns true when
+the operand is false and false when the operand is true.
+
+\begin{note}
+  This is a relational operator, not a match predicate. \tt{NOT} may
+  be used only in relational expressions within
+  \tt{IF}\ldots\tt{THEN}\ldots\tt{ELSE}\ldots{} or
+  \tt{WHILE}\ldots\tt{DO}\ldots{} actions.
+\end{note}
+
+\Format
+
+\tt{NOT} \it{relation}
+
+\begin{operands}
+\item[relation]
+
+  The relational expression to be negated. This must evaluate to
+  either true or false.
+\end{operands}
+
+\Example
+
+The following code fragment shows the \tt{NOT} operator in an
+\tt{IF}\ldots\tt{THEN}\ldots\tt{ELSE}\ldots{} action:
+\begin{quote}
+\begin{verbatim}
+(if (not (<day> = work-day))
+ then (sleep-late)
+ else (go-to-work))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{NTH}}
+
+Accesses the value at the specified index into a compound
+value. \tt{NTH} is a stateless function and can be used on either the
+LHS or RHS.
+
+\Format
+
+\tt{NTH} \it{compound-value} \it{index}
+
+\begin{arguments}
+\item[compound-value]
+
+  The compound value that is to be searched. This argument may be
+  bound compound variable or a function that returns a compound value.
+
+\item[index]
+
+  An integer expression (anything that evaluates to an integer) that
+  specifies the location of the desired value. The index of the first
+  element is 1, not 0.
+\end{arguments}
+
+\ReturnValue
+
+The element value at the specified location in a compound
+value. If the location does not exist, the function returns
+\tt{NIL}.
+
+\Example
+
+The following action prints the first element of a bound compound
+variable:
+
+\begin{quote}
+\begin{verbatim}
+(write (crlf) |Slot 1 contains | (nth <cards> 1))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{NEXT}}
+
+Displays the instantiation that the run-time system will select from
+the conflict set for the act phase of the next recognize-act
+cycle. The \tt{NEXT} command displays the instantiation in the same
+format as the \tt{CS} command, with the addition of the rule-firing
+counts:
+
+\it{n} (\it{m}): \it{rule-name} \verb|#|\it{instance-id-1}
+\it{time-tag-1} \verb|#|\it{instance-id-2} \it{time-tag-2}\ldots
+
+where \it{n} is the global count and \it{m} is the local (to the block
+invocation) count.
+
+\Format
+
+\tt{NEXT}
+
+\Arguments
+
+None.
+
+\Example
+
+The following command shows that the next instantiation the run-time
+system will select from the conflict set is the rule
+\tt{MODIFY-SOFTWARE-MEDIA:35-CHEAPEST} acting on objects \verb|#38|,
+\verb|#32|, and \verb|#45|:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> next
+MODIFY-SOFTWARE-MEDIA:35-CHEAPEST #38 71 #32 58 #45 70
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{OBJECT-CLASS}}
+
+Declares an object class and the attributes associated with it. All
+\tt{OBJECT-CLASS} declarations must appear before any executable
+program elements. \tt{OBJECT-CLASS} declarations can be contained in
+entry blocks, declaration blocks, or rule blocks.
+
+\Format
+
+\tt{OBJECT-CLASS} \it{class-name}
+
+\qquad[\verb|(INHERITS-FROM| \it{parent-class}\verb|)|]
+
+\qquad{\ct\it{attribute-name} [\it{data-type}]
+
+\qquad\qquad[\tt{(DEFAULT} \it{value}\tt)]
+
+\qquad{\ct\it{attribute-name} \tt{COMPOUND} [\it{data-type}]
+
+\qquad\qquad[\tt{(DEFAULT} \it{value}\tt)]
+
+\qquad\qquad[\tt{(FIL} \it{value}\tt)]
+
+\begin{note}
+  This format shows one scalar and one compound attribute, for clarity
+  only. RuleWorks does not require that you declare all scalar
+  attributes first, nor that you have at least one scalar
+  attribute. You can declare compound and scalar attributes in any
+  order.
+\end{note}
+
+\begin{arguments}
+
+\item[class-name]
+
+  The only required qrgument, this represents the name of the new
+  object class. It must be a symbol that is different from all other
+  classes in the block, and must not be a RuleWorks predicate.
+
+  If the \tt{OBJECT-CLASS} declaration is contained in an entry block,
+  and the entry block uses declaration blocks, the class name must
+  also be different from all the classes in the used blocks.
+
+  A class name in an entry block may be the same as a class in a rule
+  block, even if the entry block activates the rule block.
+
+\item[attribute-name]
+
+  Specifies the name of an attribute for the new object class.
+
+\item[data-type]
+
+  Specifies the data type of an attribute. This argument is optional,
+  but if you do specify a data type RuleWorks enforces that domain
+  restriction. The valid data types and their system-defined default
+  values are shown in the RuleWorks Data Types table.
+
+\begin{center}
+\begin{tabular}{lll}
+  \toprule
+  Name & Default Value \\
+  \midrule
+  \tt{INTEGER} & \tt{0} \\
+  \tt{FLOAT}  & \tt{0.0}\\
+  \tt{NUMBER}  & \tt{0} \\
+  \tt{SYMBOL}  & \tt{NIL} \\
+  \tt{OPAQUE} & \verb|%x0| \\
+  \tt{INSTANCE-ID} & \verb|#0| \\
+  \tt{INSTANCE-ID OF} & \verb|#0| \\
+  \tt{ANY}  & \tt{NIL} \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+An attribute typed \tt{NUMBER} can be assigned either an \tt{INTEGER}
+or a \tt{FLOAT} value. \tt{ANY} is the default when no data type is
+declared. \tt{INSTANCE-ID} optionally restricts the value to a
+named object class when this Format is used:
+
+\tt{INSTANCE-ID OF} \it{class-name}
+\end{arguments}
+
+\Clauses
+
+\tt{INHERITS-FROM}
+
+Specifies a parent object class from which the class being
+declared is to acquire attribute names and characteristics.
+If present, this clause must precede any attribute names.
+
+parent-class
+
+The name of the parent object class. The parent class must be
+previously declared in the same block. A subclass cannot
+inherit from a parent class declared in a different block.
+
+See Table 2-1 in Section 2.1 for a table on restrictions on
+declaring attributes in a subclass of a parent class.
+
+\tt{DEFAULT}
+
+Establishes the initial value for an attribute when an object
+of this object class is created. (The default value is
+ignored if another value is specified in the MAKE action.
+
+value  The default value must be the same attribute shape as
+the attribute. That is, scalar attributes must have a scalar
+default value; compound attributes must have a compound
+default value. Use the COMPOUND function to create the
+default value for a compound attribute.
+
+\tt{COMPOUND}
+
+Declares the attribute to be compound rather than scalar. See
+Chapter 2 for details.
+
+\tt{FILL}
+
+Defines an initial value for certain elements of a compound
+value. This filler value is used only when the length of the
+compound value is increased dynamically but no value is
+specified for those elements.
+
+value
+
+The scalar value to be used as a filler. See Chapter 2.3.5
+for more information.
+
+\Example
+
+The following example declares class \tt{BOX} that inherits from
+class \tt{PART} and has two additional compound attributes.
+
+\begin{quote}
+\begin{verbatim}
+(object-class box
+    (inherits-from part)
+    ^card-in-slot compound
+    ^card-in-slot-obj-id compound))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{ON-EMPTY}}
+
+Defines a set of RHS actions that are executed by RuleWorks
+when it reaches the selection phase of the recognize-act
+cycle and the conflict set is empty. After the \tt{ON-EMPTY}
+actions are executed, the \tt{ON-EXIT} actions fire.
+
+An \tt{ON-EMPTY} statement must be contained in an \tt{ENTRY-BLOCK}.
+You can use and change the input arguments of the entry block
+in the \tt{ON-EMPTY} actions.
+
+\Format
+
+\tt{ON-EMPTY} \it{action} \ldots
+
+\begin{arguments}
+\item[action]
+
+  Any RuleWorks RHS action. You can specify one or more actions.
+\end{arguments}
+
+\subsection{\tt{ON-ENTRY}}
+
+Defines a set of RHS actions that are executed immediately
+after an entry block is calle and before any rules fire.
+After the \tt{ON-ENTRY} actions are executed, the RuleWorks
+run-time proceeds to the match phase of the first
+recognize-act cycle.
+
+An \tt{ON-ENTRY} statement must be contained in an \tt{ENTRY-BLOCK}.
+You can use and change the input arguments of the entry block
+in the \tt{ON-ENTRY} actions.
+
+\Format
+
+\tt{ON-ENTRY} \it{action} \ldots
+
+\begin{arguments}
+\item[action]
+
+  Any RuleWorks RHS action. You can specify one or more actions.
+\end{arguments}
+
+\subsection{\tt{ON-EVERY}}
+
+Defines a set of RHS actions that are executed by RuleWorks after the
+act phase of one recognize-act cycle and before the match phase of the
+next cycle.
+
+If the last rule fired executes a \tt{RETURN} or \tt{QUIT} action, the
+\tt{ON-EVERY} actions are not executed. When the conflict set is
+empty, the \tt{ON-EMPTY} actions are executed but the \tt{ON-EVERY}
+actions are not.
+
+An \tt{ON-EVERY} statement must be contained in an \tt{ENTRY-BLOCK}.
+You can use and change the input arguments of the entry block in the
+\tt{ON-EVERY} actions.
+
+\Format
+
+\tt{ON-EVERY} \it{action} \ldots
+
+\begin{arguments}
+\item[action]
+
+  Any RuleWorks RHS action. You can specify one or more actions.
+\end{arguments}
+
+\subsection{\tt{ON-EXIT}}
+
+Defines a set of RHS actions that are executed by RuleWorks
+just before control returns to the caller of the entry block.
+
+The \tt{ON-EXIT} actions are executed when the reason for control
+being returned is that the conflict set is empty or that a
+\tt{RETURN} action was executed. The \tt{ON-EXIT} actions are not
+executed after a \tt{QUIT} action is executed. (See Figure 5-1 for
+an illustration.)
+
+An \tt{ON-EXIT} statement must be contained in an \tt{ENTRY-BLOCK}. You
+can use and change the input arguments of the entry block in
+the \tt{ON-EXIT} actions.
+
+\Format
+
+\tt{ON-EXIT} \it{action} \ldots
+
+\begin{arguments}
+\item[action]
+
+  Any RuleWorks RHS action. You can specify one or more actions.
+\end{arguments}
+
+\subsection{\tt{OPENFILE}}
+
+Opens a file for access in a specified mode, and associates it with a
+file identifier.
+
+\Format
+
+\tt{OPENFILE} \it{file-id} \it{filespec} \it{mode}
+
+\begin{arguments}
+\item[file-id]
+
+  A symbol that represents the file identifier with which the
+  specified file is to be associated.
+
+\item[filespec]
+
+  The file specification for the file to be opened. If you are opening
+  a file for input, the file must already exist.
+
+\item[mode]
+
+  A keyword that indicates whether the specified file is to be opened
+  for input or output. The following table, \tt{OPENFILE} Keywords,
+  lists the keywords you can specify.
+\end{arguments}
+
+Mode  Effect
+
+OPENFILE KeywordsIN  The action opens an existing file for
+reading only.
+
+OUT  The action creates a new file and opens it for writing
+only.
+
+APPEND  The action opens an existing file for writing and
+sets the file pointer to the end of the file.
+
+\Example
+
+The following action opens the file \it{ORDER.DAT} for input and
+associates it with the file identifier \it{INFIL}:
+\begin{quote}
+\begin{verbatim}
+(openfile infil order.dat in)
+\end{verbatim}
+\end{quote}
+The equivalent command is:
+\begin{quote}
+\begin{verbatim}
+RuleWorks> OPENFILE INFIL ORDER.DAT IN
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{OR}}
+
+Performs a logical inclusive disjunction on its two operands,
+that is, returns true when either one or both of its operands
+is true.
+
+Note:  This is a relational operator, not a match predicate.
+\tt{OR} may be used only in relational expressions within
+\tt{IF} {\ldots} \tt{THEN} {\ldots} \tt{ELSE} {\ldots} or \tt{WHILE} {\ldots} \tt{DO} {\ldots} actions.
+
+\Format
+
+\it{relation} \tt{OR} \it{relation}
+
+\Operands
+
+\it{relation}
+
+The relational expressions to be combined. These operands
+must evaluate to either true or false.
+
+\Example
+
+The following code fragment shows the \tt{OR} operator in an \tt{IF}
+{\ldots} \tt{THEN} {\ldots} \tt{ELSE} {\ldots} action:
+\begin{quote}
+\begin{verbatim}
+(if ((<weather> = sunny) or (<weather> = warm))
+ then (do_outdoor_chores)
+ else (do_indoor_chores))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{P} (Production)}
+
+Synonym for \tt{RULE}, the production statement is provided for
+compatibility with DEC OPS5 Version 4.0A and other OPS
+systems. See \tt{RULE} for details.
+
+\Format
+
+\tt{P} \it{production-name} 
+
+\qquad(\it{condition-element})\dots
+
+\qquad\tt{-->}
+
+\qquad(\it{action})\ldots
+
+\subsection{\tt{POSITION}}
+
+Scans the specified compound variables for the specified scalar
+value. \tt{POSITION} is a stateless function and can be used on either
+the LHS or RHS.
+
+By default, \tt{POSITION} test for identity; you can specify a
+different predicate. The function always stops at the first occurrence
+of the predicate evaluating to true.
+
+\Format
+
+\tt{POSITION} \it{compound-var} [\it{predicate}] \it{scalar-value}
+
+\Arguments
+
+\it{compound-var}
+
+A compound variable bound to the compound value that is to be
+scanned.
+
+\it{predicate}
+
+A predicate that specifies the comparison between elements of
+the compound value and the scalar value. This argument is
+optional; if you do not specify a predicate, RuleWorks uses
+the default identity predicate.
+
+You can use any scalar predicate except containment and
+non-containment.
+
+\it{scalar-value}
+
+A scalar constant or a bound variable.
+
+\ReturnValue
+
+The integer index of the first element in compound-var that
+satifies the comparison specified by the predicate with the
+scalar-value; or zero if no element of compound-var satisfies
+the comparison.
+
+\Example
+
+Given the following object:
+\begin{quote}
+\begin{verbatim}
+#28 69 (BOX ^CARD-IN-SLOT (COMPOUND MEMORY MEMORY MEMORY
+KEYBOARD FD-35) ^CARD-IN-SLOT-OBJ-ID (COMPOUND #31 #39 #37
+#45) ^NAME BOX ^PART-NUMBER KI-9200 ^PRINTNAME Kiwi-9200 CPU
+Base Unit ^PRICE 999.95 ^IS-EXPANDED YES)
+\end{verbatim}
+\end{quote}
+And assuming \verb|<CARDS>| is bound to \verb|^CARD-IN-SLOT|, the following
+function call returns the value 1:
+\begin{quote}
+\begin{verbatim}
+(position <cards> memory)
+\end{verbatim}
+\end{quote}
+
+The following attribute-value tests use the containment and
+similarity predicates in conjunction with the \tt{POSITION}
+function to test two consequtive elements of a compound
+value:
+\begin{quote}
+\begin{verbatim}
+^list {[+] ~= color <list>}
+^list [(position <list> ~=color) + 1] <> blue
+\end{verbatim}
+\end{quote}
+
+
+\subsection{\tt{PPCLASS}}
+
+Displays the parents and attributes of the specified object class. The
+attributes are listed under the name of the object class that declared
+them, with their shape, domain restriction, and default and fill
+values (if any).
+
+Alternatively, displays the hierarchy of classes defined in the active
+block.
+
+\Format
+
+\tt{PPCLASS} [\it{object-class}]
+
+\Argument
+
+\it{object-class}
+
+The name of an object class that is visible to the active
+entry block.
+
+This argument is optional. If you supply no argument, \tt{PPCLASS}
+displays the class structure of the active block.
+
+\Example
+
+The following example shows the \tt{PPCLASS} output for the class
+\tt{BOX} from the sample program, \tt{KIWI}.
+
+\begin{quote}
+\begin{Verbatim}[commandchars=\\\{\}]
+\textcolor{blue}{RuleWorks>} \textcolor{red}{ppclass box}
+
+PART
+^PART-NUMBER
+^NAME symbol
+^PRICE float
+^IS-EXPANDED symbol (default NO)
+
+BOX
+^CARD-IN-SLOT compound symbol
+^CARD-IN-SLOT-OBJ-ID compound instance-id
+\end{Verbatim}
+\end{quote}
+
+\subsection{\tt{PPWM}}
+
+Displays all objects, or all instances of a specified class, or only
+those instances that match a specified object pattern. Object patterns
+are similar to CEs and can include attributes specified with values,
+tests, disjunctions, and conjunctions. Object patterns cannot include
+variables or function calls.
+
+The \tt{PPWM} command displays the following information about an
+object:
+
+*Its INSTANCE-ID
+
+*The name of the construct that last modified the object
+(for example, a rule or ON- clause). If you last
+modified the object at the interpreter prompt, the
+construct name is the symbol RUL.
+
+*Its class name, its attributes, and the attributes'
+values
+
+Scalar attributes whose value is NIL, and compound attributes
+whose value is (COMPOUND) are not displayed unless you have
+declared a DEFAULT value for the attribute.
+
+The system displays this information in the following format:
+
+\verb|#|INSTANCE-ID [rule-name](class-name attribute-1 value-1
+attribute-2 value-2 .)
+
+If you do not specify a pattern, the command displays all the
+visible WMOs.
+
+
+
+\Format
+
+PPWm [class-name] \ct attribute  value
+
+Predicate value
+
+<<value.>>
+
+{test.}
+
+
+
+*Arguments
+
+class-name
+
+A symbol that names an object class that is visible to the
+active entry block. If you specify a class that has inherited
+subclasses, objects of those subclasses are also displayed.
+
+attribute
+
+An attribute that describes a characteristic of the objects
+to be displayed and contains the corresponding value. If you
+specify any attributes, you must also specify at least one
+value for each attribute.
+
+If you specify a compound attribute, you can index it with a
+left bracket, an integer constant, and a right bracket
+(\verb|[|index\verb|]|).
+
+predicate
+
+Any of the valid match predicate.
+
+value
+
+This argument must be a scalar atom. Compound values, created
+with the COMPOUND function, are not allowed.
+
+
+
+test
+
+A value, a predicate followed by a value, or a disjunction of
+values:
+
+\Example
+
+The following commands illustrate the syntax for compound
+attributes:
+\begin{quote}
+\begin{verbatim}
+RuleWorks>ppwm box ^card-in-slot [3] keyboard
+
+#28 [CHOOSE-SLOTS:PLACE-NONMEMORY] (BOX ^CARD-IN-SLOT
+(COMPOUND MEMORY MEMORY KEYBOARD ^CARD-IN-SLOT-OBJ-ID
+(COMPOUND #31 #39 #37 ^PART-NUMBER ki-9200 ^NAME Kiwi-9200
+CPU Base Unit ^PRICE 999.95 ^IS-EXPANDED YES)
+
+RuleWorks>ppwm box ^card-in-slot [+} memory
+
+~28 {CHOOSE-SLOTS:PLACE-NONMEMORY] (BOX ^CARD-IN-SLOT
+(COMPOUND MEMORY MEMORY KEYBOARD) ^CARD-IN-SLOT-OBJ-ID
+(COMPOUND #31 #39 #37) ^part-NUMBER KI-9200 ^NAME Kiwi-9200
+CPU Base Unit ^PRICE 999.95 ^IS-EXPANDED YES)
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{QUIT}}
+
+Terminates execution of the current image and returns control to the
+operating system. If there are other actions in the rule, they are not
+executed. The \tt{ON-EXIT} actions are not executed after a \tt{QUIT}
+action. You can return a value with \tt{QUIT}. Valid arguments for
+\tt{QUIT} include \verb|$FAILURE| and \verb|$SUCCESS|, as well as any
+integer. RuleWorks substitutes either 0 or 1, as appropriate for the
+operating system, for \verb|$FAILURE| and \verb|$SUCCESS|.
+
+Entering \tt{QUIT} at the command interpreter is equivalent to
+pressing Ctrl/Z on VMS systems, Ctrl/D on UNIX systems.
+
+\Format (for action)
+
+\tt{QUIT} [\it{value-expr}]
+
+\Format (for command)
+
+\tt{QUIT} [\it{return-value}]
+
+\Arguments
+
+\it{value-expr}
+
+The value returned by RuleWorks. This argument is optional;
+it can be an expression that evaluates to a scalar value,
+\verb|$FAILURE|, or \verb|$SUCCESS|. This argument can be used in rules
+only.
+
+\it{return-value}
+
+The value returned by RuleWorks. This argument is optional;
+it can be a constant, \verb|$FAILURE|, or \verb|$SUCCESS|. You cannot use
+expressions or function calls (except to \tt{COMPOUND}) as
+arguments to any command.
+
+\Example
+
+The following command exits from the command interpreter and
+returns control to the operating system:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> QUIT
+
+$
+\end{verbatim}
+\end{quote}
+
+The following example uses the \tt{QUIT} action to terminate
+execution with a return value indicating success.
+\begin{quote}
+\begin{verbatim}
+(rule success
+      (context ^$ID <context> ^task complete)
+      -->
+      (remove <context>)
+      (quit $success))
+\end{verbatim}
+\end{quote}
+
+When this rule fires, the \tt{QUIT} action causes the run-time
+system to stop executing recognize-act cycles immediately.
+The compiler provides a warning when any actions follow
+\tt{RETURN} or \tt{QUIT} actions.
+
+The entry block's \tt{ON-EVERY} and \tt{ON-EXIT} statements are not
+executed after a \tt{QUIT} action.
+
+\subsection{\tt{RBREAK}}
+
+Controls breakpoints on rules and rule groups.
+
+When used with no arguments, the command displays a numbered list of
+the rules and groups that have breakpoints set. When used with the
+\tt{ON} and \tt{OFF} keywords, respectively, \tt{RBREAK} sets and
+clears breakpoints for rules and groups. Breakpoints for rule groups
+are set or cleared for all rules in the group by a single command.
+
+When the run-time system encounters a breakpoint on a rule, it
+finishes the current recognize-act cycle, displays a message in the
+following format, and invokes the command interpreter:
+
+%RUL-I-RBREAK, RBREAK encountered on rule[group] name
+%RUL-I-BREAKNOTED, Execution paused by break.
+
+\Format
+
+ON
+{
+rule-name
+rule-group-name
+}...
+OFF
+{
+rule-name
+rule-group-name
+number
+}
+
+The keywords and arguments are optional. If you do not
+specify the name of a rule, the command displays the names of
+the rules and groups for which breakpoints are set.
+
+\Arguments
+
+rule-name
+
+A symbol that names a rule. You can specify one or more.
+
+rule-group-name
+
+A symbol that names a rule group. You can specify one or
+more.
+
+*
+
+All rules and groups that have breaks set.
+
+\Example
+
+The following command displays the names of the rules of
+which breakpoints are set:
+
+RuleWorks> rbreak
+
+1 VERIFY-CONFIGURATION:MOUSE-PORT
+
+2 POP-ACTIVE-CONTEXT
+
+The next commands delete one breakpoint and sets another:
+
+RuleWorks> rbreak off 2
+
+RuleWorks> rbreak on choose-slots:place-nonmemory
+
+The following command redisplays the names of the rules for
+which breakpoints are set:
+
+RuleWorks> rbreak
+
+1 VERIFY-CONFIGURATION:MOUSE-PORT
+
+2 CHOOSE-SLOTS:PLACE-NONMEMORY
+
+The following dialog shows what happens when the breakpoint
+is reached:
+\begin{quote}
+\begin{verbatim}
+RuleWorks> run
+
+%RUL-I-RBREAK, RBREAK encountered on rule
+CHOOSE-SLOTS:PLACE-NONMEMORY
+
+%RUL-I-BREAKNOTED, Execution paused by break
+
+
+
+RuleWorks> next
+
+CHOOSE-SLOTS:PLACE-NONMEMORY #47 62 #28 65 #37 56
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{REMOVE}}
+
+Deletes one or more objects from working memory. The object must be
+visible to the active entry block. Once an object has been removed, it
+can no longer be accessed. However, variables bound to the values of
+attributes of that object can still be used.
+
+\begin{note}
+  When you delete WMOs at the command interpreter prompt, the first
+  argument to the \tt{REMOVE} command must be a constant.  In contrast,
+  when you delete WMOs in a rule, the first argument to the \tt{REMOVE}
+  action can be a variable or a call to the \tt{GET} function.
+\end{note}
+
+\Format (for action)
+
+\tt{REMOVE} \it{ID-expr} \ldots
+
+\Format (for command)
+
+REMOVE {
+
+Instance-id...
+
+*
+}
+
+\Argument
+
+\it{ID-expr}
+
+A RuleWorks expression that evaluates to a value of type
+INSTANCE-ID, indicating the object to be deleted. You can
+specify one or more IDs. This argument can be used in rules
+only.
+
+\it{instance-id}
+
+A constant of type INSTANCE-ID, indicating the object to be
+deleted. This argument can be used only at the command
+interpreter level.
+
+\tt{*}
+
+You can specify an asterisk (\tt*) to delete all visible
+objects. Objects whose class declarations are neither
+contained in nor used by the active entry block remain in
+working memory.
+
+\Example
+
+The following command deletes all visible objects:
+\begin{quote}
+\begin{verbatim}
+RuleWorks> REMOVE *
+\end{verbatim}
+\end{quote}
+The following command deletes the objects whose identifiers
+are \verb|#3| and \verb|#4|:
+\begin{quote}
+\begin{verbatim}
+RuleWorks> REMOVE #3 #4
+\end{verbatim}
+\end{quote}
+Consider the following rule:
+\begin{quote}
+\begin{verbatim}
+(rule make-context-active
+      (context ^name <context-name> ^$ID <context-id>)
+      -->
+      (make active-context ^name <context-name>)
+      (remove <context-id>))
+\end{verbatim}
+\end{quote}
+The \tt{REMOVE} action deletes the object bound to the variable
+\verb|<CONTEXT-ID>|.
+
+\subsection{\tt{REMOVE-EVERY}}
+
+Deletes all the working memory objects that are instances of the
+specified class or its subclasses. The class must be visible to the
+active entry block. Once an object has been removed, it can no longer
+be accessed. However, variables bound to values of attributes of that
+object can still be used.
+
+\Format
+
+\tt{REMOVE-EVERY} \it{class-name}\ldots
+
+\Argument
+
+\it{class-name}
+
+An expression that evaluates to a symbol names an object class. The
+declaration of this class must be contained in or used by the active
+entry block.
+
+You can also use the symbol
+\verb|$ROOT|, to remove all visible objects.
+
+\Example
+
+The following example removes working-memory objects when the conflict
+set is empty:
+
+(on-empty
+
+(write |Sorry... Program error. No satisfied rules".| (crlf))
+
+(remove-every control-context)
+
+(remove-every local)
+
+(remove-every input-thing)
+
+(remove-every error)
+
+(remove-every part)
+
+(remove-every input-count)
+
+(remove-every total-cost)
+
+(quit 0))
+
+\subsection{\tt{RESTORESTATE}}
+
+Clears and then restores working memory, the conflict set, the \tt{GENATOM}
+counter, and the \tt{INSTANCE-ID} generator to the state recorded in a file
+produced by the \tt{SAVESTATE} action or command.
+
+The working memory objects contained in the \tt{SAVESTATE} file must be
+visible to the active entry block. A run-time warning is generated if
+the files contains any objects whose class declarations are neither
+private to nor shared by the active entry block.
+
+\tt{RESTORESTATE} clears all working memory objects before loading the
+new state; therefore, variable bindings are lost.
+
+After a \tt{RESTORESTATE} action, the \tt{GENATOM} and \tt{GENINT} functions
+produce atoms that are different from any that were recorded
+in the saved file. They may repeat atoms that were generated
+before the \tt{RESTORESTATE} action was executed.
+
+\Format
+
+\tt{RESTORESTATE} \it{filespec}
+
+*Argument
+
+filespec
+
+The file specification for a file previously produced by the
+SAVESTATE action or command. The action uses the contents of
+the file to restore the state of working memory and the
+conflict set. See Chapter 12 for restrictions on file names.
+
+\Example
+
+The following action clears and then restores the contents of
+working memory and the conflict set to the same state
+recorded in the file CONFIG.DAT.
+
+(restorestate config.dat)
+
+\subsection{\tt{RETURN}}
+
+Stops the firing of rules in the current entry block, executes the
+\tt{ON-EXIT} actions (if any), and passes control back to the caller
+of the entry block. The \tt{RETURN} action is executed immediately, so
+any actions that follow it are not executed and a warning is
+generated.
+
+This action has one optional argument, the value to be returned. Your
+\tt{RETURN} action(s) should match the \tt{RETURNS} clause of your
+\tt{ENTRY-BLOCK} declaration. For example, if your entry block has no
+\tt{RETURNS} clause, a \tt{RETURN} action with an argument generates a
+compiler warning. Similarly, if your entry block declares a symbolic
+return value, a \tt{RETURN} action with a numeric argument generates a
+run-time warning.
+
+\tt{RETURN} actions are valid in entry blocks but not in rule blocks.
+
+Executing more than one \tt{RETURN} action generates a warning. If
+a value is being returned from the entry block, the value of
+the last \tt{RETURN} action executed is used.
+
+When you execute a \tt{RETURN} command at the RuleWorks interpreter
+prompt, and the return is to a RuleWorks entry block, no action of the
+caller is executed before the prompt reappears. This allows you to see
+working memory in exactly the state the callee left it.
+
+\Format (for action)
+
+\tt{RETURN} [\it{value-expr}]
+
+(for command)
+
+\tt{RETURN} [\it{value}]
+
+*Arguments
+
+value-expr
+
+The value returned by the entry block. This argument is
+optional; it can be any expression that evaluates to the
+structure (scalar or compound) and domain (integer, symbol,
+and so on) specified in the ENTRY-BLOCK declaration.
+
+value
+
+The value returned by the entry block. This argument is
+optional; it may be a constant or a call to the COMPOUND
+function. You cannot use any other functions or expressions
+at the command line.
+
+\Example
+
+The following example shows a simple rule that returns a
+value:
+
+\begin{quote}
+\begin{verbatim}
+(rule when-done-return-number-filled
+    (task ^name last-step)
+    -(order ^status unfilled)
+    (totals ^filled-orders <count>)
+  -->
+    (return <count>))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{RJUST}}
+
+Causes the \tt{WRITE} action to right-justify output in a field of
+a specified width. This function is useful for writing a
+column of numbers with decimal positions aligned.
+
+Note: The \tt{RJUST} function is valid only inside the \tt{WRITE}
+action. Calls to the \tt{RJUST} function can follow calls to the
+\tt{CRLF} and \tt{TABTO} functions but must directly precede the value
+being written.
+
+\Format
+
+\tt{RJUST} \it{width}
+
+*Argument
+
+width
+
+An integer expression (anything that evaluates to an integer)
+that indicates the width of the field in which output is to
+be placed. If the output being written requires more
+character positions than you specify for the field, the WRITE
+action behaves as if the RJUST function had not been
+specified. That is, the action inserts one space and then
+writes the output.
+
+\Example
+
+The following \tt{WRITE} action writes a vertical list of numbers
+right-justified in a column 10 characters wide:
+
+\begin{quote}
+\begin{verbatim}
+(write (crlf) (rjust 10) |10.06|
+       (crlf) (rjust 10) |2.45|
+       (crlf) (rjust 10) |56.00|
+       (crlf) (rjust 10) |250.00|)
+\end{verbatim}
+\end{quote}
+
+The output is:
+
+\begin{quote}
+\begin{verbatim}
+     10.06
+      2.45
+     56.00
+    250.00
+\end{verbatim}
+\end{quote}  
+
+\subsection{\tt{RULE}}
+
+Executes right-hand-side actions when left-hand-side
+conditions are met and the rule has been selected from the
+conflict set.
+
+\Format
+
+(RULE rule-name)
+
+(condition-element)...
+
+(action )... )
+
+*Arguments
+
+rule-name
+
+A unique symbol that names the rule being created. The symbol
+cannot be the name of another rule, a rule-group, a method,
+or a catcher that already exists in the entry block.
+
+condition-element
+
+A specified pattern against which working memory objects can
+be matched. Condition elements can be negative, can contain
+conjunctions and disjunctions, and can bind variables that
+are used in other condition elements and in actions on the
+right-hand side.
+
+You can specify one or more condition elements. You cannot
+put a negative CE first. See Chapter 3 for information on
+CEs.
+
+action
+
+Any RHS action. You can specify one or more actions. See
+Chapter 4 for information on actions.
+
+\Example
+
+The following rule, named CLOSE-INPUT-FILE:DO-IT, contains
+three CEs and three actions. The second CE binds a \verb|$ID|
+variable., \verb|<MY-INPUT-THING>|, which is deleted by the \tt{REMOVE}
+action. The third CE binds an attribute variable, \verb|<C>|, which
+is used in the \tt{WRITE} action.
+\begin{quote}
+\begin{verbatim}
+(rule close-input-file:do-it
+
+(active-context ^name close-input-file)
+
+(input-thing ^item END-OF-FILE ^$ID <my-input-thing> )
+
+(input-count ^count <c>)
+
+-->
+
+(closefile infil)
+
+(remove <my-input-thing>)
+
+(write (crlf) |Read| (<c> - 1) |items from input.| (crlf)))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{RULE-BLOCK}}
+
+Names a collection of rules so that they can be shared among multiple
+entry blocks. Rule blocks may contain rules, catchers, and
+declarations, but no \tt{RETURN} actions and no \tt{ON-} constructs.
+
+A rule block must be activated by a RuleWorks entry block.  Rule
+blocks can use declaration blocks but they cannot activate other rule
+blocks.
+
+The rules in a rule block cannot match objects of classes declared
+inside the entry block; they can match only objects of classes
+declared inside the rule block or in a declaration block used by the
+rule block. Likewise, rules in the entry block cannot match objects of
+classes declared inside the rule block.
+
+Each rule block can have its own \tt{STRATEGY} clause. However, all rule
+blocks activated by an entry block must have the same strategy as that
+entry block. It is a run-time warning to activate rule blocks that
+have different strategies.
+
+The block must be closed with an \tt{END-BLOCK} declaration.
+
+\Format
+
+\tt{(RULE-BLOCK} \it{block-name}\tt)
+
+[\tt{(USES} \tt{decl-block-name}\tt)]
+
+[\tt{(STRATEGY} \tt{)}]
+
+*Argument
+
+block-name
+
+A symbol that names the block. This name must be distinct
+from all other block names in your program and must also be a
+valid C function name:
+
+cannot contain the characters "<>[]%^-
+
+less than 32 characters long
+
+different from all C keywords
+
+*Clauses
+
+\tt{USES}
+
+Indicates which declaration blocks are shared by the entry block. This
+clause is optional.
+
+decl-block-name...  A symbol that names a declaration block.  You can
+specify one or more declaration blocks.
+
+\tt{STRATEGY}
+
+Specifies the conflict-resolution strategy (see
+Chapter~\ref{c:intro}).  This clause is optional. If you do not
+declare a strategy, the default \tt{MEA} is used.
+
+\tt{LEX}  The lexicographic-sort strategy.
+
+\tt{MEA}  The means-ends analysis strategy.
+
+\subsection{\tt{RULE-GROUP}}
+
+Names a collection of rules inside a single entry block or
+rule block. If you put each \tt{MEA} group in a separate rule
+group, you can then enable \tt{TRACE} for rule groups and see
+output for the \tt{MEA} groups without seeing each individual
+rule.
+
+Rule groups may contain rules and catchers, but no
+declarations, no methods, and no \tt{ON-} constructs.
+
+The rules in a rule group can match objects of classes declared in the
+containing block and objects of classes declared in a declaration
+block that is used by the containing block.
+
+The group must be terminated with an \tt{END-GROUP} declaration.
+
+\Format
+
+\tt{RULE-GROUP} \it{group-name}
+
+*Argument
+
+group-name
+
+A symbol that names the group. This name must be distinct
+from the names of all other groups, rules, and catchers in
+the containing block.
+
+\subsection{\tt{RUN}}
+
+Causes the run-time system to execute recognize-act cycles.  You can
+optionally specify the number of recognize-act cycles the system
+executes.
+
+RuleWorks entry blocks start running by default. Use the \tt{DEBUG}
+action or the Debug compiler switch to pause execution and invoke the
+RuleWorks command interpreter.
+
+\Format
+
+\tt{RUN} [\it{integer}]
+
+*Argument
+
+integer
+
+The number of global recognize-act cycles the run-time system is to
+execute. This argument is optional. If you do not specify an integer,
+the run-time system executes recognize-act cycles until no rules are
+satisfied or until a RETURN or QUIT action, or a breakpoint interrupts
+execution.
+
+Note: If a breakpoint interrupts program execution, the
+run-time system does not execute the number of recognize-act
+cycles indicated by the integer.
+
+\Example
+
+The following command starts executing recognize-act cycles:
+
+RuleWorks> RUN
+
+The following command executes four recognize-act cycles:
+
+RuleWorks> RUN 4
+
+\subsection{\tt{SAVESTATE}}
+
+Copies to a file the state of working memory, the conflict
+set, the GENATOM and GENINT counter, and the INSTANCE-ID
+generator. You can later use the ADDSTATE or RESTORESTATE
+action or command to add to or overwrite the current memory
+with the contents of the file.
+
+Only objects that are visible to the active entry block are
+saved.
+
+\Format
+
+(SAVESTATE filespec )
+
+*Argument
+
+filespec
+
+The file specification for the file to which the state of
+working memory and the conflict set is to be copied.
+
+\Example
+
+The following action copies the state of working memory and
+the conflict set to the file CONFIG.DAT.
+
+(savestate config.dat)
+
+The equivalent command is:
+
+RuleWorks> savestate config.dat
+
+\subsection{\tt{SHOW SPACE}}
+
+Displays information about working memory and the RuleWorks
+symbol table. The information consists of the current number
+of objects and symbol-table entries, the amount of memory
+that these currently occupy, and the largest value that these
+have reached during this execution of the program.
+
+\Format
+
+SHOW SPACE
+
+*Arguments(NONE)
+\Example
+
+The following example shows the SHOWSPACE command:
+
+RuleWorks> SHOW SPACE
+
+WORKING-MEMORY OBJECTS SYMBOL TABLE ENTRIES
+
+Current number - 10 Current number - 97
+
+Current space used - 0.6 Kbytes Current space used - 4.4
+Kbytes
+
+Maximum number - 12 Maximum number - 97
+
+Maximum space used - 0.7 Kbytes Maximum space used - 4.4
+Kbytes
+
+\subsection{\tt{SHOW VERSION}}
+
+Displays the current version of the RuleWorks compiler (and
+the copyright notice).
+
+\Format
+
+SHOW VERSION
+
+*Arguments(NONE)
+\Example
+
+The following
+
+RuleWorks> sho ver
+
+RuleWorks ä - Version 2.0 EFT1 (11-18-94)
+
+Copyright ã 1994-1995 Digital Equipment Corporation. All
+Rights Reserved.
+
+\subsection{\tt{SPECIALIZE}}
+
+Converts an instance of a parent class to an instance of a
+descendent class. The converted object's INSTANCE-ID does not
+change as a result of this action. You can also set or change
+any attributes belonging to the descendent class.
+
+Note:  When you convert WMOs at the command interpreter
+prompt, the first argument to the SPECIALIZE command must be
+a constant. In contrast, when you convert WMOs in a rule, the
+first argument to the SPECIALIZE action can be a variable or
+a call to the GET function.
+
+\Format (for action)
+
+(SPECIALIZE ID-variable new-class-name-expr
+
+[ {attribute-name-expr value-expr}... ] )
+
+\Format (for command)
+
+SPECIALIZE instance-id new-class-name
+
+[ {attribute-name value}... ]
+
+*Arguments
+
+ID-variable
+
+An expression of type INSTANCE-ID, indicating the object to
+be specialized. This argument can be used in rules only.
+
+new-class-name-expr
+
+An expression that evaluates to a symbol that names an object
+class that inherits from the current class of the object
+being specialized.
+
+attribute-name-expr
+
+A symbol or bound variable that evaluates to an attribute
+declared in or inherited by the new class. This argument is
+optional; if you do specify an attribute, you must also
+specify a value for it.
+
+You can specify any number of attribute-value pairs.
+
+value-expr
+
+Any valid RuleWorks expression that evaluates to the same
+structure as the attribute.
+
+instance-id
+
+A constant of type INSTANCE-ID, indicating the object to be
+specialized. The object must be visible to be active entry
+block. This argument can be used only at the command
+interpreter level.
+
+new-class-name
+
+A symbol that names an object class that inherits from the
+current class of the object being specialized.
+
+attribute-name
+
+A symbol that names an attribute declared in or inherited by
+the new class. This argument is optional; if you do specify
+an attribute, you must also specify a value for it.
+
+You can specify any number of attribute-value pairs.
+
+value
+
+A value that has the same structure as the attribute.
+
+*Return Value
+
+The SPECIALIZE action returns the INSTANCE-ID atom that
+identifies the converted object.
+
+\Example
+
+The following rule shows one possible use of the SPECIALIZE
+action:
+\begin{quote}
+\begin{verbatim}
+(RULE animal-now-identified-as-a-zebra
+
+; if current class is the generic class ANIMAL
+
+(animal ^$ID <My-animal> ^$object-class animal ^name <n>)
+
+(identification ^name <n> ^is-a zebra)
+
+-->
+
+(SPECIALIZE <My-animal> zebra; new class is ZEBRA
+
+^inter-breeds-with (compound horse donkey)))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{SQL-ATTACH}}
+
+Specifies the database of interest by executing a DECLARE
+SCHEMA statement. You can specify the source of the schema
+either by providing the database filespec itself or by
+providing a pathname to the CDD schema definition.
+
+Note: that the actual attachment to the database usually does
+not occur until the first executable SQL statement after this
+action is processed.
+
+
+
+\Format
+
+SQL-ATTACH database-spec ( DBKEY-scope ]
+
+
+
+*Arguments
+
+Database-spec
+
+This argument must be either FILENAME db-filespec or PATHNAME
+db-pathname. The keyword FILENAME may be omitted; the keyword
+PATHNAME is required.
+
+A logical name may be used for all or part of the database
+filespec or for the CDD pathname.
+
+DBKEY-scope
+
+A keyword that specifies the duration of validity of database
+key values, either TRANSACTION or ATTACH. ATTACH scoping
+means that a database key value is valid for the entire time
+your program is attached to a given database, rather than
+just for the duration of a single transaction. TRANSACTION
+scoping is the default.
+
+
+
+\Example
+
+The following example uses the FILENAME method. \verb|MY_DB| is a
+logical name pointing to the complete filespec for the
+database.
+\begin{quote}
+\begin{verbatim}
+(SQL-ATTACH FILENAME MY_DB)
+\end{verbatim}
+\end{quote}
+
+The next example shows the same attachment except that the
+scope or duration of DBKEY validity is the total time your
+program is attached to the database, rather than the duration
+of the transaction as in the previous example (by default).
+\begin{quote}
+\begin{verbatim}
+(SQL-ATTACH FILENAME MY_DB ATTACH )
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{SQL-COMMIT}}
+
+Completes the current SQL transaction and makes permanent any
+changes made to the database during the transaction. This
+action executes a COMMIT statement.
+
+
+
+\Format
+
+SQL-COMMIT
+
+
+
+*Arguments
+
+None
+
+
+
+\subsection{\tt{SQL-DELETE}}
+
+Deletes all or selected records from a specified database
+table, by executing a DELETE FROM statement. This action does
+not remove any RuleWorks objects; it is up to you to use
+REMOVE actions to do that.
+
+The SQL-DELETE action can be executed only within the context
+of a READ WRITE transaction, which you must explicitly start
+with an SQL-START action.
+
+
+
+\Format
+
+SQL-DELETE table-name [WHERE-clause]
+
+
+
+*Arguments
+
+table-name
+
+Specifies the database table from which rows are to be
+deleted.
+
+WHERE-clause
+
+Optionally specifies which records are to be deleted within
+the target table. If the where-clause is omitted, the default
+is to delete all records in the table specified in the first
+argument.
+
+
+
+\Example
+
+The first example deletes all records in table W1:
+
+
+
+(SQL-DELETE W1)
+
+
+
+The next example deletes only those records in table W1 that
+satisfy the WHERE clause:
+
+
+
+(SQL-DELETE W1 | WHERE fld1 = 10 AND fld2 = 'some text' | )
+
+
+
+The records deleted are those with field fld1 equal to the
+value 10, and field fld2 equal to the string 'some text'. All
+other records in W1 are unaffected.
+
+\subsection{\tt{SQL-DETACH}}
+
+Detaches your program from any database previously attached
+by an SQL-ATTACH action. This action executes a FINISH
+statement and a COMMIT statement on the current transaction,
+if any.
+
+
+
+\Format
+
+SQL-DETACH
+
+
+
+*Arguments
+
+None.
+
+
+
+\subsection{\tt{SQL-FETCH-EACH}}
+
+For each selected database record, binds field value(s) to
+specified RuleWorks variable(s) and then performs one or more
+RHS actions. This action executes a SELECT statement.
+
+You can create or change instances of any OBJECT-CLASS in the
+RHS actions performed by the SQL-FETCH-EACH action. The
+OBJECT-CLASS does not have to match the database table name,
+nor do the attribute names have to match the database field
+names.
+
+
+
+\Format
+
+SQL-FETCH-EACH <var>... (select-expr)
+
+(RHS-action)...
+
+
+
+*Arguments
+
+<var>
+
+One or more RuleWorks variables to which database field
+values are to be bound. These variables must not be bound
+prior to the SQL-FETCH-EACH action. They can be used only in
+the RHS actions provided as the third argument.
+
+select-expr
+
+An SQL select expression that limits the fetch to specific
+database table(s) and record(s) and specifies which database
+fields are to be fetched. This expression can include
+variables bound prior to the SQ~FETCH-EACH action (either on
+the LHS or RHS), but cannot include variables specified in
+the first argument.
+
+RHS-action
+
+One or more RuleWorks RHS actions to be performed for each
+database record fetched. Note that these actions may not
+include any other SQL interface actions.
+
+These actions can use both variables bound prior to the
+SQL-FETCH-EACH action and variables specified in the first
+argument. If these actions bind any variables, those bindings
+are maintained after the SQL-FETCH-EACH action is executed.
+
+
+
+\Example
+
+The first example fetches records from database table \verb|tbl_1|,
+and binds the values of fields fld1 and fld2 to the RuleWorks
+variables <v1> and <v2>. These variables are then used in two
+MAKE actions, creating new instances of classes W1 and W2.
+The actions are repeated for each database record that
+satisfies the FROM and WHERE clauses of the select
+expression.
+
+\begin{quote}
+\begin{verbatim}
+(SQL-FETCH-EACH <v1> <v2> (SELECT fld1, fld2 FROM tbl_1 WHERE
+fld3 = 1)
+
+(MAKE w1 ^a1 <v2> ^a2 tbl_1)
+
+(MAKE w2 ^a3 <v1> ^a4 (<v1> + <v2>)))
+\end{verbatim}
+\end{quote}
+
+The previous example uses symbols in the select expression.
+The following example uses RuleWorks variables that are
+(presumably) bound earlier in the rule that contains this
+SQL-FETCH-EACH action. The optional vertical bars ( | )
+around the constant parts of the select expression allow the
+compiler to generate more efficient code.
+\begin{quote}
+\begin{verbatim}
+(SQL-FETCH <v1> <v2> (|SELECT * FROM| <table-name> |WHERE
+fld3= |<val>)
+
+(MAKE w1 ^a1 <v2> ^a2 tbl_1)
+
+(MAKE w2 ^a3 <v1> ^a4 (<v1> + <v2>)))
+\end{verbatim}
+\end{quote}
+
+In this example, all the fields in the database are selected,
+because of the wildcard (*). However, only the first two
+fetched are used. Any extra field values are ignored.0
+
+
+
+
+
+\subsection{\tt{SQL-FETCH-AS-OBJECT}}
+
+Makes WMOs from selected database records by executing a
+SELECT statement.
+
+This action creates instances of a single OBJECT-CLASS only,
+even if it is retrieving data from multiple tables (for
+example, a join between source tables). The OBJECT-CLASS
+matches the (first) table name specified in the FROM clause
+of the select expression. SQLFETCH-AS-OBJECT creates one new
+object from each database record selected.
+
+The database field names and the attribute names of the
+OBJECT-CLASS must match. Any selected fields that do not have
+a corresponding attribute are ignored. Any attributes that do
+not have a corresponding field are set to their DEFAULT
+values (if one was declared) or NIL. Attributes that
+correspond to fields whose value is "missing" are also set to
+NIL.
+
+You can use the SQL-FETCH-AS-OBJECT action as the value
+argument to a BIND action. The variable argument of the BIND
+action is bound to a compound value that contains the
+INSTANCE-IDs of all the fetched WMOs.
+
+
+
+\Format
+
+SQL-FETCH-AS-OBJECT select~expr
+
+
+
+*Argument
+
+select-expr
+
+An SQL select expression that restricts the fetch to specific
+database records and specifies which database fields are to
+be fetched. The database table specified in the select
+expression is used as the object class name for the objects
+created by the SQL-FETCH-AS-OBJECT operation.
+
+
+
+*Return Value
+
+When used as in the second argument to the BIND action, the
+SQL-FETCH-AS-OBJECT action returns a compound value that
+contains the INSTANCE-IDs of all the objects created.
+
+
+
+\Example
+
+In the first example, selected records from table W1 are
+fetched and used to create objects. Only records with field
+fld1 having a value less than field fld2 are fetched. (This
+is a numeric comparison; the last two examples use character
+string fields.)
+
+
+
+(SQL-FETCH-AS-OBJECT SELECT * FROM W1 WEERE fld1 < fld2 )
+
+
+
+Any objects created by this action are instances of
+OBJECT-CLASS W1, as specified in the FROM clause. All record
+fields are used and mapped into object attributes, as
+requested by the use of an asterisk (*) in the select
+expression.
+
+
+
+(SQL-FETCH-AS-OBJECT SELECT fld1, fld2, fld3 FROM W1 WHERE
+fld1 < fld2)
+
+
+
+The example above refines the first example by fetching
+fields fld1, fld2, and fld3 only. Again, as in the previous
+example, only records with field fld1 value less than that of
+fld2 are fetched.
+
+
+
+(SQL-FETCH-AS-OBJECT SELECT DISTINCT fld1, fld2 FROM W1 WHERE
+fld1 < fld2)
+
+
+
+
+
+
+
+This example illustrates the DISTINCT qualifier, which
+restricts the new W1 objects to unique combinations of fld1
+and fld2 values. Without the DISTINCT qualifier this action
+can yield multiple duplicate objects, depending on the
+database contents.
+
+
+
+(SQL-FETCH-AS-OBJECT SELECT fld1, fld2, DBKEY From W1 WHERE
+fld1 < fld2 )
+
+
+
+This example fetches the DBKEY for each database record,
+along with the fld1 and fld2 values. The OBJECT-CLASS
+declaration for W1 in this case must include a DBKEY
+attribute, so that the action has a place to put the DBKEY
+value.
+
+
+
+(SQL-FETCH-AS-OBJECT SELECT W1. *, DBKEY FROM W1 WHERE fld1 <
+f1d2)
+
+
+
+The action above shows how to select all fields and capture
+the DBKEY values. The required syntax is not the SELECT *,
+DBKEY that you might expect.
+
+
+
+(SQL-FETCH-AS-OBJECT SELECT * FROM W1 WHERE fld1 = 'abc' AND
+fld2 = '<var>')
+
+
+
+This example uses string field comparisons in the select
+expression. Only those records that have fld1 equal to the
+string 'ABC' and fld2 equal to the string bound to the
+RuleWorks variable <var> are selected and fetched. Note that
+RuleWorks automatically converts the symbol 'abc' to the
+string 'ABC'.
+
+
+
+(bind <x> (SQL-FETCH-AS-OBJECT
+
+SELECT * FROM W1 WHERE fld1 = 'abc' AND fld2 = '<var>'))
+
+
+
+This example shows the previous SQL-FETCH-AS-OBJECT action
+used as an argument to the BIND action.
+
+\subsection{\tt{SQL-INSERT}}
+
+Stores new records in the specified database table by
+executing an INSERT statement. The fields to be set, and
+their new values, are provided in the second argument.
+
+This action can be executed only within the context of a READ
+WRITE transaction, which you must explicitly start with an
+SQL-START action.
+
+
+
+\Format
+
+SQL-INSERT table-name SQL-expr
+
+
+
+*Arguments
+
+Table-name
+
+Specifies the database table into which the new records are
+to be inserted.
+
+SQL-expr
+
+An SQL expression that specifies the target fields and their
+values.
+
+
+
+\Example
+
+In this example a new record is created in database table
+\verb|tbl_l|, with its field fld2 set to 123 and its field fld5 set
+to the string 'test'. The SQL expression is enclosed in
+vertical bars because it includes parentheses.
+
+\begin{quote}
+\begin{verbatim}
+(SQL-INSERT tbl_1 | (f1d2, fld5) VALUES (123, 'test') |)
+\end{verbatim}
+\end{quote}
+
+The next example is similar to the previous one, except that
+one of the field names is defined at run-time by the
+RuleWorks variable <v2> and the value for field fld5 is given
+by the RuleWorks variable <v2>.
+\begin{quote}
+\begin{verbatim}
+(SQL-INSERT tbl_1 |(| <v1> |, fld5) VALUES (456,| '<v2>' |)|
+)
+\end{verbatim}
+\end{quote}
+
+Since fld5 is a character (string) field, the value
+substituted for <v2> must be enclosed in single quotes.
+
+Note: that both unquoted and quoted variables must be
+preceded and followed by whitespace, as in this example.
+Also, parentheses that are passed to SQL must be enclosed in
+vertical bars.
+
+\subsection{\tt{SQL-INSERT-FROM-OBJECT}}
+
+Stores the contents of a specified object in a new database
+record by executing an INSERT statement. The record is
+inserted into the database table that has the same name
+object's OBJECT~CLASS. The values of the object's \verb|^$ID| and
+\verb|^$INSTANCE-OF| attributes are not written to the database,
+even if the database explicitly provides fields with those
+names.
+
+This action can be executed only within the context of a READ
+WRITE transaction, which you must explicitly start with a
+SQL-START action.
+
+
+
+\Format
+
+SQL-INSERT-FROM-OBJECT <\verb|^$ID-variable|>
+
+\Argument
+
+\verb|<^$ID-variable>|
+
+A variable bound to the value of the \verb|^$ID| attribute of the
+object to be stored.
+
+
+
+\Example
+
+In this example the object identified by the <W> object
+identifier is inserted into the database, into the table
+having the same name as the <W> object's OBJECTCLASS- After
+the SQL-INSERT-FROM-OBJECT, you are free to remove the <W>
+object or leave it in working memory.
+
+
+
+(SQL-INSERT-FROM-OBJECT <W>)
+
+\subsection{\tt{SQL-ROLLBACK}}
+
+Undoes any changes to the database made during the current
+transaction and completes the transaction. This action
+executes a ROLLBACK statement.
+
+
+
+\Format
+
+SQL-ROLLBACK
+
+
+
+*Arguments
+
+None.
+
+\subsection{\tt{SQL-START}}
+
+Executes a SET TRANSACTION statement to start a transaction
+with the specified options. These options can include a READ
+ONLY versus a READ WRITE transaction, and whether to retain
+any locks obtained on records during the course of the
+transaction.
+
+You end the transaction started by this action with an
+SQL-COMMIT, SQL-DETACH, or SQL-ROLLBACK action.
+
+
+
+\Format
+
+SQL-START [txn-options]
+
+
+
+*Argument
+
+Txn-options
+
+Optional list of desired SQL transaction options. If this
+argument is not provided, a READ ONLY transaction is the
+default.
+
+
+
+\Example
+
+The first example starts a READ ONLY transaction by default,
+because it has no transaction options.
+
+
+
+(SQL-START)
+
+
+
+The following example shows an update transaction whose
+options request that any records accessed during the
+transaction have locks retained on them, so that the records
+may be updated again (in protected write mode).
+
+
+
+(SQL-START |READ WRITE RESERVING W1 FOR PROTECTED WRITE| )
+
+
+
+The vertical bars in this example are not required, but they
+do make the action more efficient.
+
+\subsection{\tt{SQL-UPDATE}}
+
+Modifies the contents of selected database records, where the
+fields to be modified and their new values are specified in
+the second argument.
+
+This action can be executed only within the context of a READ
+WRITE transaction, which must be explicitly started by an
+SQL-START action.
+
+
+
+\Format
+
+SQL-UPDATE table-name SET-clause [WHERE-clause]
+
+
+
+*Arguments
+
+Table-name
+
+Specifies database table to be modified.
+
+SET-clause
+
+An SQL expression to define which fields are to be updated
+within the target table, and the new values for these fields.
+
+WHERE-clause
+
+An optional select expression that specifies which database
+records are updated.
+
+If it is omitted, the default action is to update all records
+in the specified table.
+
+
+
+\Example
+
+The first example sets the numeric fld1 field value in all W1
+table records, if any, to zero, and sets the char field fld2
+to 'SOME TEXT')
+
+
+
+(SQL-UPDATE W1 SET fld1 = 0, fld2 = 'some text' )
+
+
+
+The second example modifies any and all records in the W1
+table whose previous field a1 value was the old value <val>
+(bound in LHS of the rule) and field whose field a2 value was
+<va12>. These records have al set to <new-val> (bound on the
+RHS of the rule).
+\begin{quote}
+\begin{verbatim}
+
+
+(rule sql-update-example
+
+(W1 ^$ID <W1> ^a1{  < 10 <val> } ^a2  <val2>
+
+à
+
+(bind <new-val> (<val> + 10))
+
+(modify <W1> ^a1  <new-val>)
+
+(SQL-UPDATE W1 SET al = <new-val> WHERE al = <val>, a2 =
+<val2> ))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{SQL-UPDATE-FROM-OBJECT}}
+
+Uses the attribute values of an object to modify
+corresponding data fields in one or more existing database
+records. The values of the object's \verb|^$ID| and \verb|^$INSTANCE-OF|
+attributes are not written to the database, even if the
+database explicitly provides fields with those names.
+
+This action can only be executed within the context of a READ
+WRITE transaction, which you must explicitly start with an
+SQL~START action.
+
+
+
+\Format
+
+SQL-UPDATE-FROM-OBJECT \verb|<$ID-variabl>| [where-clause ]
+
+
+
+*Arguments
+
+\verb|<$ID-variable>|
+
+A variable bound to the \verb|^$ID| attribute of the object to be
+used. The OBJECT-CLASS name of the associated object specifies the database
+table that is modified.
+
+WHERE-clause
+
+Optionally identifies which database records are to be
+modified using the object attribute values. If it is omitted,
+the default action is to update all records.
+
+
+
+\Example
+
+The first example uses the attribute values in the object
+whose INSTANCE-ID is bound to <W> to modify database records
+whose field fld1 is equal to the value bound to the RuleWorks
+variable <var1> and whose character field fld2 is equal to
+the value bound to <var2>. This WHERE clause may or may or
+not be sufficiently restrictive to make the
+SQL-UPDATE-FROM-OBJECT action modify only one database
+record.
+
+
+
+(SQL-UPDATE-FROM-OBJECT <W> WHERE fld1 = <var1> AND f1d2 =
+'<var2>')
+
+
+
+The database table containing the record(s) to be modified is
+the table with the same name as the OBJECT-CLASS of the
+object identified by the \verb|$ID| variable <W1>. Note that the
+white space around the quoted variable ('<var2>' in this
+example) is required.
+\begin{quote}
+\begin{verbatim}
+(rule sql-update-from-object-example
+
+(W1 ^$ID <W1> ^a1  { < 10 <val> ) ^a2  <val2>)
+
+à
+
+(modify <w1> ^a1  (<val> + 10))
+
+(SQL-UPDATE-FROM-OBJECT <w1> WHERE al = <val> AND a2 = <val2>))
+\end{verbatim}
+\end{quote}
+
+The above example modifies any and all records in the W1 table whose
+previous field al value was the old value \verb|<val>| (bound in LHS
+of the rule) and whose field \verb|a2| value was \verb|<val2>|. These
+records have field al set to the newly-computed value of the
+\verb|^A1| attribute (the object was modified just before the
+\tt{SQL-UPDATE-OBJECT} action).
+
+\subsection{\tt{SUBCOMPOUND}}
+
+Creates a new compound value that is a subrange of an existing
+compound value. \tt{SUBCOMPOUND} is a stateless function and can be used on
+the LHS or RHS.
+
+\Format
+
+(SUBCOMPOUND compound-val index-1 index-2 )
+
+*Arguments
+
+compound-val
+
+The compound value from which a subrange is returned. This
+argument can be a bound compound variable or a function that
+returns a compound value.
+
+index-1 index-2
+
+The positions of the first and last elements in the subrange,
+respectively. These arguments can be either of the following:
+
+*Anything that evaluates to an integer greater than zero
+*The special symbol \verb|$LAST|
+
+The index-1 argument must be less than or equal to the
+index-2 argument.
+
+Note: that \verb|$LAST| may not be used as part of an expression; it
+must stand alone.
+
+\Example
+
+The following rule uses the SUBCOMPOUND function to remove
+the first element of a compound value:
+\begin{quote}
+\begin{verbatim}
+(rule pop-stack
+
+(agenda ^$ID <my-agenda> ^tasks <tasks> )
+
+-->
+
+(modify <my-agenda> ^tasks (SUBCOMPOUND <tasks> 2 $LAST)))
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{SUBSYMBOL}}
+
+Creates a new symbol value that is a fragment of an existing
+symbol value. \tt{SUBSYMBOL} is a stateless function and can be
+used on either the LHS or RHS.
+
+\Format
+
+\tt{SUBSYMBOL} \it{symbol-val} \it{index-1} \it{index-2}
+
+\Arguments
+
+\it{symbol-val}
+
+The symbol value from which a fragment is returned. This
+argument can be a bound symbol variable or a function that
+returns a symbol value.
+
+\it{index-1} \it{index-2}
+
+The positions of the first and last characters in the return
+value, respectively. These arguments can be either of the
+following:
+
+*Anything that evaluates to an integer greater than or
+equal to one
+*The special symbol \verb|$LAST|
+
+The index-1 argument must be less than or equal to the
+index-2 argument.
+
+Note that \verb|$LAST| may not be used as part of an expression; it
+must stand alone.
+
+\ReturnValue
+
+A symbol that contains the specified fragment of the input
+symbol. If the fragment is specified incorrectly or does not
+exist, the function returns the empty symbol value, 11.
+
+\subsection{\tt{SYMBOL}}
+
+Converts any value into a symbol. \tt{SYMBOL} is a stateless
+function and can be used on either the LHS or RHS.
+
+\Format
+
+\tt{SYMBOL} \it{value-expr}
+
+\Argument
+
+\it{value-expr}
+
+An expression that evaluates to the value to be converted.
+
+\ReturnValue
+
+The symbolic atom that corresponds to the specified value. In
+other words, the atom of type \tt{SYMBOL} whose print form is
+identical to the print form of the argument.
+
+The print form of a compound value includes a space between
+the elements, but does not include the function name \tt{COMPOUND}
+or its parentheses. If the compound is too long to fit in a
+symbol, it is truncated.
+
+\subsection{\tt{SYMBOL-LENGTH}}
+
+Returns the number of characters in a symbol. \tt{SYMBOL-LENGTH} is a
+stateless function and can be used on either the LHS or RHS.
+
+(See also the \tt{LENGTH} function, which returns the number of
+elements in a compound value.)
+
+\Format
+
+\tt{SYMBOL-LENGTH} \it{symbol-val}
+
+\Argument
+
+\it{symbol-val}
+
+The symbolic value to be measured. This argument can be a
+bound symbolic variable or a function that returns a symbolic
+value.
+
+\ReturnValue
+
+An integer that specifies the number of characters in the
+symbol.
+
+\subsection{\tt{TABTO}}
+
+Causes the \tt{WRITE} action to start writing output in a specified
+column.
+
+Note: The \tt{TABTO} function is valid only inside the \tt{WRITE}
+action.
+
+\Format
+
+\tt{TABTO} \it{column}
+
+\Argument
+
+\it{column}
+
+An integer expression that indicates the column in which the
+\tt{WRITE} action is to start writing output. If you specify a column
+that is to the left of the last column in which output is written, the
+\tt{WRITE} action writes the output on a new line, starting at the
+specified column.
+
+\Example
+
+The following \tt{WRITE} action displays the headers of three
+columns:
+\begin{quote}
+\begin{verbatim}
+(write (crlf) (tabto 10) number
+       (tabto 25) amount
+       (tabto 40) date)
+\end{verbatim}
+\end{quote}
+     
+The output is:
+\begin{quote}
+\begin{verbatim}
+          NUMBER         AMOUNT         DATE
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{TRACE}}
+
+Displays or changes the run-time system's trace setting,
+which controls the amount of information the system displays
+while executing a program.
+
+Note: The TRACE action in source code is effective only when the entry
+block that contains it was compiled with the DEBUG qualifier set to
+YES or MAYBE.
+
+\Format
+
+TRACE
+
+[
+
+ON trace-name...
+
+OFF *
+
+]
+
+*Arguments
+
+trace-name
+
+The name of a trace setting, which are shown in the table,
+Trace Settings. You can supply one or more names.
+
+*
+
+All trace settings shown in the table, Trace Settings.
+
+Table 28. Trace Settings
+
+Name  Information Displayed
+
+{ENTRY-BLOCK}  Entry blocks being entered or exited
+
+{EB}
+
+RULE  Global and local rule firing counts and instantiation
+executed
+
+{RULE-GROUP} Rule group name added to RULE trace information
+{RG}
+
+WM  Objects being created, changed, or deleted from working
+memory
+
+CS  Instantiations into and out of the conflict set
+
+PM  Rules into and out of program memory
+
+
+
+
+
+\Example
+
+The following command displays the current trace level:
+
+RuleWorks> TRACE
+
+ENTRY-BLOCK RULE-GROUP RULE WM
+
+The following commands change and redisplay the trace
+setting:
+
+RuleWorks> TRACE OFF RG RULE
+
+RuleWorks> TRACE
+
+ENTRY-BLOCK WM
+
+For examples of trace output, see Chapter 9.9.
+
+\subsection{\tt{WBREAK}}
+
+Controls breakpoints on WMOs that match a specified pattern.
+
+When used with no arguments, the command displays a numbered
+list of the object patterns that have breakpoints set. When
+used with the \tt{ON} and \tt{OFF} keywords, respectively, \tt{WBREAK} sets
+and clears breakpoints for object patterns.
+
+Any rule that makes, copies, modifies, specializes, or
+removes an object that matches a pattern triggers the
+breakpoint on that pattern. When the run-time system
+encounters a breakpoint on an object pattern, it completes
+the current recognize-act cycle and displays messages in the
+format below, and invokes the command interpreter:
+\begin{quote}
+\begin{verbatim}
+%RUL-I-WBREAK, WBREAK encountered on class-name #instance-id
+%RUL-I-BREAKNOTED, Execution paused by break
+\end{verbatim}
+\end{quote}
+
+\Format
+
+\tt{WBREAK} [ \tt{ON} \it{object pattern} \tt{OFF} \{ \it{object-pattern} \it{number} \tt* \} ]
+
+\Arguments
+
+\tt{ON}
+
+Sets a new breakpoint on an object pattern.
+
+\tt{OFF}
+
+Clears the existing breakpoint on an object pattern.
+
+\it{object-pattern}
+
+An expression, similar to a CE, that defines which objects
+cause a break. The object pattern must include the name of an
+object class that is visible to the active entry block, and
+may include any number of attribute-value tests.
+
+If the class name in the object pattern has inheriting
+subclasses, objects of those subclasses also match the
+pattern.
+
+\it{number}
+
+An integer corresponding to an object pattern that currently
+has a breakpoint set. You get a list of integers and their
+patterns when you give the \tt{WBREAK} command with no arguments.
+
+\tt{*}
+
+You can use an asterisk (star) with the \tt{OFF} keyword to mean
+``clear all breakpoints on WMOs.''
+
+\Example
+
+The following is an example of the WBREAK command:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> wbreak on control-context
+RuleWorks> run
+<FAC>-I-WBREAK, WBREAK encountered on ACTIVE-CONTEXT #2
+=>WM: #2 [MAKE-CONTEXT-ACTIVE] (ACTIVE-CONTEXT ^NAME TASKS-TO-DO)
+<=WM: #1 [ | main | ON-ENTRY] (CONTEXT ^NAME TASKS-TO-DO)
+%RUL-I-BREAKNOTED, Execution paused by break
+RuleWorks>
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{WHILE}\ldots\tt{DO}\ldots}
+
+Repeatedly executes one or more RHS actions as long as a relational
+expression remains true. In other words, provides a loop in the flow
+of control.
+
+\Format
+
+\tt{WHILE} \tt(\it{rel-expr}\tt) \tt{DO} \it{RHS-action}
+
+\begin{arguments}
+\item[rel-expr]
+
+  A relational expression that determines whether RHS actions are to
+  be executed. This argument must evaluate to eithe rtrue or false. It
+  may not contain any SQL functionc.
+
+\begin{note}
+  RuleWorks does not have Boolean values. Therefore, this argument
+  must be a comparison of two expressions. It must not be a single
+  value. For example, RuleWorks does not allow
+  \verb|(WHILE (TRUE) DO.)|.
+\end{note}
+
+\item[RHS-action]
+
+  Any RuleWorks action. You can specify any number of actions.
+\end{arguments}
+
+\Clause
+
+\tt{DO}
+
+Specifies the actions that are to be executed as long as the
+relational expression remains true. This clause is required.
+
+\Example
+
+The example below illustrates a simple relational expression in a
+\tt{WHILE}:
+
+\begin{quote}
+\begin{verbatim}
+(while (<sun_shines> = true) do
+       (make hay))
+\end{verbatim}
+\end{quote}
+     
+\subsection{\tt{WM}}
+
+Displays the objects whose INSTANCE-IDs are specified. The
+output includes the following information about each object:
+
+·  Its INSTANCE-ID
+
+·  The name of the construct that last modified the object
+(for example, a rule or ON- clause). If you last modified the
+object at the interpreter prompt, the construct name is the
+symbol RUL.
+
+·  Its attributes' names and their values
+
+Scalar attributes whose value is NIL, and compound attributes
+whose value is (COMPOUND), are not displayed unless you have
+declared a DEFAULT value for the attribute.
+
+The system displays this information in the following format:
+
+\verb|#|instance-id [block-name~rule-name] (class-name attribute-1
+value-1 attribute-2 value-2) ...
+
+\Format
+
+WM [ instance-id ]...
+
+*Arguments
+
+instance-id
+
+An INSTANCE-ID atom that identifies an object that the
+command is to display. You can specify one or more
+INSTANCE-IDs.
+
+The Argument is optional. If you do not specify any
+INSTANCE-IDs, the command displays all the visible WMOs.
+
+\Example
+
+The following command displays the objects whose identifiers
+are \verb|#3| and \verb|#4|:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> WM #3 #4
+\end{verbatim}
+\end{quote}
+???
+
+???
+
+\subsection{\tt{WMHISTORY}}
+
+Displays the history of a specified object, that is, which
+rules set the attribute values. You must specify the
+INSTANCE-ID of the desired object; you may also specify a
+particular attribute.
+
+When the WMHISTORY command displays an entire object, the
+output includes the following information:
+
+·  INSTANCE-ID
+
+·  Name of the rule that last modified the object
+
+·  Object class name
+
+·  Name of the rule that originally created the object
+
+·  Name and value of each attribute
+
+·  Name of the rule that set the current value of each
+attribute
+
+Scalar attributes whose value is NIL, and compound attributes
+whose value is (COMPOUND), are not displayed unless you have
+declared a DEFAULT value for the attribute.
+
+The system displays this information in the following format:
+
+\verb|#|instance-id [rule-name-0] (class-name [rule-name] { \ct attr-1
+value-1 [rule-name-1] } ...
+
+When the WMHISTORY command displays a single attribute, the
+output includes the following information:
+
+·  INSTANCE-ID
+
+·  Name of the rule that last modified the object
+
+·  Name and value of the specified attribute
+
+·  Name of the rule that set the current value of the
+specified attribute
+
+The system displays this information in the following format:
+
+\verb|#|INSTANCE-ID [rule-name-0] \ct attribute value [rule-name-n]
+
+Note:  By default, WMHISTORY is disabled. You must turn it on
+with the ENABLE command before you can use it.
+
+\Format
+
+WMHISTORY instance-id [ \ct attribute ]
+
+\Arguments
+
+instance-id
+
+The INSTANCE-ID of the object to be displayed.
+
+attribute
+
+An attribute that describes a characteristic of the object to
+be displayed. This argument is optional. You can use at most
+one attribute name in a WMHISTORY command.
+
+\Example
+
+The following example shows the history of an entire object:
+
+\begin{quote}
+\begin{verbatim}
+RuleWorks> ENABLE WMHISTORY
+
+RuleWorks> RUN
+
+.
+.
+.
+
+RuleWorks> WMH #28
+
+#28 [CHOOSE-SLOTS:PLACE-NONMEMORY] (BOX
+[CONVERT-PACKAGES-TO-PARTS:HOME-KIWI] ^CARD-IN-SLOT (COMPOUND
+MEMORY MEMORY KEYBOARD FD-35) [CHOOSE-SLOTS:PLACE-NONMEMORY]
+^CARD-IN-SLOT-OBJ-ID (COMPOUND #31 #39 #37 #45)
+[CHOOSE-SLOTS:PLACE-NONMEMORY] ^NAME BOX
+[EXPAND-PART-SKELETONS:BOX] ^PART-NUMBER KI-9200
+[EXPAND-PART-SKELETONS:BOX] ^PRINTNAME Kiwi-9200 CPU Base
+Unit [EXPAND-PART-SKELETONS:BOX] ^PRICE 999.95
+[EXPAND-PART-SKELETONS:BOX] ^IS-EXPANDED YES
+[EXPAND-PART-SKELETONS:BOX])
+
+This example shows the history of an attribute:
+
+RuleWorks> WMH #28 ^CARD-IN-SLOT
+
+#28 [CHOOSE-SLOTS:PLACE-NONMEMORY] (BOX
+[CONVERT-PACKAGES-TO-PARTS:HOME-KIWI] ^CARD-IN-SLOT (COMPOUND
+MEMORY MEMORY KEYBOARD FD-35) [CHOOSE-SLOTS:PLACE-NONMEMORY])
+\end{verbatim}
+\end{quote}
+
+\subsection{\tt{WRITE}}
+
+Sends output from a program to the terminal or a file. By
+default, the \tt{WRITE} action sends output to the terminal. To
+send output to a file, you can do one of the following:
+\begin{itemize}
+\item Specify the \tt{WRITE} action with a file identifier
+\item Change the default destination for the \tt{WRITE} action, using
+the \tt{DEFAULT} action or command
+\end{itemize}
+
+\Format
+
+\tt{WRITE} [\it{file-id}] \it{RHS-expression}
+
+\begin{arguments}
+
+\item[file-id] The file identifier of the destination file for the
+\tt{WRITE} action's output. This argument is optional. If you do not
+specify the Argument or if the name you specify is not associated with
+an open output file, the output is sent to the current default for the
+\tt{WRITE} action (set with the \tt{DEFAULT} action or command).
+
+\item[RHS-expression]
+
+  A right-hand-side expression that represents the output. The action
+  evaluates the expression and sends the output to the terminal or a
+  file. Use the following functions to format the output:
+
+\begin{center}
+  \begin{tabular}{ll}
+    \toprule
+    Function & Description \\
+    \midrule
+    \tt{CRLF} & Carriage return/line feed \\
+    \tt{TABTO} & Tab \\
+    \tt{RJUST} & Right-justify \\
+    \bottomrule
+  \end{tabular}
+\end{center}
+
+If you do not use these functions, the \tt{WRITE} action displays its
+output on the current output line with one space between values. For
+information about using these functions, see Chapter 4.
+\end{arguments}
+
+\Example
+
+The following \tt{WRITE} action is from the rule
+\tt{OUTPUT-HARDWARE-OPTIONS:WITH-SLOT}:
+\begin{quote}
+\begin{verbatim}
+(write (crlf) <num> (tabto 12) RuleWorks
+       (tabto 50) |in Slot:| <slot-num> (tabto 65) (rjust 10)
+       <price>)
+\end{verbatim}
+\end{quote}
+This action produces the following output:
+\begin{quote}
+\begin{verbatim}
+FD-35 3.5" Floppy Disk Drive in Slot: 4 99.95
+KB-9200 108-Key Keyboard with Mouse Port in Slot: 3 99.95
+MS-9200 Kiwi-9200 Memory card in Slot: 2 129.95
+MS-9200 Kiwi-9200 Memory card in Slot: 1 129.95
+\end{verbatim}
+\end{quote}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "rwug"
+%%% End:
