@@ -60,17 +60,17 @@ The RuleWorks run-time library routines are described in Appendix A.
 
 \subsubsection{Summary of Operators---Arithmetic Operators}
 
-  \begin{tabularx}{\columnwidth}{cX}
-    \toprule
-    Operator & Description \\
-    \midrule
-    \tt{+} & Performs addition on numeric values \\
-    \tt{-} & Performs subtraction on numeric values \\
-    \tt{*} & Performs multiplication on numeric values \\
-    \tt{/} & Performs division on numeric values \\
-    \tt{\textbackslash} & Performs the modulus operation on integer value \\
-    \bottomrule
- \end{tabularx}
+\begin{tabularx}{\columnwidth}{cX}
+  \toprule
+  Operator & Description \\
+  \midrule
+  \tt{+} & Performs addition on numeric values \\
+  \tt{-} & Performs subtraction on numeric values \\
+  \tt{*} & Performs multiplication on numeric values \\
+  \tt{/} & Performs division on numeric values \\
+  \tt{\textbackslash} & Performs the modulus operation on integer value \\
+  \bottomrule
+\end{tabularx}
 
 \subsubsection{Summary of Operators---Match Operators}
 
@@ -610,7 +610,7 @@ Enter an integer:
 \end{verbatim}
 \end{quote}
 
-\subsection{\tt\^ (Attribute)}
+\subsection{\tt{\^} (Attribute)}
 
 Specifies an attribute of an object. You must define all attributes in
 an \tt{OBJECT-CLASS} declaration. For more information about
@@ -882,7 +882,8 @@ variable.
 The first table shows the results of several similarity tests on
 numbers:
 
-\begin{tabularx}{\columnwidth}{XXX}
+\begin{center}
+\begin{tabular}{lll}
   \toprule
   First Value & Second Value & Similar? \\
   \midrule
@@ -891,12 +892,14 @@ numbers:
   9.9      & 10           & Yes \\
   -9.9     &   -10          & Yes \\
   \bottomrule
-\end{tabularx}
+\end{tabular}
+\end{center}
 
 The next table shows the SOUNDEX codes of several symbols.  Note that
 the last three codes match exactly:
 
-\begin{tabularx}{\columnwidth}{XX}
+\begin{center}
+\begin{tabular}{ll}
   \toprule
   Symbol      & SOUNDEX Code \\
   \midrule
@@ -907,7 +910,8 @@ the last three codes match exactly:
   Stephen     & S315         \\
   Stefano     & S315         \\
   \bottomrule
-\end{tabularx}
+\end{tabular}
+\end{center}
 
 \subsection{\tt{-\~{}=} (Dissimilarity)}
 
@@ -918,7 +922,8 @@ Produces a match, or evaluates to true, when the similarity predicate
 
 The table below shows the results of several dissimilarity tests:
 
-\begin{tabularx}{\columnwidth}{XXX}
+\begin{center}
+\begin{tabular}{lll}
   \toprule
   First Value & Second Value & Dissimilar? \\
   \midrule
@@ -927,7 +932,8 @@ The table below shows the results of several dissimilarity tests:
   9.9         & 10           & No          \\
   -9.9        & -10          & No          \\
   \bottomrule
-\end{tabularx}
+\end{tabular}
+\end{center}
 
 \subsection{\tt> (Greater-than)}
 
@@ -958,7 +964,8 @@ RuleWorks to compare symbolic values.
 
 The following table shows the results of several greater-than tests
 
-\begin{tabularx}{\columnwidth}{cccX}
+\begin{center}
+\begin{tabular}{lcll}
   \toprule
   First Value      &   & Second Value & Match or True? \\
   \midrule
@@ -967,7 +974,8 @@ The following table shows the results of several greater-than tests
   aardwolf         & \verb|>| & aardvark     & Yes            \\
   \verb,|, greater-than \verb,|, & \verb|>| & greater-than & No             \\
   \bottomrule
-\end{tabularx}
+\end{tabular}
+\end{center}
 
 \subsection{\tt{>=} (Greater-than-or-equal)}
 
@@ -1000,7 +1008,8 @@ RuleWorks to compare symbolic values.
 The following table shows the results of several greater-than-or-equal
 tests:
 
-\begin{tabularx}{\columnwidth}{cccX}
+\begin{center}
+\begin{tabular}{lcll}
   \toprule
   First Value      &    & Second Value & Match or True? \\    
   \midrule
@@ -1009,7 +1018,8 @@ tests:
   aardvark         & \verb|>=| & Aardvark     & Yes            \\
   \verb,|, greater-than \verb,|, & \verb|>=| & greater-than & Yes            \\
   \bottomrule
-\end{tabularx}
+\end{tabular}
+\end{center}
 
 The aardvarks match because they are equal, which is a case
 insensitive comparison, not because the first value is greater than
@@ -1044,9 +1054,8 @@ RuleWorks to compare symbolic values.
 
 The following table shows the results of several less-than tests:
 
-Table 17. Less-than Testing
-
-\begin{tabularx}{\columnwidth}{cccX}
+\begin{center}
+\begin{tabular}{lcll}
   \toprule
   First Value &   & Second Value & Match or True? \\
   \midrule
@@ -1055,7 +1064,8 @@ Table 17. Less-than Testing
   zygosis     & \verb|<| & zygote       & Yes \\
   zoology     & \verb|<| & Zoology      & No \\
   \bottomrule
-\end{tabularx}
+\end{tabular}
+\end{center}
 
 \subsection{\tt{<=} (Less-than-or-equal)}
 
@@ -1087,9 +1097,8 @@ RuleWorks to compare symbolic values.
 The following table shows the results of several less-than-or equal
 tests:
 
-Table 18 Less-than-or-equal Testing
-
-\begin{tabularx}{\columnwidth}{cccX}
+\begin{center}
+\begin{tabular}{lcll}
   \toprule
   First Value &   & Second Value & Match or True? \\
   \midrule
@@ -1098,7 +1107,8 @@ Table 18 Less-than-or-equal Testing
   zygosis     & \verb|<=| & zygote       & Yes \\
   zoology     & \verb|<=| & Zoology      & Yes \\
   \bottomrule
-\end{tabularx}
+\end{tabular}
+\end{center}
 
 The symbols match because they are equal, which is a case insensitive
 comparison, not because the first value is less than the second.
@@ -1193,7 +1203,7 @@ predicate must appear next to the scalar argument.
   predicate.
 
   You can use any scalar predicate except containment and
-  non-containment (see Table 4).
+  non-containment.
 
 \item[scalar-value]
 
@@ -2028,7 +2038,7 @@ LHS or RHS.
 
 \Format
 
-\tt{COMPOUND} [ \it{element} ] \ldots
+\tt{COMPOUND} [\it{element}] \ldots
 
 \begin{arguments}
 \item[element]
@@ -2113,7 +2123,6 @@ their results:
   \verb,(bind <x> |Fast |), \verb,(bind <y> |program!|), \verb,  (CONCAT <x> || <y>), &  Fast program! \\
   \bottomrule
 \end{tabularx}
-
 
 \subsection{\tt{COPY}}
 
@@ -2689,10 +2698,10 @@ The entry block must close with an \tt{END-BLOCK} declaration.
 \tt{ENTRY-BLOCK} \it{block-name}
 
 \qquad[\tt{(ACCEPTS} \{\verb|<|\it{f-param-name}\verb|>|
-[\verb|[|\it{size}\verb|]|] \it{ext-type} [\it{passing-mech}]\}\ldots\verb|)|]
+[\verb|[|\it{size}\verb|]|] \it{ext-type} [\it{passing-mech}]\} \ldots\verb|)|]
 
 \qquad[\tt{(RETURNS} \{\verb|<|\it{f-param-name}\verb|>|
-[\verb|[|\it{size}\verb|]|] \it{ext-type} [\it{passing-mech}]\}\ldots\verb|)|]
+[\verb|[|\it{size}\verb|]|] \it{ext-type} [\it{passing-mech}]\} \ldots\verb|)|]
 
 \qquad[\tt{(ACTIVATES} \it{rule-block-name}\verb|)|]
 
@@ -2957,11 +2966,11 @@ external routine declaration.
 
 \qquad[\tt{(ACCEPTS} \{ [\verb|<|\it{f-param-name}\verb|>|
 [\verb|[|\it{size}\verb|]|] \it{ext-type} [\it{passing-mech}]
-\}\ldots\verb|)|]
+\} \ldots\verb|)|]
 
 \qquad[\tt{(RETURNS} \{ [\verb|<|\it{f-param-name}\verb|>|
 [\verb|[|\it{size}\verb|]|] \it{ext-type} [\it{passing-mech}]
-\}\ldots\verb|)|]
+\} \ldots\verb|)|]
 
 \begin{arguments}
 \item[routine-name]
@@ -3497,7 +3506,7 @@ You can also use \tt{MAKE} as a function with the \tt{BIND} action.
 
 \Format (for action)
 
-\tt{MAKE} \it{class-name} [\{\ct\it{attribute} \it{value-expression}\}\ldots]
+\tt{MAKE} \it{class-name} [\{\ct\it{attribute} \it{value-expression}\} \ldots]
 
 \Format (for command)
 
@@ -3607,7 +3616,7 @@ Chapter 9.
 
 \Format
 
-\tt{MATCHES} \it{rule-name}\ldots
+\tt{MATCHES} \it{rule-name} \ldots
 
 \begin{arguments}
 \item[rule-name]
@@ -3658,7 +3667,7 @@ if they were separate scalar values.
 
 \Format
 
-\tt{MAX} \it{value}\ldots
+\tt{MAX} \it{value} \ldots
 
 \begin{arguments}
 
@@ -3678,21 +3687,19 @@ The greatest of the arguments.
 The following table shows several calls to the \tt{MAX} function and
 their results:
 
-+-----------------------------------------------------------+
-| *Function Call           | *Return | *Warning Message? |
-|                           |   Value  |                    |
-|---------------------------+----------+--------------------|
-| *(MAX 3 2.0 1)           | *3      | *No               |
-|                           |          |                    |
-|   (MAX 3.2 10)            |   10     |   No               |
-|                           |          |                    |
-|   (MAX -3.2 -10)          |   -3.2   |   No               |
-|                           |          |                    |
-|   (MAX boy (COMPOUND man  |   WOMAN  |   No               |
-|   woman) girl)            |          |                    |
-|                           |   10     |   Yes              |
-|   (MAX 3.2 cat 10)        |          |                    |
-+-----------------------------------------------------------+
+\begin{center}
+\begin{tabular}{lll}
+  \toprule
+  Function Call & Return Value & Warning Message? \\
+  \midrule
+  \tt{(max 3 2.0 1)} & 3 & No \\
+  \tt{(max 3.2 10)} &   10 & No  \\
+  \tt{(max -3.2 -10)} &   -3.2 &   No \\
+  \tt{(max boy (compound man woman) girl)} & \tt{woman} & No \\
+  \tt{(max 3.2 cat 10)} & 10 & Yes \\
+  \bottomrule
+\end{tabular}
+\end{center}
 
 \begin{note}
   Ruleworks issues a warning when it finds a value of an invalid data
@@ -3708,7 +3715,7 @@ separate scalar values.
 
 \Format
 
-\tt{MIN} \it{value}\ldots
+\tt{MIN} \it{value} \ldots
 
 \begin{arguments}
 \item[value]
@@ -3727,21 +3734,19 @@ The smallest of the arguments.
 The following table shows several calls to the \tt{MIN} function and their
 results:
 
-+-----------------------------------------------------------+
-| *Function Call           | *Return | *Warning Message? |
-|                           |   Value  |                    |
-|---------------------------+----------+--------------------|
-| *(MIN 3 2.0 2)           | *1      | *No               |
-|                           |          |                    |
-|   (MIN 3.2 10)            |   3.2    |   No               |
-|                           |          |                    |
-|   (MIN -3.2 -10)          |   -10    |   No               |
-|                           |          |                    |
-|   (MIN boy (COMPOUND man  |   BOY    |   No               |
-|   woman) girl)            |          |                    |
-|                           |   3.2    |   Yes              |
-|   (MIN 3.2 cat 10)        |          |                    |
-+-----------------------------------------------------------+
+\begin{center}
+\begin{tabular}{lll}
+  \toprule
+  Function Call & Return Value & Warning Message? \\
+  \midrule
+  \tt{(min 3 2.0 1)} & 1 & No \\
+  \tt{(min 3.2 10)} &  3.2 & No  \\
+  \tt{(min -3.2 -10)} &   -10 &   No \\
+  \tt{(min boy (compound man woman) girl)} & \tt{boy} & No \\
+  \tt{(min 3.2 cat 10)} & 3.2 & Yes \\
+  \bottomrule
+\end{tabular}
+\end{center}
 
 \begin{note}
   RuleWorks issues a warning when it find a value of an invalid data
@@ -3766,11 +3771,11 @@ You can also use \tt{MODIFY} as a function with the \tt{BIND} action.
 
 \Format (for action)
 
-\tt{MODIFY} \it{ID-variable} \{\ct\it{attribute} \it{value-expression}\}\ldots
+\tt{MODIFY} \it{ID-variable} \{\ct\it{attribute} \it{value-expression}\} \ldots
 
 \Format (for command)
 
-\tt{MODIFY} \it{instance-id} \{\ct\it{attribute} \it{value}\}\ldots
+\tt{MODIFY} \it{instance-id} \{\ct\it{attribute} \it{value}\} \ldots
 
 \begin{arguments}
 \item[ID-variable]
@@ -3921,7 +3926,7 @@ format as the \tt{CS} command, with the addition of the rule-firing
 counts:
 
 \it{n} (\it{m}): \it{rule-name} \verb|#|\it{instance-id-1}
-\it{time-tag-1} \verb|#|\it{instance-id-2} \it{time-tag-2}\ldots
+\it{time-tag-1} \verb|#|\it{instance-id-2} \it{time-tag-2} \ldots
 
 where \it{n} is the global count and \it{m} is the local (to the block
 invocation) count.
@@ -4038,10 +4043,8 @@ Specifies a parent object class from which the class being
 declared is to acquire attribute names and characteristics.
 If present, this clause must precede any attribute names.
 
-parent-class
-
-The name of the parent object class. The parent class must be
-previously declared in the same block. A subclass cannot
+\it{parent-class}: The name of the parent object class. The parent
+class must be previously declared in the same block. A subclass cannot
 inherit from a parent class declared in a different block.
 
 See Table 2-1 in Section 2.1 for a table on restrictions on
@@ -4049,31 +4052,29 @@ declaring attributes in a subclass of a parent class.
 
 \tt{DEFAULT}
 
-Establishes the initial value for an attribute when an object
-of this object class is created. (The default value is
-ignored if another value is specified in the MAKE action.
+Establishes the initial value for an attribute when an object of this
+object class is created. The default value is ignored if another value
+is specified in the \tt{MAKE} action.
 
-value  The default value must be the same attribute shape as
-the attribute. That is, scalar attributes must have a scalar
-default value; compound attributes must have a compound
-default value. Use the COMPOUND function to create the
-default value for a compound attribute.
+\it{value}: The default value must be the same attribute shape as the
+attribute. That is, scalar attributes must have a scalar default
+value; compound attributes must have a compound default value. Use the
+\tt{COMPOUND} function to create the default value for a compound
+attribute.
 
 \tt{COMPOUND}
 
 Declares the attribute to be compound rather than scalar. See
-Chapter 2 for details.
+Chapter~\ref{c:workingmem} for details.
 
 \tt{FILL}
 
 Defines an initial value for certain elements of a compound
-value. This filler value is used only when the length of the
-compound value is increased dynamically but no value is
-specified for those elements.
+value. This filler value is used only when the length of the compound
+value is increased dynamically but no value is specified for those
+elements.
 
-value
-
-The scalar value to be used as a filler. See Chapter 2.3.5
+\it{value}: The scalar value to be used as a filler. See Chapter 2.3.5
 for more information.
 
 \Example
@@ -4243,25 +4244,26 @@ Performs a logical inclusive disjunction on its two operands,
 that is, returns true when either one or both of its operands
 is true.
 
-Note:  This is a relational operator, not a match predicate.
-\tt{OR} may be used only in relational expressions within
-\tt{IF} {\ldots} \tt{THEN} {\ldots} \tt{ELSE} {\ldots} or \tt{WHILE} {\ldots} \tt{DO} {\ldots} actions.
+Note: This is a relational operator, not a match predicate.  \tt{OR}
+may be used only in relational expressions within
+\tt{IF}\ldots\tt{THEN}\ldots\tt{ELSE}\ldots{} or
+\tt{WHILE}\ldots\tt{DO}\ldots{} actions.
 
 \Format
 
 \it{relation} \tt{OR} \it{relation}
 
-\Operands
+\begin{operands}
+\item[relation]
 
-\it{relation}
-
-The relational expressions to be combined. These operands
-must evaluate to either true or false.
+  The relational expressions to be combined. These operands must
+  evaluate to either true or false.
+\end{operands}
 
 \Example
 
-The following code fragment shows the \tt{OR} operator in an \tt{IF}
-{\ldots} \tt{THEN} {\ldots} \tt{ELSE} {\ldots} action:
+The following code fragment shows the \tt{OR} operator in an
+\tt{IF}\ldots\tt{THEN}\ldots\tt{ELSE}\ldots{} action:
 \begin{quote}
 \begin{verbatim}
 (if ((<weather> = sunny) or (<weather> = warm))
@@ -4280,11 +4282,11 @@ systems. See \tt{RULE} for details.
 
 \tt{P} \it{production-name} 
 
-\qquad(\it{condition-element})\dots
+\qquad(\it{condition-element}) \dots
 
 \qquad\tt{-->}
 
-\qquad(\it{action})\ldots
+\qquad(\it{action}) \ldots
 
 \subsection{\tt{POSITION}}
 
@@ -4300,26 +4302,26 @@ of the predicate evaluating to true.
 
 \tt{POSITION} \it{compound-var} [\it{predicate}] \it{scalar-value}
 
-\Arguments
+\begin{arguments}
+\item[compound-var]
 
-\it{compound-var}
+  A compound variable bound to the compound value that is to be
+  scanned.
 
-A compound variable bound to the compound value that is to be
-scanned.
+\item[predicate]
 
-\it{predicate}
+  A predicate that specifies the comparison between elements of the
+  compound value and the scalar value. This argument is optional; if
+  you do not specify a predicate, RuleWorks uses the default identity
+  predicate.
 
-A predicate that specifies the comparison between elements of
-the compound value and the scalar value. This argument is
-optional; if you do not specify a predicate, RuleWorks uses
-the default identity predicate.
+  You can use any scalar predicate except containment and
+  non-containment.
 
-You can use any scalar predicate except containment and
-non-containment.
+\item[scalar-value]
 
-\it{scalar-value}
-
-A scalar constant or a bound variable.
+  A scalar constant or a bound variable.
+\end{arguments}
 
 \ReturnValue
 
@@ -4373,15 +4375,15 @@ block.
 
 \tt{PPCLASS} [\it{object-class}]
 
-\Argument
+\begin{arguments}
+\item[object-class]
 
-\it{object-class}
+  The name of an object class that is visible to the active entry
+  block.
 
-The name of an object class that is visible to the active
-entry block.
-
-This argument is optional. If you supply no argument, \tt{PPCLASS}
-displays the class structure of the active block.
+  This argument is optional. If you supply no argument, \tt{PPCLASS}
+  displays the class structure of the active block.
+\end{arguments}
 
 \Example
 
@@ -4405,6 +4407,7 @@ BOX
 \end{quote}
 
 \subsection{\tt{PPWM}}
+TODO
 
 Displays all objects, or all instances of a specified class, or only
 those instances that match a specified object pattern. Object patterns
@@ -4414,34 +4417,33 @@ variables or function calls.
 
 The \tt{PPWM} command displays the following information about an
 object:
+\begin{itemize}
+\item Its \tt{INSTANCE-ID}.
 
-*Its INSTANCE-ID
+\item The name of the construct that last modified the object (for
+  example, a rule or \tt{ON-} clause). If you last modified the object at
+  the interpreter prompt, the construct name is the symbol \tt{RUL}.
 
-*The name of the construct that last modified the object
-(for example, a rule or ON- clause). If you last
-modified the object at the interpreter prompt, the
-construct name is the symbol RUL.
+\item Its class name, its attributes, and the attributes' values.
+\end{itemize}
 
-*Its class name, its attributes, and the attributes'
-values
-
-Scalar attributes whose value is NIL, and compound attributes
-whose value is (COMPOUND) are not displayed unless you have
-declared a DEFAULT value for the attribute.
+Scalar attributes whose value is \tt{NIL}, and compound attributes
+whose value is \tt{(COMPOUND)} are not displayed unless you have
+declared a \tt{DEFAULT} value for the attribute.
 
 The system displays this information in the following format:
 
-\verb|#|INSTANCE-ID [rule-name](class-name attribute-1 value-1
-attribute-2 value-2 .)
+\begin{center}
+  \verb|#|\it{INSTANCE-ID} \verb|[|\it{rule-name}\verb|]| \verb|(|\it{class-name}
+  \it{attribute-1} \it{value-1} \it{attribute-2} \it{value-2} \ldots\verb|)|
+\end{center}
 
-If you do not specify a pattern, the command displays all the
-visible WMOs.
-
-
+If you do not specify a pattern, the command displays all the visible
+WMOs.
 
 \Format
 
-PPWm [class-name] \ct attribute  value
+\tt{PPWM} [\it{class-name}] \ct\it{attribute} \it{value}
 
 Predicate value
 
@@ -4449,42 +4451,38 @@ Predicate value
 
 {test.}
 
+\begin{arguments}
+\item[class-name]
 
+  A symbol that names an object class that is visible to the active
+  entry block. If you specify a class that has inherited subclasses,
+  objects of those subclasses are also displayed.
 
-*Arguments
+\item[attribute]
 
-class-name
+  An attribute that describes a characteristic of the objects to be
+  displayed and contains the corresponding value. If you specify any
+  attributes, you must also specify at least one value for each
+  attribute.
 
-A symbol that names an object class that is visible to the
-active entry block. If you specify a class that has inherited
-subclasses, objects of those subclasses are also displayed.
+  If you specify a compound attribute, you can index it with a left
+  bracket, an integer constant, and a right bracket
+  (\verb|[|index\verb|]|).
 
-attribute
+\item[predicate]
 
-An attribute that describes a characteristic of the objects
-to be displayed and contains the corresponding value. If you
-specify any attributes, you must also specify at least one
-value for each attribute.
+  Any of the valid match predicate.
 
-If you specify a compound attribute, you can index it with a
-left bracket, an integer constant, and a right bracket
-(\verb|[|index\verb|]|).
+\item[value]
 
-predicate
+  This argument must be a scalar atom. Compound values, created with
+  the \tt{COMPOUND} function, are not allowed.
 
-Any of the valid match predicate.
+\item[test]
 
-value
-
-This argument must be a scalar atom. Compound values, created
-with the COMPOUND function, are not allowed.
-
-
-
-test
-
-A value, a predicate followed by a value, or a disjunction of
-values:
+  A value, a predicate followed by a value, or a disjunction of
+  values:
+\end{arguments}
 
 \Example
 
@@ -4499,7 +4497,7 @@ RuleWorks>ppwm box ^card-in-slot [3] keyboard
 (COMPOUND #31 #39 #37 ^PART-NUMBER ki-9200 ^NAME Kiwi-9200
 CPU Base Unit ^PRICE 999.95 ^IS-EXPANDED YES)
 
-RuleWorks>ppwm box ^card-in-slot [+} memory
+RuleWorks>ppwm box ^card-in-slot [+] memory
 
 ~28 {CHOOSE-SLOTS:PLACE-NONMEMORY] (BOX ^CARD-IN-SLOT
 (COMPOUND MEMORY MEMORY KEYBOARD) ^CARD-IN-SLOT-OBJ-ID
@@ -4529,21 +4527,21 @@ pressing Ctrl/Z on VMS systems, Ctrl/D on UNIX systems.
 
 \tt{QUIT} [\it{return-value}]
 
-\Arguments
+\begin{arguments}
+\item[value-expr]
 
-\it{value-expr}
+  The value returned by RuleWorks. This argument is optional; it can
+  be an expression that evaluates to a scalar value,
+  \verb|$FAILURE|, or \verb|$SUCCESS|. This argument can be used in
+  rules only.
 
-The value returned by RuleWorks. This argument is optional;
-it can be an expression that evaluates to a scalar value,
-\verb|$FAILURE|, or \verb|$SUCCESS|. This argument can be used in rules
-only.
+\item[return-value]
 
-\it{return-value}
-
-The value returned by RuleWorks. This argument is optional;
-it can be a constant, \verb|$FAILURE|, or \verb|$SUCCESS|. You cannot use
-expressions or function calls (except to \tt{COMPOUND}) as
-arguments to any command.
+  The value returned by RuleWorks. This argument is optional; it can
+  be a constant, \verb|$FAILURE|, or \verb|$SUCCESS|. You cannot use
+  expressions or function calls (except to \tt{COMPOUND}) as arguments
+  to any command.
+\end{arguments}
 
 \Example
 
@@ -4553,7 +4551,6 @@ returns control to the operating system:
 \begin{quote}
 \begin{verbatim}
 RuleWorks> QUIT
-
 $
 \end{verbatim}
 \end{quote}
@@ -4563,22 +4560,23 @@ execution with a return value indicating success.
 \begin{quote}
 \begin{verbatim}
 (rule success
-      (context ^$ID <context> ^task complete)
-      -->
-      (remove <context>)
-      (quit $success))
+    (context ^$ID <context> ^task complete)
+  -->
+    (remove <context>)
+    (quit $success))
 \end{verbatim}
 \end{quote}
 
-When this rule fires, the \tt{QUIT} action causes the run-time
-system to stop executing recognize-act cycles immediately.
-The compiler provides a warning when any actions follow
-\tt{RETURN} or \tt{QUIT} actions.
+When this rule fires, the \tt{QUIT} action causes the run-time system
+to stop executing recognize-act cycles immediately.  The compiler
+provides a warning when any actions follow \tt{RETURN} or \tt{QUIT}
+actions.
 
 The entry block's \tt{ON-EVERY} and \tt{ON-EXIT} statements are not
 executed after a \tt{QUIT} action.
 
 \subsection{\tt{RBREAK}}
+TODO
 
 Controls breakpoints on rules and rule groups.
 
@@ -4674,6 +4672,7 @@ CHOOSE-SLOTS:PLACE-NONMEMORY #47 62 #28 65 #37 56
 \end{quote}
 
 \subsection{\tt{REMOVE}}
+TODO
 
 Deletes one or more objects from working memory. The object must be
 visible to the active entry block. Once an object has been removed, it
@@ -4693,60 +4692,60 @@ attributes of that object can still be used.
 
 \Format (for command)
 
-REMOVE {
+\tt{REMOVE} \{\it{instance-id} \ldots \verb|*|\}
 
-Instance-id...
+\begin{arguments}
 
-*
-}
+\item[ID-expr]
 
-\Argument
+  A RuleWorks expression that evaluates to a value of type
+  \tt{INSTANCE-ID}, indicating the object to be deleted. You can
+  specify one or more IDs. This argument can be used in rules only.
 
-\it{ID-expr}
+\item[instance-id]
 
-A RuleWorks expression that evaluates to a value of type
-INSTANCE-ID, indicating the object to be deleted. You can
-specify one or more IDs. This argument can be used in rules
-only.
+  A constant of type \tt{INSTANCE-ID}, indicating the object to be
+  deleted. This argument can be used only at the command interpreter
+  level.
 
-\it{instance-id}
+\item[\tt{*}]
 
-A constant of type INSTANCE-ID, indicating the object to be
-deleted. This argument can be used only at the command
-interpreter level.
-
-\tt{*}
-
-You can specify an asterisk (\tt*) to delete all visible
-objects. Objects whose class declarations are neither
-contained in nor used by the active entry block remain in
-working memory.
+  You can specify an asterisk (\tt*) to delete all visible
+  objects. Objects whose class declarations are neither contained in
+  nor used by the active entry block remain in working memory.
+\end{arguments}
 
 \Example
 
 The following command deletes all visible objects:
+
 \begin{quote}
 \begin{verbatim}
 RuleWorks> REMOVE *
 \end{verbatim}
 \end{quote}
+
 The following command deletes the objects whose identifiers
 are \verb|#3| and \verb|#4|:
+
 \begin{quote}
 \begin{verbatim}
 RuleWorks> REMOVE #3 #4
 \end{verbatim}
 \end{quote}
+
 Consider the following rule:
+
 \begin{quote}
 \begin{verbatim}
 (rule make-context-active
-      (context ^name <context-name> ^$ID <context-id>)
-      -->
-      (make active-context ^name <context-name>)
-      (remove <context-id>))
+    (context ^name <context-name> ^$ID <context-id>)
+  -->
+    (make active-context ^name <context-name>)
+    (remove <context-id>))
 \end{verbatim}
 \end{quote}
+
 The \tt{REMOVE} action deletes the object bound to the variable
 \verb|<CONTEXT-ID>|.
 
@@ -4760,43 +4759,38 @@ object can still be used.
 
 \Format
 
-\tt{REMOVE-EVERY} \it{class-name}\ldots
+\tt{REMOVE-EVERY} \it{class-name} \ldots
 
-\Argument
+\begin{arguments}
+\item[class-name]
 
-\it{class-name}
+  An expression that evaluates to a symbol names an object class. The
+  declaration of this class must be contained in or used by the active
+  entry block.
 
-An expression that evaluates to a symbol names an object class. The
-declaration of this class must be contained in or used by the active
-entry block.
-
-You can also use the symbol
-\verb|$ROOT|, to remove all visible objects.
+  You can also use the symbol
+  \verb|$ROOT| to remove all visible objects.
+\end{arguments}
 
 \Example
 
 The following example removes working-memory objects when the conflict
 set is empty:
 
+\begin{quote}
+\begin{verbatim}
 (on-empty
-
-(write |Sorry... Program error. No satisfied rules".| (crlf))
-
-(remove-every control-context)
-
-(remove-every local)
-
-(remove-every input-thing)
-
-(remove-every error)
-
-(remove-every part)
-
-(remove-every input-count)
-
-(remove-every total-cost)
-
-(quit 0))
+    (write |Sorry... Program error. No satisfied rules.| (crlf))
+    (remove-every control-context)
+    (remove-every local)
+    (remove-every input-thing)
+    (remove-every error)
+    (remove-every part)
+    (remove-every input-count)
+    (remove-every total-cost)
+    (quit 0))
+\end{verbatim}
+\end{quote}
 
 \subsection{\tt{RESTORESTATE}}
 
@@ -4821,22 +4815,26 @@ before the \tt{RESTORESTATE} action was executed.
 
 \tt{RESTORESTATE} \it{filespec}
 
-*Argument
+\begin{arguments}
+\item[filespec]
 
-filespec
-
-The file specification for a file previously produced by the
-SAVESTATE action or command. The action uses the contents of
-the file to restore the state of working memory and the
-conflict set. See Chapter 12 for restrictions on file names.
+  The file specification for a file previously produced by the
+  \tt{SAVESTATE} action or command. The action uses the contents of
+  the file to restore the state of working memory and the conflict
+  set. See Chapter~\ref{c:portability} for restrictions on file names.
+\end{arguments}
 
 \Example
 
-The following action clears and then restores the contents of
-working memory and the conflict set to the same state
-recorded in the file CONFIG.DAT.
+The following action clears and then restores the contents of working
+memory and the conflict set to the same state recorded in the file
+\tt{CONFIG.DAT}.
 
+\begin{quote}
+\begin{verbatim}
 (restorestate config.dat)
+\end{verbatim}
+\end{quote}
 
 \subsection{\tt{RETURN}}
 
@@ -4873,21 +4871,21 @@ working memory in exactly the state the callee left it.
 
 \tt{RETURN} [\it{value}]
 
-*Arguments
+\begin{arguments}
 
-value-expr
+\item[value-expr]
 
-The value returned by the entry block. This argument is
-optional; it can be any expression that evaluates to the
-structure (scalar or compound) and domain (integer, symbol,
-and so on) specified in the ENTRY-BLOCK declaration.
+  The value returned by the entry block. This argument is optional; it
+  can be any expression that evaluates to the structure (scalar or
+  compound) and domain (integer, symbol, and so on) specified in the
+  \tt{ENTRY-BLOCK} declaration.
 
-value
+\item[value]
 
-The value returned by the entry block. This argument is
-optional; it may be a constant or a call to the COMPOUND
-function. You cannot use any other functions or expressions
-at the command line.
+  The value returned by the entry block. This argument is optional; it
+  may be a constant or a call to the \tt{COMPOUND} function. You cannot use
+  any other functions or expressions at the command line.
+\end{arguments}
 
 \Example
 
@@ -4907,9 +4905,9 @@ value:
 
 \subsection{\tt{RJUST}}
 
-Causes the \tt{WRITE} action to right-justify output in a field of
-a specified width. This function is useful for writing a
-column of numbers with decimal positions aligned.
+Causes the \tt{WRITE} action to right-justify output in a field of a
+specified width. This function is useful for writing a column of
+numbers with decimal positions aligned.
 
 Note: The \tt{RJUST} function is valid only inside the \tt{WRITE}
 action. Calls to the \tt{RJUST} function can follow calls to the
@@ -4920,17 +4918,17 @@ being written.
 
 \tt{RJUST} \it{width}
 
-*Argument
+\begin{arguments}
 
-width
+\item[width]
 
-An integer expression (anything that evaluates to an integer)
-that indicates the width of the field in which output is to
-be placed. If the output being written requires more
-character positions than you specify for the field, the WRITE
-action behaves as if the RJUST function had not been
-specified. That is, the action inserts one space and then
-writes the output.
+  An integer expression (anything that evaluates to an integer) that
+  indicates the width of the field in which output is to be placed. If
+  the output being written requires more character positions than you
+  specify for the field, the \tt{WRITE} action behaves as if the
+  \tt{RJUST} function had not been specified. That is, the action
+  inserts one space and then writes the output.
+\end{arguments}
 
 \Example
 
@@ -4958,6 +4956,7 @@ The output is:
 \end{quote}  
 
 \subsection{\tt{RULE}}
+TODO
 
 Executes right-hand-side actions when left-hand-side
 conditions are met and the rule has been selected from the
@@ -4971,59 +4970,53 @@ conflict set.
 
 (action )... )
 
-*Arguments
+\begin{arguments}
+\item[rule-name]
 
-rule-name
+  A unique symbol that names the rule being created. The symbol cannot
+  be the name of another rule, a rule-group, a method, or a catcher
+  that already exists in the entry block.
 
-A unique symbol that names the rule being created. The symbol
-cannot be the name of another rule, a rule-group, a method,
-or a catcher that already exists in the entry block.
+\item[condition-element]
 
-condition-element
+  A specified pattern against which working memory objects can be
+  matched. Condition elements can be negative, can contain
+  conjunctions and disjunctions, and can bind variables that are used
+  in other condition elements and in actions on the right-hand side.
 
-A specified pattern against which working memory objects can
-be matched. Condition elements can be negative, can contain
-conjunctions and disjunctions, and can bind variables that
-are used in other condition elements and in actions on the
-right-hand side.
+  You can specify one or more condition elements. You cannot put a
+  negative CE first. See Chapter~\ref{c:conditionelements} for
+  information on CEs.
 
-You can specify one or more condition elements. You cannot
-put a negative CE first. See Chapter 3 for information on
-CEs.
+\item[action]
 
-action
-
-Any RHS action. You can specify one or more actions. See
-Chapter 4 for information on actions.
+  Any RHS action. You can specify one or more actions. See
+  Chapter~\ref{c:actions} for information on actions.
+\end{arguments}
 
 \Example
 
-The following rule, named CLOSE-INPUT-FILE:DO-IT, contains
-three CEs and three actions. The second CE binds a \verb|$ID|
-variable., \verb|<MY-INPUT-THING>|, which is deleted by the \tt{REMOVE}
-action. The third CE binds an attribute variable, \verb|<C>|, which
-is used in the \tt{WRITE} action.
+The following rule, named \tt{CLOSE-INPUT-FILE:DO-IT}, contains three
+CEs and three actions. The second CE binds a
+\verb|$ID| variable, \verb|<MY-INPUT-THING>|, which is deleted by the
+\tt{REMOVE} action. The third CE binds an attribute variable,
+\verb|<C>|, which is used in the \tt{WRITE} action.
+
 \begin{quote}
 \begin{verbatim}
 (rule close-input-file:do-it
-
-(active-context ^name close-input-file)
-
-(input-thing ^item END-OF-FILE ^$ID <my-input-thing> )
-
-(input-count ^count <c>)
-
--->
-
-(closefile infil)
-
-(remove <my-input-thing>)
-
-(write (crlf) |Read| (<c> - 1) |items from input.| (crlf)))
+    (active-context ^name close-input-file)
+    (input-thing ^item end-of-file ^$ID <my-input-thing> )
+    (input-count ^count <c>)
+  -->
+    (closefile infil)
+    (remove <my-input-thing>)
+    (write (crlf) |Read| (<c> - 1) |items from input.| (crlf)))
 \end{verbatim}
 \end{quote}
 
 \subsection{\tt{RULE-BLOCK}}
+TODO
 
 Names a collection of rules so that they can be shared among multiple
 entry blocks. Rule blocks may contain rules, catchers, and
@@ -5090,14 +5083,13 @@ declare a strategy, the default \tt{MEA} is used.
 
 \subsection{\tt{RULE-GROUP}}
 
-Names a collection of rules inside a single entry block or
-rule block. If you put each \tt{MEA} group in a separate rule
-group, you can then enable \tt{TRACE} for rule groups and see
-output for the \tt{MEA} groups without seeing each individual
-rule.
+Names a collection of rules inside a single entry block or rule
+block. If you put each \tt{MEA} group in a separate rule group, you
+can then enable \tt{TRACE} for rule groups and see output for the
+\tt{MEA} groups without seeing each individual rule.
 
-Rule groups may contain rules and catchers, but no
-declarations, no methods, and no \tt{ON-} constructs.
+Rule groups may contain rules and catchers, but no declarations, no
+methods, and no \tt{ON-} constructs.
 
 The rules in a rule group can match objects of classes declared in the
 containing block and objects of classes declared in a declaration
@@ -5109,13 +5101,13 @@ The group must be terminated with an \tt{END-GROUP} declaration.
 
 \tt{RULE-GROUP} \it{group-name}
 
-*Argument
+\begin{arguments}
+\item[group-name]
 
-group-name
-
-A symbol that names the group. This name must be distinct
-from the names of all other groups, rules, and catchers in
-the containing block.
+  A symbol that names the group. This name must be distinct from the
+  names of all other groups, rules, and catchers in the containing
+  block.
+\end{arguments}
 
 \subsection{\tt{RUN}}
 
@@ -5131,62 +5123,79 @@ RuleWorks command interpreter.
 
 \tt{RUN} [\it{integer}]
 
-*Argument
+\begin{arguments}
+\item[integer]
 
-integer
+  The number of global recognize-act cycles the run-time system is to
+  execute. This argument is optional. If you do not specify an
+  integer, the run-time system executes recognize-act cycles until no
+  rules are satisfied or until a \tt{RETURN} or \tt{QUIT} action, or a
+  breakpoint interrupts execution.
+\end{arguments}
 
-The number of global recognize-act cycles the run-time system is to
-execute. This argument is optional. If you do not specify an integer,
-the run-time system executes recognize-act cycles until no rules are
-satisfied or until a RETURN or QUIT action, or a breakpoint interrupts
-execution.
-
-Note: If a breakpoint interrupts program execution, the
-run-time system does not execute the number of recognize-act
-cycles indicated by the integer.
+\begin{note}
+  If a breakpoint interrupts program execution, the run-time
+  system does not execute the number of recognize-act cycles indicated
+  by the integer.
+\end{note}
 
 \Example
 
 The following command starts executing recognize-act cycles:
 
-RuleWorks> RUN
+\begin{quote}
+\begin{verbatim}
+RuleWorks> run
+\end{verbatim}
+\end{quote}
 
 The following command executes four recognize-act cycles:
 
-RuleWorks> RUN 4
+\begin{quote}
+\begin{verbatim}
+RuleWorks> run 4
+\end{verbatim}
+\end{quote}
 
 \subsection{\tt{SAVESTATE}}
 
-Copies to a file the state of working memory, the conflict
-set, the GENATOM and GENINT counter, and the INSTANCE-ID
-generator. You can later use the ADDSTATE or RESTORESTATE
-action or command to add to or overwrite the current memory
-with the contents of the file.
+Copies to a file the state of working memory, the conflict set, the
+\tt{GENATOM} and \tt{GENINT} counter, and the \tt{INSTANCE-ID}
+generator. You can later use the \tt{ADDSTATE} or \tt{RESTORESTATE}
+action or command to add to or overwrite the current memory with the
+contents of the file.
 
-Only objects that are visible to the active entry block are
-saved.
+Only objects that are visible to the active entry block are saved.
 
 \Format
 
-(SAVESTATE filespec )
+\tt{SAVESTATE} \it{filespec}
 
-*Argument
+\begin{arguments}
+\item[filespec]
 
-filespec
-
-The file specification for the file to which the state of
-working memory and the conflict set is to be copied.
+  The file specification for the file to which the state of working
+  memory and the conflict set is to be copied.
+\end{arguments}
 
 \Example
 
 The following action copies the state of working memory and
-the conflict set to the file CONFIG.DAT.
+the conflict set to the file \tt{CONFIG.DAT}.
 
+\begin{quote}
+\begin{verbatim}
 (savestate config.dat)
+\end{verbatim}
+\end{quote}
 
 The equivalent command is:
 
+\begin{quote}
+\begin{verbatim}
 RuleWorks> savestate config.dat
+\end{verbatim}
+\end{quote}
 
 \subsection{\tt{SHOW SPACE}}
 
@@ -5198,37 +5207,41 @@ have reached during this execution of the program.
 
 \Format
 
-SHOW SPACE
+\tt{SHOW SPACE}
 
-*Arguments(NONE)
+\Arguments
+
+None.
+
 \Example
 
-The following example shows the SHOWSPACE command:
+The following example shows the \tt{SHOW SPACE} command:
 
-RuleWorks> SHOW SPACE
-
+\begin{quote}
+\begin{verbatim}
+RuleWorks> show space
 WORKING-MEMORY OBJECTS SYMBOL TABLE ENTRIES
-
 Current number - 10 Current number - 97
-
-Current space used - 0.6 Kbytes Current space used - 4.4
-Kbytes
-
+Current space used - 0.6 Kbytes Current space used - 4.4 Kbytes
 Maximum number - 12 Maximum number - 97
-
-Maximum space used - 0.7 Kbytes Maximum space used - 4.4
-Kbytes
+Maximum space used - 0.7 Kbytes Maximum space used - 4.4 Kbytes
+\end{verbatim}
+\end{quote}
 
 \subsection{\tt{SHOW VERSION}}
+TODO
 
 Displays the current version of the RuleWorks compiler (and
 the copyright notice).
 
 \Format
 
-SHOW VERSION
+\tt{SHOW VERSION}
 
-*Arguments(NONE)
+\Arguments
+
+None.
+
 \Example
 
 The following
@@ -5242,291 +5255,254 @@ Rights Reserved.
 
 \subsection{\tt{SPECIALIZE}}
 
-Converts an instance of a parent class to an instance of a
-descendent class. The converted object's INSTANCE-ID does not
-change as a result of this action. You can also set or change
-any attributes belonging to the descendent class.
+Converts an instance of a parent class to an instance of a descendent
+class. The converted object's \tt{INSTANCE-ID} does not change as a
+result of this action. You can also set or change any attributes
+belonging to the descendent class.
 
-Note:  When you convert WMOs at the command interpreter
-prompt, the first argument to the SPECIALIZE command must be
-a constant. In contrast, when you convert WMOs in a rule, the
-first argument to the SPECIALIZE action can be a variable or
-a call to the GET function.
+\begin{note}
+  When you convert WMOs at the command interpreter prompt, the first
+  argument to the \tt{SPECIALIZE} command must be a constant. In
+  contrast, when you convert WMOs in a rule, the first argument to the
+  \tt{SPECIALIZE} action can be a variable or a call to the \tt{GET}
+  function.
+\end{note}
 
 \Format (for action)
 
-(SPECIALIZE ID-variable new-class-name-expr
-
-[ {attribute-name-expr value-expr}... ] )
+\tt{SPECIALIZE} \it{ID-variable} \it{new-class-name-expr}
+[\{\it{attribute-name-expr} \it{value-expr}\} \ldots]
 
 \Format (for command)
 
-SPECIALIZE instance-id new-class-name
+\tt{SPECIALIZE} \it{instance-id} \it{new-class-name}
+[\{\it{attribute-name} \it{value}\} \ldots]
 
-[ {attribute-name value}... ]
+\begin{arguments}
+\item[ID-variable]
 
-*Arguments
+  An expression of type INSTANCE-ID, indicating the object to be
+  specialized. This argument can be used in rules only.
 
-ID-variable
+\item[new-class-name-expr]
 
-An expression of type INSTANCE-ID, indicating the object to
-be specialized. This argument can be used in rules only.
+  An expression that evaluates to a symbol that names an object class
+  that inherits from the current class of the object being
+  specialized.
 
-new-class-name-expr
+\item[attribute-name-expr]
 
-An expression that evaluates to a symbol that names an object
-class that inherits from the current class of the object
-being specialized.
+  A symbol or bound variable that evaluates to an attribute declared
+  in or inherited by the new class. This argument is optional; if you
+  do specify an attribute, you must also specify a value for it.
 
-attribute-name-expr
+  You can specify any number of attribute-value pairs.
 
-A symbol or bound variable that evaluates to an attribute
-declared in or inherited by the new class. This argument is
-optional; if you do specify an attribute, you must also
-specify a value for it.
+\item[value-expr]
 
-You can specify any number of attribute-value pairs.
+  Any valid RuleWorks expression that evaluates to the same structure
+  as the attribute.
 
-value-expr
+\item[instance-id]
 
-Any valid RuleWorks expression that evaluates to the same
-structure as the attribute.
+  A constant of type \tt{INSTANCE-ID}, indicating the object to be
+  specialized. The object must be visible to be active entry
+  block. This argument can be used only at the command interpreter
+  level.
 
-instance-id
+\item[new-class-name]
 
-A constant of type INSTANCE-ID, indicating the object to be
-specialized. The object must be visible to be active entry
-block. This argument can be used only at the command
-interpreter level.
+  A symbol that names an object class that inherits from the current
+  class of the object being specialized.
 
-new-class-name
+\item[attribute-name]
 
-A symbol that names an object class that inherits from the
-current class of the object being specialized.
+  A symbol that names an attribute declared in or inherited by the new
+  class. This argument is optional; if you do specify an attribute,
+  you must also specify a value for it.
 
-attribute-name
+  You can specify any number of attribute-value pairs.
 
-A symbol that names an attribute declared in or inherited by
-the new class. This argument is optional; if you do specify
-an attribute, you must also specify a value for it.
+\item[value]
 
-You can specify any number of attribute-value pairs.
+  A value that has the same structure as the attribute.
+\end{arguments}
 
-value
+\ReturnValue
 
-A value that has the same structure as the attribute.
-
-*Return Value
-
-The SPECIALIZE action returns the INSTANCE-ID atom that
+The \tt{SPECIALIZE} action returns the \tt{INSTANCE-ID} atom that
 identifies the converted object.
 
 \Example
 
-The following rule shows one possible use of the SPECIALIZE
+The following rule shows one possible use of the \tt{SPECIALIZE}
 action:
+
 \begin{quote}
 \begin{verbatim}
-(RULE animal-now-identified-as-a-zebra
-
-; if current class is the generic class ANIMAL
-
-(animal ^$ID <My-animal> ^$object-class animal ^name <n>)
-
-(identification ^name <n> ^is-a zebra)
-
--->
-
-(SPECIALIZE <My-animal> zebra; new class is ZEBRA
-
-^inter-breeds-with (compound horse donkey)))
+(rule animal-now-identified-as-a-zebra
+    ; if current class is the generic class animal
+    (animal ^$ID <my-animal> ^$object-class animal ^name <n>)
+    (identification ^name <n> ^is-a zebra)
+  -->
+    (specialize <My-animal> zebra; new class is zebra
+        ^inter-breeds-with (compound horse donkey)))
 \end{verbatim}
 \end{quote}
 
 \subsection{\tt{SQL-ATTACH}}
 
-Specifies the database of interest by executing a DECLARE
-SCHEMA statement. You can specify the source of the schema
-either by providing the database filespec itself or by
-providing a pathname to the CDD schema definition.
+Specifies the database of interest by executing a \tt{DECLARE SCHEMA}
+statement. You can specify the source of the schema either by
+providing the database filespec itself or by providing a pathname to
+the CDD schema definition.
 
-Note: that the actual attachment to the database usually does
-not occur until the first executable SQL statement after this
-action is processed.
-
-
+\begin{note}
+  The actual attachment to the database usually does not occur until
+  the first executable SQL statement after this action is processed.
+\end{note}
 
 \Format
 
-SQL-ATTACH database-spec ( DBKEY-scope ]
+\tt{SQL-ATTACH} \it{database-spec} [ \it{DBKEY-scope} ]
 
+\begin{arguments}
+\item[database-spec]
 
+  This argument must be either \tt{FILENAME} \it{db-filespec} or
+  \tt{PATHNAME} \it{db-pathname}. The keyword \tt{FILENAME} may be
+  omitted; the keyword \tt{PATHNAME} is required.
 
-*Arguments
+  A logical name may be used for all or part of the database filespec
+  or for the CDD pathname.
 
-Database-spec
+\item[DBKEY-scope]
 
-This argument must be either FILENAME db-filespec or PATHNAME
-db-pathname. The keyword FILENAME may be omitted; the keyword
-PATHNAME is required.
-
-A logical name may be used for all or part of the database
-filespec or for the CDD pathname.
-
-DBKEY-scope
-
-A keyword that specifies the duration of validity of database
-key values, either TRANSACTION or ATTACH. ATTACH scoping
-means that a database key value is valid for the entire time
-your program is attached to a given database, rather than
-just for the duration of a single transaction. TRANSACTION
-scoping is the default.
-
-
+  A keyword that specifies the duration of validity of database key
+  values, either \tt{TRANSACTION} or \tt{ATTACH}. \tt{ATTACH} scoping
+  means that a database key value is valid for the entire time your
+  program is attached to a given database, rather than just for the
+  duration of a single transaction. \tt{TRANSACTION} scoping is the
+  default.
+\end{arguments}
 
 \Example
 
-The following example uses the FILENAME method. \verb|MY_DB| is a
+The following example uses the \tt{FILENAME} method. \verb|MY_DB| is a
 logical name pointing to the complete filespec for the
 database.
+
 \begin{quote}
 \begin{verbatim}
-(SQL-ATTACH FILENAME MY_DB)
+(sql-attach filename my_db)
 \end{verbatim}
 \end{quote}
 
-The next example shows the same attachment except that the
-scope or duration of DBKEY validity is the total time your
-program is attached to the database, rather than the duration
-of the transaction as in the previous example (by default).
+The next example shows the same attachment except that the scope or
+duration of \tt{DBKEY} validity is the total time your program is attached
+to the database, rather than the duration of the transaction as in the
+previous example (by default).
+
 \begin{quote}
 \begin{verbatim}
-(SQL-ATTACH FILENAME MY_DB ATTACH )
+(sql-attach filename my_db attach)
 \end{verbatim}
 \end{quote}
 
 \subsection{\tt{SQL-COMMIT}}
 
-Completes the current SQL transaction and makes permanent any
-changes made to the database during the transaction. This
-action executes a COMMIT statement.
-
-
+Completes the current SQL transaction and makes permanent any changes
+made to the database during the transaction. This action executes a
+\tt{COMMIT} statement.
 
 \Format
 
-SQL-COMMIT
+\tt{SQL-COMMIT}
 
+\Arguments
 
-
-*Arguments
-
-None
-
-
+None.
 
 \subsection{\tt{SQL-DELETE}}
 
-Deletes all or selected records from a specified database
-table, by executing a DELETE FROM statement. This action does
-not remove any RuleWorks objects; it is up to you to use
-REMOVE actions to do that.
+Deletes all or selected records from a specified database table, by
+executing a \tt{DELETE FROM} statement. This action does not remove
+any RuleWorks objects; it is up to you to use \tt{REMOVE} actions to
+do that.
 
-The SQL-DELETE action can be executed only within the context
-of a READ WRITE transaction, which you must explicitly start
-with an SQL-START action.
-
-
+The \tt{SQL-DELETE} action can be executed only within the context
+of a \tt{READ WRITE} transaction, which you must explicitly start
+with an \tt{SQL-START} action.
 
 \Format
 
-SQL-DELETE table-name [WHERE-clause]
+\tt{SQL-DELETE} \it{table-name} [\it{WHERE-clause}]
 
+\begin{arguments}
 
+\item[table-name]
 
-*Arguments
+  Specifies the database table from which rows are to be deleted.
 
-table-name
+\item[WHERE-clause]
 
-Specifies the database table from which rows are to be
-deleted.
-
-WHERE-clause
-
-Optionally specifies which records are to be deleted within
-the target table. If the where-clause is omitted, the default
-is to delete all records in the table specified in the first
-argument.
-
-
+  Optionally specifies which records are to be deleted within the
+  target table. If the \it{WHERE-clause} is omitted, the default is to
+  delete all records in the table specified in the first argument.
+\end{arguments}
 
 \Example
 
 The first example deletes all records in table W1:
 
-
-
-(SQL-DELETE W1)
-
-
+\begin{quote}
+\begin{verbatim}
+(sql-delete w1)
+\end{verbatim}
+\end{quote}
 
 The next example deletes only those records in table W1 that
 satisfy the WHERE clause:
 
+\begin{quote}
+\begin{verbatim}
+(sql-delete w1 |WHERE fld1 = 10 AND fld2 = 'some text'|)
+\end{verbatim}
+\end{quote}
 
-
-(SQL-DELETE W1 | WHERE fld1 = 10 AND fld2 = 'some text' | )
-
-
-
-The records deleted are those with field fld1 equal to the
-value 10, and field fld2 equal to the string 'some text'. All
+The records deleted are those with field \verb|fld1| equal to the
+value 10, and field \verb|fld2| equal to the string 'some text'. All
 other records in W1 are unaffected.
 
 \subsection{\tt{SQL-DETACH}}
 
-Detaches your program from any database previously attached
-by an SQL-ATTACH action. This action executes a FINISH
-statement and a COMMIT statement on the current transaction,
-if any.
-
-
+Detaches your program from any database previously attached by an
+\tt{SQL-ATTACH} action. This action executes a \tt{FINISH} statement and a
+COMMIT statement on the current transaction, if any.
 
 \Format
 
-SQL-DETACH
+\tt{SQL-DETACH}
 
-
-
-*Arguments
+\Arguments
 
 None.
 
-
-
 \subsection{\tt{SQL-FETCH-EACH}}
+TODO
 
-For each selected database record, binds field value(s) to
-specified RuleWorks variable(s) and then performs one or more
-RHS actions. This action executes a SELECT statement.
+For each selected database record, binds field value(s) to specified
+RuleWorks variable(s) and then performs one or more RHS actions. This
+action executes a \tt{SELECT} statement.
 
-You can create or change instances of any OBJECT-CLASS in the
-RHS actions performed by the SQL-FETCH-EACH action. The
-OBJECT-CLASS does not have to match the database table name,
-nor do the attribute names have to match the database field
-names.
-
-
+You can create or change instances of any \tt{OBJECT-CLASS} in the RHS
+actions performed by the \tt{SQL-FETCH-EACH} action. The
+\tt{OBJECT-CLASS} does not have to match the database table name, nor
+do the attribute names have to match the database field names.
 
 \Format
 
-SQL-FETCH-EACH <var>... (select-expr)
-
-(RHS-action)...
-
-
-
-*Arguments
+\tt{SQL-FETCH-EACH} \verb|<|\it{var}\verb|>| \ldots \verb|(|\tt{select-expr}\verb|)| \verb|(|\it{RHS-action}\verb|)| \ldots
 
 <var>
 
@@ -5555,8 +5531,6 @@ SQL-FETCH-EACH action and variables specified in the first
 argument. If these actions bind any variables, those bindings
 are maintained after the SQL-FETCH-EACH action is executed.
 
-
-
 \Example
 
 The first example fetches records from database table \verb|tbl_1|,
@@ -5569,12 +5543,9 @@ expression.
 
 \begin{quote}
 \begin{verbatim}
-(SQL-FETCH-EACH <v1> <v2> (SELECT fld1, fld2 FROM tbl_1 WHERE
-fld3 = 1)
-
-(MAKE w1 ^a1 <v2> ^a2 tbl_1)
-
-(MAKE w2 ^a3 <v1> ^a4 (<v1> + <v2>)))
+(sql-fetch-each <v1> <v2> (SELECT fld1, fld2 FROM tbl_1 WHERE fld3 = 1)
+    (make w1 ^a1 <v2> ^a2 tbl_1)
+    (make w2 ^a3 <v1> ^a4 (<v1> + <v2>)))
 \end{verbatim}
 \end{quote}
 
@@ -5586,12 +5557,9 @@ around the constant parts of the select expression allow the
 compiler to generate more efficient code.
 \begin{quote}
 \begin{verbatim}
-(SQL-FETCH <v1> <v2> (|SELECT * FROM| <table-name> |WHERE
-fld3= |<val>)
-
-(MAKE w1 ^a1 <v2> ^a2 tbl_1)
-
-(MAKE w2 ^a3 <v1> ^a4 (<v1> + <v2>)))
+(sql-fetch <v1> <v2> (|SELECT * FROM| <table-name> |WHERE fld3= |<val>)
+    (make w1 ^a1 <v2> ^a2 tbl_1)
+    (make w2 ^a3 <v1> ^a4 (<v1> + <v2>)))
 \end{verbatim}
 \end{quote}
 
@@ -5599,11 +5567,8 @@ In this example, all the fields in the database are selected,
 because of the wildcard (*). However, only the first two
 fetched are used. Any extra field values are ignored.0
 
-
-
-
-
 \subsection{\tt{SQL-FETCH-AS-OBJECT}}
+TODO
 
 Makes WMOs from selected database records by executing a
 SELECT statement.
@@ -5755,6 +5720,7 @@ This example shows the previous SQL-FETCH-AS-OBJECT action
 used as an argument to the BIND action.
 
 \subsection{\tt{SQL-INSERT}}
+TODO
 
 Stores new records in the specified database table by
 executing an INSERT statement. The fields to be set, and
@@ -5819,6 +5785,7 @@ Also, parentheses that are passed to SQL must be enclosed in
 vertical bars.
 
 \subsection{\tt{SQL-INSERT-FROM-OBJECT}}
+TODO
 
 Stores the contents of a specified object in a new database
 record by executing an INSERT statement. The record is
@@ -5861,23 +5828,20 @@ object or leave it in working memory.
 
 \subsection{\tt{SQL-ROLLBACK}}
 
-Undoes any changes to the database made during the current
-transaction and completes the transaction. This action
-executes a ROLLBACK statement.
-
-
+Undoes any changes to the database made during the current transaction
+and completes the transaction. This action executes a \tt{ROLLBACK}
+statement.
 
 \Format
 
-SQL-ROLLBACK
+\tt{SQL-ROLLBACK}
 
-
-
-*Arguments
+\Arguments
 
 None.
 
 \subsection{\tt{SQL-START}}
+TODO
 
 Executes a SET TRANSACTION statement to start a transaction
 with the specified options. These options can include a READ
@@ -5932,6 +5896,7 @@ The vertical bars in this example are not required, but they
 do make the action more efficient.
 
 \subsection{\tt{SQL-UPDATE}}
+TODO
 
 Modifies the contents of selected database records, where the
 fields to be modified and their new values are specified in
@@ -6007,24 +5972,21 @@ RHS of the rule).
 \end{quote}
 
 \subsection{\tt{SQL-UPDATE-FROM-OBJECT}}
+TODO
 
-Uses the attribute values of an object to modify
-corresponding data fields in one or more existing database
-records. The values of the object's \verb|^$ID| and \verb|^$INSTANCE-OF|
-attributes are not written to the database, even if the
-database explicitly provides fields with those names.
+Uses the attribute values of an object to modify corresponding data
+fields in one or more existing database records. The values of the
+object's \verb|^$ID| and \verb|^$INSTANCE-OF| attributes are not
+written to the database, even if the database explicitly provides
+fields with those names.
 
 This action can only be executed within the context of a READ
 WRITE transaction, which you must explicitly start with an
 SQL~START action.
 
-
-
 \Format
 
 SQL-UPDATE-FROM-OBJECT \verb|<$ID-variabl>| [where-clause ]
-
-
 
 *Arguments
 
@@ -6039,8 +6001,6 @@ WHERE-clause
 Optionally identifies which database records are to be
 modified using the object attribute values. If it is omitted,
 the default action is to update all records.
-
-
 
 \Example
 
@@ -6089,34 +6049,36 @@ records have field al set to the newly-computed value of the
 \subsection{\tt{SUBCOMPOUND}}
 
 Creates a new compound value that is a subrange of an existing
-compound value. \tt{SUBCOMPOUND} is a stateless function and can be used on
-the LHS or RHS.
+compound value. \tt{SUBCOMPOUND} is a stateless function and can be
+used on the LHS or RHS.
 
 \Format
 
-(SUBCOMPOUND compound-val index-1 index-2 )
+\tt{SUBCOMPOUND} \it{compound-val} \it{index-1} \it{index-2}
 
-*Arguments
+\begin{arguments}
+\item[compound-val]
 
-compound-val
+  The compound value from which a subrange is returned. This argument
+  can be a bound compound variable or a function that returns a
+  compound value.
 
-The compound value from which a subrange is returned. This
-argument can be a bound compound variable or a function that
-returns a compound value.
+\item[index-1 index-2]
 
-index-1 index-2
+  The positions of the first and last elements in the subrange,
+  respectively. These arguments can be either of the following:
+  
+  Anything that evaluates to an integer greater than zero.
 
-The positions of the first and last elements in the subrange,
-respectively. These arguments can be either of the following:
+  The special symbol \verb|$LAST|.
 
-*Anything that evaluates to an integer greater than zero
-*The special symbol \verb|$LAST|
+  The \it{index-1} argument must be less than or equal to the
+  \it{index-2} argument.
 
-The index-1 argument must be less than or equal to the
-index-2 argument.
-
-Note: that \verb|$LAST| may not be used as part of an expression; it
-must stand alone.
+  Note that
+  \verb|$LAST| may not be used as part of an expression; it must stand
+  alone.
+\end{arguments}
 
 \Example
 
@@ -6125,80 +6087,76 @@ the first element of a compound value:
 \begin{quote}
 \begin{verbatim}
 (rule pop-stack
-
-(agenda ^$ID <my-agenda> ^tasks <tasks> )
-
--->
-
-(modify <my-agenda> ^tasks (SUBCOMPOUND <tasks> 2 $LAST)))
+    (agenda ^$ID <my-agenda> ^tasks <tasks>)
+  -->
+    (modify <my-agenda> ^tasks (subcompound <tasks> 2 $last)))
 \end{verbatim}
 \end{quote}
 
 \subsection{\tt{SUBSYMBOL}}
 
-Creates a new symbol value that is a fragment of an existing
-symbol value. \tt{SUBSYMBOL} is a stateless function and can be
-used on either the LHS or RHS.
+Creates a new symbol value that is a fragment of an existing symbol
+value. \tt{SUBSYMBOL} is a stateless function and can be used on
+either the LHS or RHS.
 
 \Format
 
 \tt{SUBSYMBOL} \it{symbol-val} \it{index-1} \it{index-2}
 
-\Arguments
+\begin{arguments}
+\item[symbol-val]
 
-\it{symbol-val}
+  The symbol value from which a fragment is returned. This argument
+  can be a bound symbol variable or a function that returns a symbol
+  value.
 
-The symbol value from which a fragment is returned. This
-argument can be a bound symbol variable or a function that
-returns a symbol value.
+\item[index-1 index-2]
 
-\it{index-1} \it{index-2}
+  The positions of the first and last characters in the return value,
+  respectively. These arguments can be either of the following:
 
-The positions of the first and last characters in the return
-value, respectively. These arguments can be either of the
-following:
+  Anything that evaluates to an integer greater than or equal to one
 
-*Anything that evaluates to an integer greater than or
-equal to one
-*The special symbol \verb|$LAST|
+  The special symbol \verb|$LAST|
 
-The index-1 argument must be less than or equal to the
-index-2 argument.
+  The \it{index-1} argument must be less than or equal to the
+  \it{index-2} argument.
+\end{arguments}
 
 Note that \verb|$LAST| may not be used as part of an expression; it
 must stand alone.
 
 \ReturnValue
 
-A symbol that contains the specified fragment of the input
-symbol. If the fragment is specified incorrectly or does not
-exist, the function returns the empty symbol value, 11.
+A symbol that contains the specified fragment of the input symbol. If
+the fragment is specified incorrectly or does not exist, the function
+returns the empty symbol value, 11.
 
 \subsection{\tt{SYMBOL}}
 
-Converts any value into a symbol. \tt{SYMBOL} is a stateless
-function and can be used on either the LHS or RHS.
+Converts any value into a symbol. \tt{SYMBOL} is a stateless function
+and can be used on either the LHS or RHS.
 
 \Format
 
 \tt{SYMBOL} \it{value-expr}
 
-\Argument
+\begin{arguments}
+\item[value-expr]
 
-\it{value-expr}
-
-An expression that evaluates to the value to be converted.
+  An expression that evaluates to the value to be converted.
+\end{arguments}
 
 \ReturnValue
 
-The symbolic atom that corresponds to the specified value. In
-other words, the atom of type \tt{SYMBOL} whose print form is
-identical to the print form of the argument.
+The symbolic atom that corresponds to the specified value. In other
+words, the atom of type \tt{SYMBOL} whose print form is identical to
+the print form of the argument.
 
-The print form of a compound value includes a space between
-the elements, but does not include the function name \tt{COMPOUND}
-or its parentheses. If the compound is too long to fit in a
-symbol, it is truncated.
+The print form of a compound value includes a space between the
+elements, but does not include the function name \tt{COMPOUND} or its
+parentheses. If the compound is too long to fit in a symbol, it is
+truncated.
 
 \subsection{\tt{SYMBOL-LENGTH}}
 
@@ -6212,40 +6170,39 @@ elements in a compound value.)
 
 \tt{SYMBOL-LENGTH} \it{symbol-val}
 
-\Argument
+\begin{arguments}
+\item[symbol-val]
 
-\it{symbol-val}
-
-The symbolic value to be measured. This argument can be a
-bound symbolic variable or a function that returns a symbolic
-value.
+  The symbolic value to be measured. This argument can be a bound
+  symbolic variable or a function that returns a symbolic value.
+\end{arguments}
 
 \ReturnValue
 
-An integer that specifies the number of characters in the
-symbol.
+An integer that specifies the number of characters in the symbol.
 
 \subsection{\tt{TABTO}}
 
 Causes the \tt{WRITE} action to start writing output in a specified
 column.
 
-Note: The \tt{TABTO} function is valid only inside the \tt{WRITE}
-action.
+\begin{note}
+  The \tt{TABTO} function is valid only inside the \tt{WRITE} action.
+\end{note}
 
 \Format
 
 \tt{TABTO} \it{column}
 
-\Argument
+\begin{arguments}
+\item[column]
 
-\it{column}
-
-An integer expression that indicates the column in which the
-\tt{WRITE} action is to start writing output. If you specify a column
-that is to the left of the last column in which output is written, the
-\tt{WRITE} action writes the output on a new line, starting at the
-specified column.
+  An integer expression that indicates the column in which the
+  \tt{WRITE} action is to start writing output. If you specify a
+  column that is to the left of the last column in which output is
+  written, the \tt{WRITE} action writes the output on a new line,
+  starting at the specified column.
+\end{arguments}
 
 \Example
 
@@ -6253,9 +6210,10 @@ The following \tt{WRITE} action displays the headers of three
 columns:
 \begin{quote}
 \begin{verbatim}
-(write (crlf) (tabto 10) number
-       (tabto 25) amount
-       (tabto 40) date)
+(write (crlf) 
+    (tabto 10) number
+    (tabto 25) amount
+    (tabto 40) date)
 \end{verbatim}
 \end{quote}
      
@@ -6267,39 +6225,32 @@ The output is:
 \end{quote}
 
 \subsection{\tt{TRACE}}
+TODO
 
-Displays or changes the run-time system's trace setting,
-which controls the amount of information the system displays
-while executing a program.
+Displays or changes the run-time system's trace setting, which
+controls the amount of information the system displays while executing
+a program.
 
-Note: The TRACE action in source code is effective only when the entry
-block that contains it was compiled with the DEBUG qualifier set to
-YES or MAYBE.
+\begin{note}
+  The \tt{TRACE} action in source code is effective only when the entry
+  block that contains it was compiled with the Debug qualifier set to
+  \tt{YES} or \tt{MAYBE}.
+\end{note}
 
 \Format
 
-TRACE
+\tt{TRACE} [\tt{ON} \it{trace-name} \ldots \tt{OFF} \tt{*}]
 
-[
+\begin{arguments}
+\item[trace-name]
 
-ON trace-name...
+  The name of a trace setting, which are shown in the table, Trace
+  Settings. You can supply one or more names.
 
-OFF *
+\item[*]
 
-]
-
-*Arguments
-
-trace-name
-
-The name of a trace setting, which are shown in the table,
-Trace Settings. You can supply one or more names.
-
-*
-
-All trace settings shown in the table, Trace Settings.
-
-Table 28. Trace Settings
+  All trace settings shown in the following table.
+\end{arguments}
 
 Name  Information Displayed
 
@@ -6320,44 +6271,47 @@ CS  Instantiations into and out of the conflict set
 
 PM  Rules into and out of program memory
 
-
-
-
-
 \Example
 
 The following command displays the current trace level:
 
-RuleWorks> TRACE
-
+\begin{quote}
+\begin{verbatim}
+RuleWorks> trace
 ENTRY-BLOCK RULE-GROUP RULE WM
+\end{verbatim}
+ 
+\end{quote}
 
 The following commands change and redisplay the trace
 setting:
 
-RuleWorks> TRACE OFF RG RULE
-
-RuleWorks> TRACE
-
+\begin{quote}
+\begin{verbatim}
+RuleWorks> trace off rg rule
+RuleWorks> trace
 ENTRY-BLOCK WM
+\end{verbatim}
+\end{quote}  
 
 For examples of trace output, see Chapter 9.9.
 
 \subsection{\tt{WBREAK}}
+TODO
 
 Controls breakpoints on WMOs that match a specified pattern.
 
-When used with no arguments, the command displays a numbered
-list of the object patterns that have breakpoints set. When
-used with the \tt{ON} and \tt{OFF} keywords, respectively, \tt{WBREAK} sets
-and clears breakpoints for object patterns.
+When used with no arguments, the command displays a numbered list of
+the object patterns that have breakpoints set. When used with the
+\tt{ON} and \tt{OFF} keywords, respectively, \tt{WBREAK} sets and
+clears breakpoints for object patterns.
 
-Any rule that makes, copies, modifies, specializes, or
-removes an object that matches a pattern triggers the
-breakpoint on that pattern. When the run-time system
-encounters a breakpoint on an object pattern, it completes
-the current recognize-act cycle and displays messages in the
-format below, and invokes the command interpreter:
+Any rule that makes, copies, modifies, specializes, or removes an
+object that matches a pattern triggers the breakpoint on that
+pattern. When the run-time system encounters a breakpoint on an object
+pattern, it completes the current recognize-act cycle and displays
+messages in the format below, and invokes the command interpreter:
+
 \begin{quote}
 \begin{verbatim}
 %RUL-I-WBREAK, WBREAK encountered on class-name #instance-id
@@ -6367,39 +6321,39 @@ format below, and invokes the command interpreter:
 
 \Format
 
-\tt{WBREAK} [ \tt{ON} \it{object pattern} \tt{OFF} \{ \it{object-pattern} \it{number} \tt* \} ]
+\tt{WBREAK} [ \tt{ON} \it{object pattern} \tt{OFF} \{
+\it{object-pattern} \it{number} \tt* \} ]
 
-\Arguments
+\begin{arguments}
+\item[\tt{ON}]
 
-\tt{ON}
+  Sets a new breakpoint on an object pattern.
 
-Sets a new breakpoint on an object pattern.
+\item[\tt{OFF}]
 
-\tt{OFF}
+  Clears the existing breakpoint on an object pattern.
 
-Clears the existing breakpoint on an object pattern.
+\item[object-pattern]
 
-\it{object-pattern}
+  An expression, similar to a CE, that defines which objects cause a
+  break. The object pattern must include the name of an object class
+  that is visible to the active entry block, and may include any
+  number of attribute-value tests.
 
-An expression, similar to a CE, that defines which objects
-cause a break. The object pattern must include the name of an
-object class that is visible to the active entry block, and
-may include any number of attribute-value tests.
+  If the class name in the object pattern has inheriting subclasses,
+  objects of those subclasses also match the pattern.
 
-If the class name in the object pattern has inheriting
-subclasses, objects of those subclasses also match the
-pattern.
+\item[number]
 
-\it{number}
+  An integer corresponding to an object pattern that currently has a
+  breakpoint set. You get a list of integers and their patterns when
+  you give the \tt{WBREAK} command with no arguments.
 
-An integer corresponding to an object pattern that currently
-has a breakpoint set. You get a list of integers and their
-patterns when you give the \tt{WBREAK} command with no arguments.
+\item[\tt{*}]
 
-\tt{*}
-
-You can use an asterisk (star) with the \tt{OFF} keyword to mean
-``clear all breakpoints on WMOs.''
+  You can use an asterisk (star) with the \tt{OFF} keyword to mean
+  ``clear all breakpoints on WMOs.''
+\end{arguments}
 
 \Example
 
@@ -6467,122 +6421,112 @@ The example below illustrates a simple relational expression in a
      
 \subsection{\tt{WM}}
 
-Displays the objects whose INSTANCE-IDs are specified. The
-output includes the following information about each object:
+Displays the objects whose \tt{INSTANCE-ID}s are specified. The output
+includes the following information about each object:
 
-·  Its INSTANCE-ID
+\begin{itemize}
+\item Its \tt{INSTANCE-ID}.
 
-·  The name of the construct that last modified the object
-(for example, a rule or ON- clause). If you last modified the
-object at the interpreter prompt, the construct name is the
-symbol RUL.
+\item The name of the construct that last modified the object (for
+  example, a rule or \tt{ON-} clause). If you last modified the object
+  at the interpreter prompt, the construct name is the symbol \tt{RUL}.
 
-·  Its attributes' names and their values
+\item Its attributes' names and their values.
 
-Scalar attributes whose value is NIL, and compound attributes
-whose value is (COMPOUND), are not displayed unless you have
-declared a DEFAULT value for the attribute.
+\item Scalar attributes whose value is \tt{NIL}, and compound attributes
+  whose value is \tt{(COMPOUND)}, are not displayed unless you have
+  declared a \tt{DEFAULT} value for the attribute.
+\end{itemize}
 
 The system displays this information in the following format:
 
-\verb|#|instance-id [block-name~rule-name] (class-name attribute-1
-value-1 attribute-2 value-2) ...
+\verb|#|\it{instance-id} \verb|[|\it{block-name/rule-name}\verb|]| \verb|(|\it{class-name} \it{attribute-1} \it{value-1} \it{attribute-2} \it{value-2} \ldots\verb|)|
 
 \Format
 
-WM [ instance-id ]...
+\tt{WM} [\it{instance-id}] \ldots
 
-*Arguments
+\begin{arguments}
+\item[instance-id]
 
-instance-id
+  An \tt{INSTANCE-ID} atom that identifies an object that the command
+  is to display. You can specify one or more \tt{INSTANCE-ID}s.
 
-An INSTANCE-ID atom that identifies an object that the
-command is to display. You can specify one or more
-INSTANCE-IDs.
-
-The Argument is optional. If you do not specify any
-INSTANCE-IDs, the command displays all the visible WMOs.
+  The argument is optional. If you do not specify any \tt{INSTANCE-ID}s,
+  the command displays all the visible WMOs.
+\end{arguments}
 
 \Example
 
-The following command displays the objects whose identifiers
-are \verb|#3| and \verb|#4|:
+The following command displays the objects whose identifiers are
+\verb|#3| and \verb|#4|:
 
 \begin{quote}
 \begin{verbatim}
-RuleWorks> WM #3 #4
+RuleWorks> wm #3 #4
 \end{verbatim}
 \end{quote}
-???
-
-???
 
 \subsection{\tt{WMHISTORY}}
 
-Displays the history of a specified object, that is, which
-rules set the attribute values. You must specify the
-INSTANCE-ID of the desired object; you may also specify a
-particular attribute.
+Displays the history of a specified object, that is, which rules set
+the attribute values. You must specify the \tt{INSTANCE-ID} of the desired
+object; you may also specify a particular attribute.
 
-When the WMHISTORY command displays an entire object, the
+When the \tt{WMHISTORY} command displays an entire object, the
 output includes the following information:
+\begin{itemize}
+\item \tt{INSTANCE-ID}
+\item Name of the rule that last modified the object
+\item Object class name
+\item Name of the rule that originally created the object
+\item Name and value of each attribute
+\item Name of the rule that set the current value of each attribute
+\end{itemize}
 
-·  INSTANCE-ID
-
-·  Name of the rule that last modified the object
-
-·  Object class name
-
-·  Name of the rule that originally created the object
-
-·  Name and value of each attribute
-
-·  Name of the rule that set the current value of each
-attribute
-
-Scalar attributes whose value is NIL, and compound attributes
-whose value is (COMPOUND), are not displayed unless you have
-declared a DEFAULT value for the attribute.
+Scalar attributes whose value is \tt{NIL}, and compound attributes whose
+value is \tt{(COMPOUND)}, are not displayed unless you have declared a
+\tt{DEFAULT} value for the attribute.
 
 The system displays this information in the following format:
 
-\verb|#|instance-id [rule-name-0] (class-name [rule-name] { \ct attr-1
-value-1 [rule-name-1] } ...
+\verb|#|\it{instance-id} \verb|[|\it{rule-name-0}\verb|]| \verb|(|\it{class-name} \verb|[|rule-name\verb|]| \{ \ct\it{attr-1} \it{value-1} \verb|[|\it{rule-name-1}\verb|]|\} \ldots
 
-When the WMHISTORY command displays a single attribute, the
+When the \tt{WMHISTORY} command displays a single attribute, the
 output includes the following information:
 
-·  INSTANCE-ID
-
-·  Name of the rule that last modified the object
-
-·  Name and value of the specified attribute
-
-·  Name of the rule that set the current value of the
-specified attribute
+\begin{itemize}
+\item \tt{INSTANCE-ID}
+\item Name of the rule that last modified the object
+\item Name and value of the specified attribute
+\item Name of the rule that set the current value of the specified
+  attribute
+\end{itemize}
 
 The system displays this information in the following format:
 
-\verb|#|INSTANCE-ID [rule-name-0] \ct attribute value [rule-name-n]
+\verb|#|\it{instance-id} \verb|[|\it{rule-name-0}\verb|]| \ct\it{attribute} \it{value} \verb|[|\it{rule-name-n}\verb|]|
 
-Note:  By default, WMHISTORY is disabled. You must turn it on
-with the ENABLE command before you can use it.
+\begin{note}
+  By default, \tt{WMHISTORY} is disabled. You must turn it on with the
+  \tt{ENABLE} command before you can use it.
+\end{note}
 
 \Format
 
-WMHISTORY instance-id [ \ct attribute ]
+\tt{WMHISTORY} \it{instance-id} [\ct\it{attribute}]
 
-\Arguments
+\begin{arguments}
+\item[instance-id]
 
-instance-id
+  The \tt{INSTANCE-ID} of the object to be displayed.
 
-The INSTANCE-ID of the object to be displayed.
+\item[attribute]
 
-attribute
-
-An attribute that describes a characteristic of the object to
-be displayed. This argument is optional. You can use at most
-one attribute name in a WMHISTORY command.
+  An attribute that describes a characteristic of the object to be
+  displayed. This argument is optional. You can use at most one
+  attribute name in a WMHISTORY command.
+\end{arguments}
 
 \Example
 
@@ -6590,16 +6534,10 @@ The following example shows the history of an entire object:
 
 \begin{quote}
 \begin{verbatim}
-RuleWorks> ENABLE WMHISTORY
-
-RuleWorks> RUN
-
-.
-.
-.
-
-RuleWorks> WMH #28
-
+RuleWorks> enable wmhistory
+RuleWorks> run
+...
+RuleWorks> wmh #28
 #28 [CHOOSE-SLOTS:PLACE-NONMEMORY] (BOX
 [CONVERT-PACKAGES-TO-PARTS:HOME-KIWI] ^CARD-IN-SLOT (COMPOUND
 MEMORY MEMORY KEYBOARD FD-35) [CHOOSE-SLOTS:PLACE-NONMEMORY]
@@ -6610,11 +6548,14 @@ MEMORY MEMORY KEYBOARD FD-35) [CHOOSE-SLOTS:PLACE-NONMEMORY]
 Unit [EXPAND-PART-SKELETONS:BOX] ^PRICE 999.95
 [EXPAND-PART-SKELETONS:BOX] ^IS-EXPANDED YES
 [EXPAND-PART-SKELETONS:BOX])
+\end{verbatim}
+\end{quote}
 
 This example shows the history of an attribute:
 
-RuleWorks> WMH #28 ^CARD-IN-SLOT
-
+\begin{quote}
+\begin{verbatim}
+RuleWorks> wmh #28 ^card-in-slot
 #28 [CHOOSE-SLOTS:PLACE-NONMEMORY] (BOX
 [CONVERT-PACKAGES-TO-PARTS:HOME-KIWI] ^CARD-IN-SLOT (COMPOUND
 MEMORY MEMORY KEYBOARD FD-35) [CHOOSE-SLOTS:PLACE-NONMEMORY])
@@ -6626,10 +6567,11 @@ MEMORY MEMORY KEYBOARD FD-35) [CHOOSE-SLOTS:PLACE-NONMEMORY])
 Sends output from a program to the terminal or a file. By
 default, the \tt{WRITE} action sends output to the terminal. To
 send output to a file, you can do one of the following:
+
 \begin{itemize}
 \item Specify the \tt{WRITE} action with a file identifier
 \item Change the default destination for the \tt{WRITE} action, using
-the \tt{DEFAULT} action or command
+  the \tt{DEFAULT} action or command
 \end{itemize}
 
 \Format
@@ -6638,11 +6580,13 @@ the \tt{DEFAULT} action or command
 
 \begin{arguments}
 
-\item[file-id] The file identifier of the destination file for the
-\tt{WRITE} action's output. This argument is optional. If you do not
-specify the Argument or if the name you specify is not associated with
-an open output file, the output is sent to the current default for the
-\tt{WRITE} action (set with the \tt{DEFAULT} action or command).
+\item[file-id]
+
+  The file identifier of the destination file for the \tt{WRITE}
+  action's output. This argument is optional. If you do not specify
+  the Argument or if the name you specify is not associated with an
+  open output file, the output is sent to the current default for the
+  \tt{WRITE} action (set with the \tt{DEFAULT} action or command).
 
 \item[RHS-expression]
 
@@ -6664,13 +6608,14 @@ an open output file, the output is sent to the current default for the
 
 If you do not use these functions, the \tt{WRITE} action displays its
 output on the current output line with one space between values. For
-information about using these functions, see Chapter 4.
+information about using these functions, see Chapter~\ref{c:actions}.
 \end{arguments}
 
 \Example
 
 The following \tt{WRITE} action is from the rule
 \tt{OUTPUT-HARDWARE-OPTIONS:WITH-SLOT}:
+
 \begin{quote}
 \begin{verbatim}
 (write (crlf) <num> (tabto 12) RuleWorks
@@ -6678,7 +6623,9 @@ The following \tt{WRITE} action is from the rule
        <price>)
 \end{verbatim}
 \end{quote}
+
 This action produces the following output:
+
 \begin{quote}
 \begin{verbatim}
 FD-35 3.5" Floppy Disk Drive in Slot: 4 99.95

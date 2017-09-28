@@ -3,16 +3,12 @@
 \usepackage[a4paper,margin=2.5cm]{geometry}
 \usepackage{tabularx}
 \usepackage{longtable}
-\usepackage{tabu}
 \usepackage{fancyvrb}
 \usepackage{booktabs}
 \usepackage{xcolor}
 \usepackage{newfloat}
-\usepackage{tikz}
 \usepackage{graphicx}
-
-%\renewcommand*\rmdefault{ptm}
-%\renewcommand\ttdefault{bcs}
+\usepackage[pdftex]{hyperref}
 
 \newcommand{\smallHead}[1]{\vspace{1ex}\noindent\textbf{#1}\nopagebreak\par}
 \newcommand{\Format}{\smallHead{Format}}
@@ -28,15 +24,25 @@
 \renewcommand{\it}[1]{\textit{#1}}
 \renewcommand{\tt}[1]{\texttt{#1}}
 \newenvironment{qv}
-{\parskip=0.5ex\quote\parskip=0.5ex\Verbatim}
-{\endVerbatim\endquote}
-\newenvironment{note}{\begin{quote}\textbf{Note:}}{\end{quote}}
+  {\parskip=0.5ex\quote\parskip=0.5ex\Verbatim}
+  {\endVerbatim\endquote}
+\newenvironment{note}
+  {\begin{quote}\textbf{Note:}}
+  {\end{quote}}
 \DeclareFloatingEnvironment{example}
 \newcommand{\RWP}{\textcolor{blue}{RuleWorks> }}
 \newcommand{\cmd}[1]{\textcolor{red}{#1}}
 
 \parindent=0cm
 \parskip=1ex
+
+\hypersetup {
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=[RGB]{0 8 80},
+    urlcolor=black
+}
 
 \begin{document}
 
