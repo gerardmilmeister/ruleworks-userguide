@@ -1,0 +1,45 @@
+\begin{tikzpicture}[
+  node distance=10mm,
+  text height=1.6ex,
+  text depth=.25ex,
+  boxstyle/.style={
+    rectangle,
+    minimum height=6mm,
+    very thick,
+    draw=blue!50!black!50,
+    top color=white,
+    bottom color=blue!50!black!20
+  }]
+\node (Part) [boxstyle] {Part};
+\node (a1) [below=of Part] {};
+\node (Option) [boxstyle,left=of a1,xshift=-0.5cm] {Option};
+\node (Box) [boxstyle,right=of a1,xshift=0.5cm] {Box};
+\node (a2) [below=of Option] {};
+\node (Software) [boxstyle,left=of a2,xshift=-0.5cm] {Software};
+\node (a3) [below=of Software] {};
+\node (Hardware) [boxstyle,right=of a2,xshift=0.5cm] {Hardware};
+\node (Application) [boxstyle,left=of a3] {Application};
+\node (a4) [below=of Application] {};
+\node (OperatingSystem) [boxstyle,right=of a3] {Operating System};
+\node (KIWICalc) [boxstyle] [boxstyle,below=of Application] {KIWICalc};
+\node (KIWindows) [boxstyle][boxstyle,left=of KIWICalc,xshift=0.5cm] {KIWindows};
+\node (KIWITALK) [boxstyle] [boxstyle,right=of KIWICalc,xshift=-0.5cm] {KIWITALK};
+\node (KIWOS) [boxstyle,below=of OperatingSystem] {KIWOS};
+
+\draw[thick] (Part.south) -- ++(0,-0.4cm) -| (Option.north);
+\draw[thick] (Part.south) -- ++(0,-0.4cm) -| (Box.north);
+\draw[thick] (Option.south) -- ++(0,-0.4cm) -| (Software.north);
+\draw[thick] (Option.south) -- ++(0,-0.4cm) -| (Hardware.north);
+\draw[thick] (Software.south) -- ++(0,-0.4cm) -| (Application.north);
+\draw[thick] (Software.south) -- ++(0,-0.4cm) -| (OperatingSystem.north);
+\draw[thick] (Application.south) -- ++(0,-0.4cm) -| (KIWindows.north);
+\draw[thick] (Application.south) -- ++(0,-0.4cm) -| (KIWITALK.north);
+\draw[thick] (Application.south) -- ++(0,-0.4cm) -| (KIWICalc.north);
+\draw[thick] (OperatingSystem.south) -- ++(0,-0.4cm) -| (KIWOS.north);
+\node (b1) [below=of Hardware] {};
+\draw[dotted] (Hardware.south) -- (b1.north);
+\node (b2) [right=of b1] {};
+\draw[dotted] (Hardware.south) -- ++(0,-0.4cm) -| (b2.north);
+\node (b3) [right=of b2] {};
+\draw[dotted] (Hardware.south) -- ++(0,-0.4cm) -| (b3.north);
+\end{tikzpicture}

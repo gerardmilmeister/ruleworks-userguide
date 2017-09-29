@@ -9,6 +9,8 @@
 \usepackage{newfloat}
 \usepackage{graphicx}
 \usepackage[pdftex]{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,shadows,arrows}
 
 \newcommand{\smallHead}[1]{\vspace{1ex}\noindent\textbf{#1}\nopagebreak\par}
 \newcommand{\Format}{\smallHead{Format}}
@@ -23,20 +25,19 @@
 \newcommand{\ct}{{\normalfont\tt{\^}}}
 \renewcommand{\it}[1]{\textit{#1}}
 \renewcommand{\tt}[1]{\texttt{#1}}
-\newenvironment{qv}
-  {\parskip=0.5ex\quote\parskip=0.5ex\Verbatim}
-  {\endVerbatim\endquote}
 \newenvironment{note}
   {\begin{quote}\textbf{Note:}}
   {\end{quote}}
 \DeclareFloatingEnvironment{example}
-\newcommand{\RWP}{\textcolor{blue}{RuleWorks> }}
-\newcommand{\cmd}[1]{\textcolor{red}{#1}}
+\definecolor{rwp-color}{RGB}{0,1,149}
+\newcommand{\RWP}{\textcolor{rwp-color}{RuleWorks> }}
+\definecolor{cmd-color}{RGB}{149,0,0}
+\newcommand{\cmd}[1]{\textcolor{cmd-color}{#1}}
 
 \parindent=0cm
 \parskip=1ex
 
-\hypersetup {
+\hypersetup{
     colorlinks,
     citecolor=black,
     filecolor=black,
@@ -72,7 +73,7 @@
 \include{rwug6}
 %\include{rwug7}
 \include{rwug8}
-%\include{rwug9}
+\include{rwug9}
 \include{rwug10}
 %\include{rwug11}
 \include{rwug12}

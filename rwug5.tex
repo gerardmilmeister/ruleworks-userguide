@@ -3,7 +3,7 @@
 
 RuleWorks makes possible explicit partitioning of rules and objects
 into modular systems or subsystems. The basic unit of modularity is
-the block; RuleWorks provides three block constructs:
+the \emph{block}; RuleWorks provides three block constructs:
 
 \begin{itemize}
 \item\tt{ENTRY-BLOCK}
@@ -33,27 +33,22 @@ and ends with an \tt{END-BLOCK} construct. A block is said to
 \tt{END-BLOCK} construct. All non-block RuleWorks constructs must be
 contained in a block.
 
-\begin{table}[h]
-  \begin{tabularx}{\columnwidth}{Xlll}
-    \toprule
-    & Entry Block & Rule Block & Declaration Block \\
-    \midrule
-    Can be called from other languages & true & false & true, but* \\
-    Name is visible to linker & true & true & true \\
-    Can contain \verb|ON-| statements & true & false & false \\
-    Can contain rules and catchers & true & true & false \\
-    Can contain declarations & true & true & true \\
-    Contents can be shared at compile time & false & false & true \\
-    \bottomrule
-  \end{tabularx}
-  \begin{quote}
-    * A declaration block can be called, but only for the purpose of
-    initializing working memory and object classes before calling API
-    routines that affect working memory.
-  \end{quote}
-  \caption{Summary of Block Constructs}
-  \label{t:5-1}
-\end{table}
+\begin{tabularx}{\columnwidth}{Xlll}
+  \toprule
+  & Entry Block & Rule Block & Declaration Block \\
+  \midrule
+  Can be called from other languages & true & false & true, but* \\
+  Name is visible to linker & true & true & true \\
+  Can contain \verb|ON-| statements & true & false & false \\
+  Can contain rules and catchers & true & true & false \\
+  Can contain declarations & true & true & true \\
+  Contents can be shared at compile time & false & false & true \\
+  \bottomrule
+\end{tabularx}
+
+* A declaration block can be called, but only for the purpose of
+initializing working memory and object classes before calling API
+routines that affect working memory.
 
 \section{Entry Blocks}
 
@@ -80,9 +75,9 @@ the name of the entry block. The entry block name must contain only
 letters, numbers, and underscores, and must be no longer than 31
 characters.
 
-The complete syntax of an entry block is shown below in Figure~\ref{f:5-1}.
+The complete syntax of an entry block is shown in Figure~\ref{f:5-1}.
 
-\begin{figure}
+\begin{figure}[h]
   \centering
   \includegraphics[scale=0.7]{f5-1}
   \caption{Entry Block Syntax}
@@ -99,14 +94,14 @@ The clauses within the \tt{ENTRY-BLOCK} declaration are all optional:
 \item The \tt{RETURNS} clause specifies the entry block's return
   value, if any. If the return value is compound, its size can be
   either an input argument of an integer type (byte, short, and so on)
-  or an integer constant. See Chapter~\ref{c:otherlang} 6 for
+  or an integer constant. See Chapter~\ref{c:otherlang} for
   information on external data types and passing mechanisms.
 \item The \tt{ACTIVATES} clause enables rules not contained in the
-  entry block to fire. See~\ref{}Rule Blocks for information on rule blocks.
+  entry block to fire. See Rule Blocks for information on rule blocks.
 \item The \tt{USES} clause allows rules contained in the entry block
   to match and manipulate objects whose class declarations are not
   contained in the entry block, and to call external routines whose
-  declarations are not contained in the entry block. See~\ref{}Declaration
+  declarations are not contained in the entry block. See Declaration
   Blocks for more information on declaration blocks.
 \item The \tt{STRATEGY} clause allows you to specify a
   conflict-resolution strategy other than the default \tt{MEA}
@@ -137,26 +132,26 @@ occurs:
 \begin{itemize}
 \item The conflict set becomes empty, triggering the actions that were
   declared with the \tt{ON-EMPTY} statement (if any) followed by the
-  actions that were declared with the \tt{ON-EXIT} statement (if any).
+  actions that were declared with the \tt{ON-EXIT} statement (if any.)
 \item The \tt{RETURN} action is executed, triggering the actions that
-  were declared with the \tt{ON-EXIT} statement (if any)
+  were declared with the \tt{ON-EXIT} statement (if any.)
 \end{itemize}
 
 Entry blocks can call other entry blocks, and even call themselves
 recursively. When an entry block is called, the caller is no longer
 active. The caller is referred to as being \emph{suspended} and the
-called block becomes the active block, just as with a routine in any
-other language. Similarly, when the called block returns, the caller
-becomes active again.
+called block becomes the \emph{active} block, just as with a routine
+in any other language. Similarly, when the called block returns, the
+caller becomes active again.
 
 When an entry block returns, any objects created or changed by that
 block remain in working memory (unless that entry block is the main
-program, see~\ref{}Naming an Entry Block \tt{MAIN}, for details). If
+program, see Naming an Entry Block \tt{MAIN}, for details.) If
 that entry block is called again later, all of those objects are again
 matchable. However, the objects cannot be matched or modified by any
 other entry block unless both entry blocks are using the same
-declaration block (see~\ref{}Declaration Blocks, for information on
-declaration blocks).
+declaration block (see Declaration Blocks, for information on
+declaration blocks.)
 
 \subsubsection{Scope of Arguments to an Entry Block}
 
@@ -218,9 +213,9 @@ clause. Such variables are also visible within any \tt{ON-} clause.
 
 \subsubsection{Scope of Execution of Entry Blocks}
 
-A call frame is created when a RuleWorks entry block is called. It
-contains all the dynamic data structures associated with a given
-invocation of an entry block. That is, it consists of all of the
+A \emph{call frame} is created when a RuleWorks entry block is
+called. It contains all the dynamic data structures associated with a
+given invocation of an entry block. That is, it consists of all of the
 information ``local'' to this particular invocation of an entry block,
 or in some way visible to this particular invocation. Calls and
 returns really create and delete call frames. Call frames are an
@@ -336,6 +331,7 @@ returns it.
     (make in-set ^values <set>)
     (for-each <atom> in <set>
         (make an-atom ^value <atom>)))
+
 (rule find-next
     (an-atom ^$id <atom> ^value <x>)
     -(an-atom ^$id <> <atom> ^value <= <x>)
@@ -364,23 +360,23 @@ The actions on the right-hand side of a rule are executed only when
 the left-hand side matches working memory and the resulting
 instantiation is picked during conflict resolution. RuleWorks provides
 two types of executable constructs whose actions are executed without
-matching working memory: ``\tt{ON-}'' statements and catchers.
+matching working memory: \tt{ON-} statements and catchers.
 
-\subsubsection*{Using "\tt{ON-}" Statements}
+\subsubsection{Using \tt{ON-} Statements}
 
-RuleWorks entry blocks may contain one each of the four ``\tt{ON-}''
+RuleWorks entry blocks may contain one each of the four \tt{ON-}
 statements, which allow you to describe a set of actions that are
 executed at certain points in the recognize-act cycle (see the figure,
-``\tt{ON-}'' Statements and the Recognize-Act Cycle) without matching
+\tt{ON-} Statements and the Recognize-Act Cycle) without matching
 any objects in working memory. These new statements are all defined
-with names that begin with the prefix "\tt{ON-}" and end with the name
+with names that begin with the prefix \tt{ON-} and end with the name
 of the special condition under which their associated actions are
 executed.
 
 \begin{figure}
   \centering
   \includegraphics[scale=0.7]{f5-2}
-  \caption{``\tt{ON-}'' Statements and the Recognize-Act Cycle}
+  \caption{\tt{ON-} Statements and the Recognize-Act Cycle}
   \label{f:5-2}
 \end{figure}
 
@@ -474,7 +470,7 @@ The \tt{ON-ENTRY} statement is roughly analogous to the OPS5
 
 \tt{ON-} statements must be contained in an entry block. They cannot
 appear inside a rule block, nor inside a rule group within an entry
-block (see Rule Blocks and Rule Groups for more information).
+block (see Rule Blocks and Rule Groups for more information.)
 
 \begin{note}
   Any variables bound in one \tt{ON-} statement are available to all
@@ -525,7 +521,7 @@ to execute before executing the specified catcher. For example:
 
 Only one catcher can be enabled at a time, per call frame. Therefore,
 when you enable a catcher, you disable the catcher currently enabled
-(if any). Catchers are automatically disabled after they have been
+(if any.) Catchers are automatically disabled after they have been
 executed.
 
 Catchers may be contained in either entry or rule blocks. The catcher
@@ -596,7 +592,7 @@ Finished.
 \end{verbatim}
 \end{quote}
 
-\tt{STARTER} and \tt{FINISH} are as follows:
+\tt{STARTER} and \tt{FINISH} are used as follows:
 \begin{itemize}
 \item[\tt{(1)}] The first recognize-act cycle fires rule
   \tt{INITIALIZE}, because its CE matches the \tt{START} object
@@ -618,13 +614,13 @@ Finished.
 \section{Declaration Blocks}
 
 Declarations (\tt{OBJECT-CLASS} and \tt{EXTERNAL-ROUTINE}) can be
-private or shareable.  A declaration is private if it is contained in
-either an entry block or a rule block. Objects whose class declaration
-is private to a block can be matched only by rules contained in that
-block. In other words, by placing declarations inside an entry block
-or rule block you create private data for that block. Similarly,
-external routines whose declarations are local to a block can be
-called from inside that block only.
+private or shareable.  A declaration is \emph{private} if it is
+contained in either an entry block or a rule block. Objects whose
+class declaration is private to a block can be matched only by rules
+contained in that block. In other words, by placing declarations
+inside an entry block or rule block you create private data for that
+block. Similarly, external routines whose declarations are local to a
+block can be called from inside that block only.
 
 Figure~\ref{f:5-3} shows a RuleWorks program that consists of one
 entry block with two private object class declarations. Rules in
@@ -668,11 +664,13 @@ construct at the bottom.
 \begin{quote}
 \begin{verbatim}
 (declaration-block line-items)
+
     (object-class item ^item-code
         ^item-name
         ^quantity
         ^price-per
         ^item-total)
+
     (object-class shippable-item
         (inherits-from item)
         ^part-number)
@@ -888,7 +886,7 @@ is \tt{MEA}.
 
 A rule cannot be in more than one rule block; a rule block can contain
 zero or more rules.  (An empty rule block can be useful during
-prototyping and/or stuibbing phase of development). Note that all
+prototyping and/or stuibbing phase of development.) Note that all
 rules contained in a block must be in the same file, but a file can
 contain more than one block. Rule blocks can be compiled before or
 after the entry block that activates them.

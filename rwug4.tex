@@ -17,7 +17,7 @@ listed with the constructs used to perform the operation).
                             \tt{SPECIALIZE} action\newline
                             \tt{MODIFY} action\newline
                             \tt{REMOVE} action\newline
-                            \tt{REMOVE-EVERY} action \\
+                            \tt{REMOVE-EVERY} action \\\addlinespace
     Work with compound values & \tt{FOR-EACH} action \\\addlinespace
     Open and close files & \tt{OPENFILE} action\newline
                            \tt{CLOSEFILE} action \\\addlinespace
@@ -138,16 +138,20 @@ attribute-value pairs.
 For example, the following \tt{MAKE} action creates an object of class
 \tt{CONTEXT} to initialize working memory:
 
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (on-entry
     (make context ^name tasks-to-do))
-\end{qv} 
+\end{verbatim}
+\end{quote} 
 
 This object is displayed as follows:
 
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 #1 1 [NIL] (CONTEXT ^NAME TASKS-TO-DO)
-\end{qv}
+\end{verbatim}
+\end{quote}
 
 (The output above was produced by the \tt{WM} command.)
 
@@ -236,7 +240,7 @@ the following object:
 
 \begin{quote}
 \begin{verbatim}
-#2 2 [copy-context] (context ^name tasks-to-do)
+#2 2 [COPY-CONTEXT] (CONTEXT ^NAME TASKS-TO-DO)
 \end{verbatim}
 \end{quote}
 
@@ -292,7 +296,7 @@ and the following rule fires on it:
     (box ^$ID <the-part> ^is-expanded no)
   -->
     (modify <the-part>
-        ^is-expanded YES
+        ^is-expanded yes
         ^partnumber KI-9200
         ^name |Kiwi-9200 CPU Base Unit|
         ^price 999.95))
@@ -337,7 +341,7 @@ example, the following \tt{ON-EXIT} statement:
 
 \begin{quote}
 \begin{verbatim}
-(on-exit (remove-every $ROOT))
+(on-exit (remove-every $root))
 \end{verbatim}
 \end{quote}
 
@@ -453,7 +457,7 @@ with a modified version that consists of elements 2 through the
 end. For example:
 \begin{quote}
 \begin{verbatim}
-(agenda ^$ID <The-agenda>)
+(agenda ^$ID <the-agenda>)
 -->
 (modify <the-agenda> ^tasks (get <the-agenda> ^tasks[2..$last]))
 \end{verbatim}
@@ -461,7 +465,7 @@ end. For example:
 You could also use the \tt{SUBCOMPOUND} function to pop a stack:
 \begin{quote}
 \begin{verbatim}
-(agenda ^$ID <The-agenda> ^tasks <task-list>)
+(agenda ^$ID <the-agenda> ^tasks <task-list>)
 -->
 (modify <the-agenda> ^tasks (subcompound <task-list> 2 $last))
 \end{verbatim}
@@ -475,7 +479,7 @@ from the current compound value plus the new scalar value. For
 example:
 \begin{quote}
 \begin{verbatim}
-(agenda ^$ID <The-agenda> ^tasks <tasks>)
+(agenda ^$ID <the-agenda> ^tasks <tasks>)
 -->
 (modify <the-agenda> ^tasks (compound <tasks> shut-down))
 \end{verbatim}
@@ -487,10 +491,10 @@ The following example removes a particular value from a compound
 attribute and advances the remaining elements to close the gap.
 \begin{quote}
 \begin{verbatim}
-(agenda ^$ID <Agenda-wme> ^tasks {<tasks> [+] <value>})
+(agenda ^$ID <agenda-wme> ^tasks {<tasks> [+] <value>})
 ; assume <value> is bound previously
 -->
-(bind <p> (POSITION <tasks> <value>)) ; get the index of <value>
+(bind <p> (position <tasks> <value>)) ; get the index of <value>
 (modify <agenda-wme> ^tasks
     (compound (subcompound <tasks> 1 (<p> - 1))
     (subcompound <tasks> (<p> + 1) $last)))
@@ -503,8 +507,8 @@ attribute and advances the remaining elements to close the gap.
 The following example joins two compound values:
 \begin{quote}
 \begin{verbatim}
-(agenda ^$ID <Agenda-1> ^tasks <list-1>)
-(agenda ^$ID { <Agenda-2> <> <Agenda-1> } ^tasks <list-2>)
+(agenda ^$ID <agenda-1> ^tasks <list-1>)
+(agenda ^$ID { <agenda-2> <> <agenda-1> } ^tasks <list-2>)
 -->
 (modify <agenda-2> ^tasks (compound <list-1> <list-2>))
 \end{verbatim}
@@ -702,11 +706,10 @@ and the end of the line.
 
 \subsubsection{Reading Scalar Atoms}
 
-The \tt{ACCEPT-ATOM} function reads a single atom
-from the terminal or a file. For example, the
-following rule uses the \tt{ACCEPT-ATOM} function
-inside a \tt{MAKE} action to take items from a file
-into a WMO:
+The \tt{ACCEPT-ATOM} function reads a single atom from the terminal or
+a file. For example, the following rule uses the \tt{ACCEPT-ATOM}
+function inside a \tt{MAKE} action to take items from a file into a
+WMO:
 
 \begin{quote}
 \begin{verbatim}
@@ -715,8 +718,8 @@ into a WMO:
     (input-count ^count <c> ^$ID <the-counter>)
     -(input-thing ^item end-of-file)
   -->
-   (make input-thing ^item (accept-atom infil))
-   (modify <the-counter> ^count (<c> + 1)))
+    (make input-thing ^item (accept-atom infil))
+    (modify <the-counter> ^count (<c> + 1)))
 \end{verbatim}
 \end{quote}
 
@@ -822,7 +825,7 @@ example:
 
 \begin{quote}
 \begin{verbatim}
-(write | Item | <item> | costs | <price>)
+(write |Item | <item> | costs | <price>)
 \end{verbatim}
 \end{quote}
 
@@ -846,7 +849,7 @@ action:
 
 \begin{quote}
 \begin{verbatim}
-(write | This box contains the following cards: | <cards>)
+(write |This box contains the following cards: | <cards>)
 \end{verbatim}
 \end{quote}
 
@@ -878,11 +881,11 @@ To write output on a new line, use the \tt{CRLF} function in a
     (active-context ^name verify-configuration)
     -(box)
   -->
-   (make error ^severity warning ^message |Missing CPU unit|)
-   (write (crlf) |Caution: You need to buy the base CPU unit.|
-          (crlf) |  Fixup: adding a CPU BOX to your order.|
-          (crlf))
-   (make box))
+    (make error ^severity warning ^message |Missing CPU unit|)
+    (write (crlf) |Caution: You need to buy the base CPU unit.|
+           (crlf) |  Fixup: adding a CPU BOX to your order.|
+           (crlf))
+    (make box))
 \end{verbatim}
 \end{quote}
 
@@ -1007,7 +1010,8 @@ visible. The following action copies the program state to the file
 \end{verbatim}
 \end{quote}
 
-(See Section C.1 for platform-specific restrictions on file names.)
+(See Section~\ref{c:portability:file} for platform-specific
+restrictions on file names.)
 
 Once you have saved the program state in a file, you can use the
 \tt{ADDSTATE} action to add the contents of the saved working memory
@@ -1106,9 +1110,10 @@ Note that while relational expressions evaluate to either \tt{TRUE} or
 \tt{FALSE}, \tt{TRUE} and \tt{FALSE} themselves are not valid
 relational expressions in RuleWorks.
 
-You can use the relational operators \tt{AND}, \tt{NOT}, and OR to
-combine two (or invert one, in the case of \tt{NOT}) simple relational
-expressions into a more complex relational expression. For example:
+You can use the relational operators \tt{AND}, \tt{NOT}, and \tt{OR}
+to combine two (or invert one, in the case of \tt{NOT}) simple
+relational expressions into a more complex relational expression. For
+example:
 
 \begin{quote}
 \begin{verbatim}
@@ -1125,8 +1130,8 @@ in the following example.
 
 \begin{quote}
 \verb|(IF| \verb|(|\it{relational-expression}\verb|)|\par
-\qquad\verb|THEN| \it{RHS-action}\ldots\par
-\qquad[\verb|ELSE| \it{RHS-action}\ldots]\verb|)|
+\qquad\verb|THEN| \it{RHS-action} \ldots\par
+\qquad[\verb|ELSE| \it{RHS-action} \ldots]\verb|)|
 \end{quote}
    
 The RHS actions in the \tt{THEN} clause are executed when the
@@ -1145,7 +1150,7 @@ shown below:
 
 \begin{quote}
 \verb|(WHILE| \verb|(|\it{relational-expression}\verb|)| \verb|DO|\par
-\qquad\it{RHS-action}\ldots\verb|)|
+\qquad\it{RHS-action} \ldots\verb|)|
 \end{quote}
 
 The RHS actions are repeated as long as the relational expression

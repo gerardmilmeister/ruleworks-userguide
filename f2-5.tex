@@ -1,0 +1,39 @@
+\begin{tikzpicture}[
+  node distance=0mm,
+  inner sep=1ex,
+  font=\small,
+  box/.style= { 
+    very thick,
+    draw=blue!50!black!50,
+    top color=white,
+    minimum height=1.3cm,
+    minimum width=1.7cm,
+    bottom color=blue!50!black!20
+  },
+  label/.style={
+    inner sep=0pt,
+    minimum height=6ex,
+    text height=2ex;
+  }]
+  \node[box,minimum width=2.2cm,anchor=west] (KIWICALC) at (0,0) {\texttt{KIWICALC}};
+  \node[box,minimum width=2cm,anchor=west] (FD-35) at (2.1cm,0) {\texttt{FD-35}};
+  \node[box,minimum width=2.1cm,anchor=west] (S-CA-9200) at (4.1,0) {\texttt{S-CA-9200}};
+  \node[box,align=center,anchor=west] (KiwiCalc) at (6.2,0) {\small KiwiCalc\\Spreadsheet Software};
+  \node[box,anchor=west] (P2995) at (10.1,0) {\verb|29.95|};
+  \node[box,anchor=west,text height=1.7ex] (Yes) at (11.7,0) {\verb|yes|};
+  \node[minimum height=1.3cm] (P28) at (-0.6cm,0cm) {\verb|#|28};
+
+  \node [label,above=of KIWICALC.north west,align=left,anchor=south west] {Class\\Name};
+  \node [label,above=of FD-35.north west,align=left,anchor=south west] {\verb|^media-|\\\verb| type|};
+  \node [label,above=of S-CA-9200.north west,align=left,anchor=south west] {\verb|^part-|\\\verb| number|};
+  \node [label,above=of KiwiCalc.north west,align=left,anchor=south west] {\verb|^name|\\{}};
+  \node [label,above=of P2995.north west,align=left,anchor=south west] {\verb|^price|\\{}};
+  \node [label,above=of Yes,align=left] {\verb|^is-|\\\verb| expanded|};
+  \node [label,above=of P28,align=left] {\verb|^$ID|\\{}};
+\end{tikzpicture}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "rwug"
+%%% End:

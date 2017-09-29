@@ -1,4 +1,5 @@
 \chapter{Debugging RuleWorks Programs}
+\label{c:debugging}
 
 You can use the RuleWorks debugging commands to find errors in your
 program and to interact with it while it is running. If your program
@@ -22,7 +23,7 @@ execution of an entry block by entering RuleWorks commands.
 Table~\ref{t:debcom} lists these commands with their corresponding
 operations.
 
-\begin{table}[h]
+\begin{table}[!ht]
   \begin{tabularx}{\columnwidth}{XX}
     \toprule
     Commands & Operation \\
@@ -166,14 +167,14 @@ command interpreter to execute the commands stored in that file:
 \end{Verbatim}
 \end{quote}
 
-If the file you specify with the @ command contains information other
-than RuleWorks commands, the run-time system displays an error
+If the file you specify with the \verb|@| command contains information
+other than RuleWorks commands, the run-time system displays an error
 message. For example:
 
 \begin{quote}
 \begin{Verbatim}[commandchars=\\\{\}]
 \RWP\cmd{@ ORDER.DAT}
-error, Syntax error: unknown command 'home-Kiwi'
+error: Syntax error: unknown command 'home-Kiwi'
 \end{Verbatim}
 \end{quote}
 
@@ -476,13 +477,13 @@ following example shows the history of the object whose
 \RWP\cmd{run 45}
 \RWP\cmd{wmhistory 36}
    #36 41 [EXPAND-PART-SKELETONS:FD-35] (FD-35
-     [VERIFY-CONFIGURATION:NEED-DISK] ^ TAKES-SLOT YES
-     [EXPAND-PART-SKELETONS:FD-35] ^NAME FD-35
-     [EXPAND-PART-SKELETONS: FD-35] ^PART-NUMBER FD-35
-     [EXPAND-PART-SKELETONS:FD-35] ^PRINTNAME 3.5" Floppy Disk
-     Drive [EXPAND-PART-SKELETONS:FD-35] ^PRICE 99.95
-     [EXPAND-PART-SKELETONS:FD- 35] ^IS-EXPANDED YES
-     [EXPAND-PART-SKELETONS:FD-35])
+   [VERIFY-CONFIGURATION:NEED-DISK] ^ TAKES-SLOT YES
+   [EXPAND-PART-SKELETONS:FD-35] ^NAME FD-35
+   [EXPAND-PART-SKELETONS: FD-35] ^PART-NUMBER FD-35
+   [EXPAND-PART-SKELETONS:FD-35] ^PRINTNAME 3.5" Floppy Disk
+   Drive [EXPAND-PART-SKELETONS:FD-35] ^PRICE 99.95
+   [EXPAND-PART-SKELETONS:FD- 35] ^IS-EXPANDED YES
+   [EXPAND-PART-SKELETONS:FD-35])
 \end{Verbatim}
 \end{quote}
 
@@ -499,8 +500,8 @@ you can specify the attribute name with the \tt{WMHISTORY} command:
 \begin{Verbatim}[commandchars=\\\{\}]
 \RWP\cmd{wmhistory #36 ^price}
      #36 41 [EXPAND-PART-SKELETONS:FD-35]
-            (FD-35 [VERIFY-CONFIGURATION:NEED-DISK]
-            ^PRICE 99.95 [EXPAND-PART-SKELETONS:FD-35])
+     (FD-35 [VERIFY-CONFIGURATION:NEED-DISK]
+     ^PRICE 99.95 [EXPAND-PART-SKELETONS:FD-35])
 \end{Verbatim}
 \end{quote}
 
@@ -631,15 +632,15 @@ instead of the name of a rule that set the time-tag.
 You can make a new copy of an existing object by using the \tt{COPY}
 command with an \tt{INSTANCE-ID}. You can optionally specify
 attributes with values. The following command creates another object
-of class FD-35 with a different attribute value:
+of class \tt{FD-35} with a different attribute value:
 
 \begin{quote}
 \begin{Verbatim}[commandchars=\\\{\}]
 \RWP\cmd{copy #36 ^price 119.95}
 \RWP\cmd{ppwm fd-35 ^price 119.95}
     #45 63 [RUL] (FD-35 [RUL] ^TAKES-SLOT YES ^NAME FD-35
-     ^PART-NUMBER FD-35 ^ PRINTNAME 3.5" Floppy Disk Drive
-     ^PRICE 199.95 ^IS-EXPANDED YES)
+    ^PART-NUMBER FD-35 ^ PRINTNAME 3.5" Floppy Disk Drive
+    ^PRICE 199.95 ^IS-EXPANDED YES)
 \end{Verbatim}
 \end{quote}
 
@@ -651,7 +652,7 @@ the older object.
 \subsubsection{Changing the Class of Objects}
 
 You can change the class of an object from a parent class to a
-subclass with the \\t{SPECIALIZE command}. For example:
+subclass with the \tt{SPECIALIZE} command. For example:
 
 \begin{quote}
 \begin{Verbatim}[commandchars=\\\{\}]
@@ -936,7 +937,7 @@ For example:
 \begin{quote}
 \begin{Verbatim}[commandchars=\\\{\}]
 \RWP\cmd{cs}
-\ldots
+  \ldots
   VERIFY-CONFIGURATION:KIWINDOWS-NEEDS-2-MEMORY-CARDS-FOUND-NONE
       #32 36 #29 33
   VERIFY-CONFIGURATION:APPLICATION-NEEDS-KIWOS #32 36 #29 33
@@ -977,30 +978,25 @@ keyword \tt{ON} or \tt{OFF} and the type of information you want
 traced or not. The following table shows the valid keywords for the
 \tt{TRACE} command. The default setting is \tt{OFF *}.
 
-Table 9-3. Trace Keywords
-
-+--------------------------------------------------------------+
-| Name        | Trace Information Affected                     |
-|-------------+------------------------------------------------|
-| ENTRY-BLOCK | Entry blocks entered and exited                |
-| EB          |                                                |
-|-------------+------------------------------------------------|
-| RULE-GROUP  | Rule group containing rule that just fired     |
-| RG          |                                                |
-|-------------+------------------------------------------------|
-| RULE        | Rule firing counts and name of rule that just  |
-|             | fired                                          |
-|-------------+------------------------------------------------|
-| WM          | Changes to working memory                      |
-|-------------+------------------------------------------------|
-| CS          | Changes to the conflict set                    |
-|-------------+------------------------------------------------|
-| .           | All trace information                          |
-+--------------------------------------------------------------+
+\begin{center}
+\begin{tabular}{ll}
+  \toprule
+  Name & Trace Information Affected \\
+  \midrule
+  \tt{ENTRY-BLOCK} \tt{EB} & Entry blocks entered and exited \\
+  \tt{RULE-GROUP} \tt{RG} & Rule group containing rule that just fired \\
+  \tt{RULE} & Rule firing counts and name of rule that just fired \\
+  \tt{WM} & Changes to working memory \\
+  \tt{CS} & Changes to the conflict set \\
+  \tt{*} &  All trace information \\
+  \bottomrule
+\end{tabular}
+\end{center}
 
 For example, if you want the system to display as much trace
-information as possible, you can list all the keywords or use
-the asterisk (\tt{*}):
+information as possible, you can list all the keywords or use the
+asterisk (\tt{*}):
+
 \begin{quote}
 \begin{Verbatim}[commandchars=\\\{\}]
 \RWP\cmd{trace on eb rg rule wm cs}
@@ -1039,9 +1035,8 @@ sample trace output on entry blocks in italic type.
   The output of the following four examples are taken from a telephone
   directory program that uses the similarity predicate to find names
   that sound alike.
-\end{quote}
+\end{note}
 
-Example 9-1. Tracing Information on Entry Blocks
 \begin{quote}
 \begin{Verbatim}[commandchars=\\\{\}]
 \RWP\cmd{trace on eb}
@@ -1076,85 +1071,84 @@ format:
 
 \subsection{Tracing Rules}
 
-The TRACE RULE command causes a trace message to be generated
+The \tt{TRACE RULE} command causes a trace message to be generated
 each time the system executes a rule. Trace output for rule
 firings contains the following information:
 
-  * The global rule-firing count (total number of recognize-act
-    cycles in the program)
-  * The local rule-firing count (number of recognize-act cycles
-    in this invocation of the active entry block)
-  * The name of the rule executed
-  * The INSTANCE-IDs and time-tags of the objects that matched
-    the rule's CEs, in order
+\begin{itemize}
+\item The global rule-firing count (total number of recognize-act
+  cycles in the program)
+\item The local rule-firing count (number of recognize-act cycles in
+  this invocation of the active entry block)
+\item The name of the rule executed
+\item The \tt{INSTANCE-ID}s and time-tags of the objects that matched the
+  rule's CEs, in order
+\end{itemize}
+  
+The run-time system displays this information in the following format:
 
-The run-time system displays this information in the following
-format:
-
-  global(local): rule-name \#instance-id-1 time-tag-1 \#instance-id-2 time-tag-2 ...
+\begin{quote}
+  \it{global} \verb|(|\it{local}\verb|):| \it{rule-name}
+  \verb|#|\it{instance-id-1} \it{time-tag-1}
+  \verb|#|\it{instance-id-2} \it{time-tag-2} \ldots
+\end{quote}
 
 In the following example trace information for rules is shown in
 italic print.
 
-Example 9-2. Trace Output for Rules
-
-  RuleWorks>trace on eb rule
-
-  RuleWorks>run
-
-  Name to look up: konny oiljars
-
-  -->Entry-Block: LOOKUP_PHONE_NUMBER
-
-  1 (1): INIT-PHONE-BOOK #41 41
-
-  2 (2): LAST-RESORT:PRINT-ALL-SIMILAR #42 42 #41 41 #30 30
-
-  Could not find a probable match for konny oiljars
-
-  but found potential matches
-
-  ---->Entry-Block: PRINT_SIMILAR_NAMES
-
-  3 (1): PRINT-ALL-WITH-SIMILAR-LAST-NAME #65 65 #30 30
-
-  Connie Olegarz
-
-  <---Entry-Block: PRINT_SIMILAR_NAMES
-
-  <---Entry-Block: LOOKUP_PHONE_NUMBER
+\begin{Verbatim}[commandchars=\\\{\}]
+\RWP\cmd{trace on eb rule}
+\RWP\cmd{run}
+Name to look up: \cmd{konny oiljars}
+-->Entry-Block: LOOKUP_PHONE_NUMBER
+\it{1 (1): INIT-PHONE-BOOK #41 41}
+\it{2 (2): LAST-RESORT:PRINT-ALL-SIMILAR #42 42 #41 41 #30 30}
+Could not find a probable match for konny oiljars
+but found potential matches
+---->Entry-Block: PRINT_SIMILAR_NAMES
+\it{3 (1): PRINT-ALL-WITH-SIMILAR-LAST-NAME #65 65 #30 30}
+\cmd{Connie Olegarz}
+<---Entry-Block: PRINT_SIMILAR_NAMES
+<---Entry-Block: LOOKUP_PHONE_NUMBER
+\end{Verbatim}
 
 \subsection{Tracing Working Memory}
 
-When the trace level includes WM, the run-time system displays
+When the trace level includes \tt{WM}, the run-time system displays
 changes to working memory (that is, objects created, changed, or
 deleted). The system displays the following information for each
 object:
 
-  * Its INSTANCE-ID
-  * Its time-tag
-  * The name of the rule that added, changed, or deleted it
-  * Its attributes and their values
+\begin{itemize}
+\item Its \tt{INSTANCE-ID}
+\item Its time-tag
+\item The name of the rule that added, changed, or deleted it
+\item Its attributes and their values
+\end{itemize}
 
 The system displays working memory trace information in the
 following format:
 
-  #INSTANCE-ID time-tag [rule-name] (class-name attr-1 value-1
-  attr-2 value-2 ...)
+\begin{quote}
+  \verb|#|\it{INSTANCE-ID} \it{time-tag}
+  \verb|[|\it{rule-name}\verb|]| \verb|(|\it{class-name} \it{attr-1}
+  \it{value-1} \it{attr-2} \it{value-2} \ldots\verb|)|
+\end{quote}
 
-Each line of a working memory trace output is preceded by a
-symbol that indicates the nature of the change as shown in the
-following table.
+Each line of a working memory trace output is preceded by a symbol
+that indicates the nature of the change as shown in the following
+table.
 
-Table 9-4. Working Memory Trace Output Symbols
-
-+---------------------------------------------+
-| Symbol | Meaning                            |
-|--------+------------------------------------|
-| =>WM:  | Object added to working memory     |
-|--------+------------------------------------|
-| <=WM:  | Object deleted from working memory |
-+---------------------------------------------+
+\begin{center}
+  \begin{tabular}{ll}
+    \toprule
+    Symbol & Meaning \\
+    \midrule
+    \verb|=>WM:| & Object added to working memory \\
+    \verb|<=WM:| & Object deleted from working memory \\
+    \bottomrule
+  \end{tabular}
+\end{center}
 
 When an object is modified or specialized, the system displays two
 lines of output: the first shows the old version being deleted, the
@@ -1165,49 +1159,30 @@ In the case of a \tt{SPECIALIZE} action, the attribute changed is
 \verb|^$INSTANCE-OF|.
 
 In the following example, trace output for working memory
-changes is shown in italic print.
+changes is shown in \it{italic} print.
 
-Example 9-3. Trace Ouput for Working Memory
 \begin{quote}
-\begin{verbatim}
-  RuleWorks>trace on eb rule wm
+\begin{Verbatim}[commandchars=\\\{\}]
+\RWP\cmd{trace on eb rule wm}
+\RWP\cmd{run}
+    Name to look up: \cmd{Jenny Baker}
+    -->Entry-Block: LOOKUP_PHONE_NUMBER
+    =>WM: #65 65 [ON-ENTRY] (REQUEST ^FIRST-NAME |Jenny| ^LAST-NAME |Baker|)
+    3 (1): LAST-RESORT:PRINT-ALL-SIMILAR #42 42 #65 65 #3 3
 
-  RuleWorks>run
+    Could not find a probable match for Jenny Baker
+    but found potential matches --
+    -->Entry-Block: PRINT_SIMILAR_NAMES
+    =>WM: #66 66 [ON-ENTRY] (REQUEST ^LAST-NAME |Baker|)
+    4 (1): PRINT-ALL-WITH-SIMILAR-LAST-NAME #66 66 #3 3
 
-     Name to look up: Jenny Baker
-
-     -->Entry-Block: LOOKUP_PHONE_NUMBER
-
-     =>WM: #65 65 [ON-ENTRY] (REQUEST ^FIRST-NAME |Jenny|
-     ^LAST-NAME |Baker|)
-
-     3 (1): LAST-RESORT:PRINT-ALL-SIMILAR #42 42 #65 65 #3 3
-
-      
-
-     Could not find a probable match for Jenny Baker but found
-     potential matches --
-
-     -->Entry-Block: PRINT_SIMILAR_NAMES
-
-     =>WM: #66 66 [ON-ENTRY] (REQUEST ^LAST-NAME |Baker|)
-
-     4 (1): PRINT-ALL-WITH-SIMILAR-LAST-NAME #66 66 #3 3
-
-      
-
-     Ginny Baccer
-
-     <--Entry-Block: PRINT_SIMILAR_NAMES
-
-     <=WM: #66 66 [ON-ENTRY] (REQUEST ^LAST-NAME |Baker|)
-
-     <--Entry-Block: LOOKUP_PHONE_NUMBER
-
-     <=WM: #65 65 [ON-ENTRY] (REQUEST ^FIRST-NAME |Jenny|
-     ^LAST-NAME |Baker|)
-\end{verbatim}
-\end{quote}  
+    Ginny Baccer
+    <--Entry-Block: PRINT_SIMILAR_NAMES
+    <=WM: #66 66 [ON-ENTRY] (REQUEST ^LAST-NAME |Baker|)
+    <--Entry-Block: LOOKUP_PHONE_NUMBER
+    <=WM: #65 65 [ON-ENTRY] (REQUEST ^FIRST-NAME |Jenny| ^LAST-NAME |Baker|)
+\end{Verbatim}
+\end{quote}
 
 When all visible objects are deleted (for example, in a
 \tt{RESTORESTATE} or \tt{REMOVE *} action), the system displays:
@@ -1242,52 +1217,42 @@ Each line of conflict set trace output is preceded by a symbol that
 indicates whether the instantiation was added to or deleted from the
 conflict set:
 
-Table 9-5. Trace Output Symbols
-
-+--------------------------------------------------+
-| Symbol | Meaning                                 |
-|--------+-----------------------------------------|
-| =>CS:  | Instantiation added to conflict set     |
-|--------+-----------------------------------------|
-| <=CS:  | Instantiation deleted from conflict set |
-+--------------------------------------------------+
+\begin{center}
+\begin{tabular}{ll}
+  \toprule
+  Symbol & Meaning \\
+  \midrule
+  \verb|=>CS:| & Instantiation added to conflict set \\
+  \verb|<=CS:| & Instantiation deleted from conflict set \\
+  \bottomrule
+\end{tabular}
+\end{center}
 
 In the following example, trace output about the conflict set is
-shown in italic print.
+shown in \it{italic} print.
 
-Example 9-4. Trace Ouput for The Conflict Set
 \begin{quote}
-\begin{verbatim}
-  RuleWorks> trace on eb rule wm cs
-
-  RuleWorks> run
-
-  Name to look up: RuleWorks>Anne Beauchant
-
-  -->Entry-Block: LOOKUP_PHONE_NUMBER
-
-  =>WM: #69 69 [ON-ENTRY] (REQUEST ^FIRST-NAME |Anne| ^LAST-NAME
-  |Beauchant|
-
-  =>CS: LAST-SIMILAR-AND-FIRST-SIMILAR #44 44 #69 69 #2 2
-
-  =>CS: LAST-RESORT:PRINT-ALL-SIMILAR #42 42 #69 69 #2 2
-
-  =>CS: LAST-RESORT:NO-MATCHES-AT-ALL #42 42 #69 69
-
-  7 (1): LAST-SIMILAR-AND-FIRST-SIMILAR #44 44 #69 69 #2 2
-
-  Found a possible match for Anne Beauchant
-
-  . The number for Ann Bachant is 555-5619.
-
-  <--Entry-Block: LOOKUP_PHONE_NUMBER
-
-  <=WM: #69 69 [ON-ENTRY] (REQUEST ^FIRST-NAME |Anne| ^LAST-NAME
-  |Beauchant|)
-\end{verbatim}
+\begin{Verbatim}[commandchars=\\\{\}]
+\RWP\cmd{trace on eb rule wm cs}
+\RWP\cmd{run}
+    Name to look up: \cmd{Anne Beauchant}
+    -->Entry-Block: LOOKUP_PHONE_NUMBER
+    =>WM: #69 69 [ON-ENTRY] (REQUEST ^FIRST-NAME |Anne| 
+        ^LAST-NAME |Beauchant|
+    \it{=>CS: LAST-SIMILAR-AND-FIRST-SIMILAR #44 44 #69 69 #2 2}
+    \it{=>CS: LAST-RESORT:PRINT-ALL-SIMILAR #42 42 #69 69 #2 2}
+    \it{=>CS: LAST-RESORT:NO-MATCHES-AT-ALL #42 42 #69 69}
+    7 (1): LAST-SIMILAR-AND-FIRST-SIMILAR #44 44 #69 69 #2 2
+    Found a possible match for Anne Beauchant. 
+    The number for Ann Bachant is 555-5619.
+    <--Entry-Block: LOOKUP_PHONE_NUMBER
+    <=WM: #69 69 [ON-ENTRY] (REQUEST ^FIRST-NAME |Anne|
+        ^LAST-NAME |Beauchant|)
+\end{Verbatim}
 \end{quote}
+
 When all conflict set elements are deleted, the system displays:
+
 \begin{quote}
 \begin{verbatim}
 <=CS: ** All CS Entries Removed **
@@ -1320,7 +1285,7 @@ conflict set to the file \verb|my_save.dat|:
   The state of user-defined external routines and open files is not
   saved by the \tt{SAVESTATE} command and thus cannot be restored with
   the \tt{ADDSTATE} or \tt{RESTORESTATE} command.
-\end{quote}
+\end{note}
 
 \subsection{\tt{RESTORESTATE} Command}
 

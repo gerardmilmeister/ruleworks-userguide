@@ -68,26 +68,22 @@ declarations via a \tt{USES} clause. See Chapter~\ref{c:program} for
 details on data partitioning and declaration sharing.
 
 The complete syntax for the \tt{EXTERNAL-ROUTINE} declaration is shown
-in Figure~\ref{f:6-1}:
+in the following:
 
-\begin{figure}[h]
 \begin{quote}
 \tt{(EXTERNAL-ROUTINE} \it{routine-name}\par
-\qquad[\tt{(ALIAS-FOR} actual-routine-name\tt{)}]\par
-\qquad\qquad[\verb|<|\it{formal-parameter-name}\verb|>| [\it{size}]]\par
+\qquad[\tt{(ALIAS-FOR} \it{actual-routine-name}\tt{)}]\par
+\qquad\qquad[\verb|<|\it{formal-parameter-name}\verb|>| [\tt[\it{size}\tt]]]\par
 \qquad[\tt{(ACCEPTS} \{\it{external-type}\} \ldots\verb|)|]\par
 \qquad\qquad[\it{passing-mechanism}]\par
-\qquad\qquad[\verb|<|\it{formal-parameter-name}\verb|>| [\it{size}]]\par
-\qquad[\tt{(ACCEPTS} \{\it{external-type}\}\tt{)}]\}\par
+\qquad\qquad[\verb|<|\it{formal-parameter-name}\verb|>| [\tt[\it{size}\tt]]]\par
+\qquad[\tt{(ACCEPTS} \{\it{external-type}\}\tt{)}]\par
 \qquad\qquad[\it{passing-mechanism}]\par
 \end{quote}
-\caption{External Routine Declaration Syntax}
-\label{f:6-1}
-\end{figure}
 
-The routine-name is required; the \tt{ALIAS-FOR}, \tt{ACCEPTS} and
-\tt{RETURNS} clauses are optional.  The syntax for calling an external
-routine is shown below:
+The \it{routine-name} is required; the \tt{ALIAS-FOR}, \tt{ACCEPTS}
+and \tt{RETURNS} clauses are optional.  The syntax for calling an
+external routine is shown below:
 
 \begin{quote}
 \verb|(|\it{routine-name} [\{\it{value-expression}\} \ldots]\verb|)|
@@ -118,7 +114,7 @@ The actual function name must be quoted to preserve case. For example:
 \begin{quote}
 \begin{verbatim}
 (external-routine xt_parent ; routine name used inside TINpan
-    (alias-for |XtParent|) ; actual function name
+    (alias-for |XtParent|)  ; actual function name
     (accepts pointer)
     (returns pointer))
 \end{verbatim}
@@ -1309,7 +1305,8 @@ Anywhere in a Rule:
 \item Do not depend on the order of evaluation of argument expressions
   to any built-in action or function or to any external routine.
 \item External routines that return allocated memory are responsible
-  for deallocation of that memory (array or string, ASCIZ or ASCID).
+  for deallocation of that memory (array or string, \tt{ASCIZ} or
+  \tt{ASCID}).
 \item Strings and arrays passed as return values from entry blocks are
   never deallocated, so when possible use read-write arguments
   instead.

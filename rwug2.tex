@@ -36,10 +36,13 @@ the sample program \tt{KIWI}.
 Inheritance from a parent class is declared in the
 \tt{INHERITS-FROM} clause of the \tt{OBJECT-CLASS} declaration of the
 subclass:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 (object-class subclass-name
     (inherits-from parent-class-name))
-\end{qv}
+\end{verbatim}
+\end{quote}
   
 Because objects inherit membership in the parent class, objects match
 condition elements not only of their own class, but also of their
@@ -96,7 +99,7 @@ classes \tt{HD-30} and \tt{HD-200} have class specificity of six.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[scale=0.7]{f2-2}
+  \input f2-2.tex
   \caption{Inheritance from \tt{\$ROOT}}
   \label{f:2-2}
 \end{figure}
@@ -131,14 +134,21 @@ attributes store the instance identifier and class name of
 the WMO (see Object Identifiers and Class Name)
 
 RuleWorks displays WMOs in the following format:
+
 \begin{quote}
-\#\it{id} \it{time-tag} (\it{class-name} [\it{rule-name}] [\{\ct\it{attribute-name} \it{attribute-value}\} \ldots])
+  \verb|#|\it{id} \it{time-tag} \verb|(|\it{class-name}
+  \verb|[|\it{rule-name}\verb|]| [\{\ct\it{attribute-name}
+  \it{attribute-value}\} \ldots]\verb|)|
 \end{quote}
+
 For example:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 #297 2529 (PERSON [INIT-DB] ^GIVEN-NAME LARRY ^LAST-NAME KIRK
-  ^CHILDREN (COMPOUND ALEXANDER ALICIA ANDREW) ^SPOUSE NINA)
-\end{qv}
+    ^CHILDREN (COMPOUND ALEXANDER ALICIA ANDREW) ^SPOUSE NINA)
+\end{verbatim}
+\end{quote}
 
 RuleWorks does not include the names \verb|^$ID| and \verb|^$INSTANCE-OF|
 when it displays a WMO, but it does include the values of
@@ -165,7 +175,8 @@ variable.
 as in the following rule, but nothing else:
 
 \begin{example}[h]
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (rule
   verify-configuration:kiwindows-needs-2-memory-cards-found-one
   ;This rule matches when there is exactly one object of class
@@ -181,7 +192,8 @@ as in the following rule, but nothing else:
          (crlf) | Fixup: adding another memory card to your order.|
          (crlf))
          (make memory))
-\end{qv}
+\end{verbatim}
+\end{quote}
 \caption{Comparing Object Identifiers}
 \end{example}
 
@@ -263,10 +275,10 @@ software are specified in separate \tt{OBJECT-CLASS} declarations.
 \end{example}
 
 Suppose you want to specify an object that has the class name
-KIWICALC, is distributed on a 3.5-inch floppy disk, has part
-number S-CA-9200, name KiwiCalc Spreadsheet Software, price
-{\$}29.95, and a status flag whose value is \tt{YES}. You can specify
-this object as shown in the example.
+\tt{KIWICALC}, is distributed on a 3.5-inch floppy disk, has part
+number S-CA-9200, name KiwiCalc Spreadsheet Software, price {\$}29.95,
+and a status flag whose value is \tt{YES}. You can specify this object
+as shown in the example.
 
 \begin{example}[h]
 \begin{quote}
@@ -294,19 +306,26 @@ Attributes are local to an object class and its descendants;
 you can use the same attribute name in unrelated object
 classes. For example, the attribute \verb|^NAME| is used in both of
 the following objects:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 (context ^name input-order)
 (kiwicalc ^media-type fd-35 ^name kiwicalc)
-\end{qv}
+\end{verbatim}
+\end{quote}
 
-\subsubsection*{Scalar Attributes}
+\subsubsection{Scalar Attributes}
 
 The value of a scalar attribute is a single atom (see the
 section Atoms). For example:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 ^name |KiwiCalc Spreadsheet Software|
 ^price 29.95
-\end{qv}
+\end{verbatim}
+\end{quote}
+
 The values of these attributes are the symbolic atom
 \verb,|KiwiCalc Spreadsheet Software|, and the floating-point atom
 29.95. The figure shows how the run-time system stores the
@@ -314,7 +333,7 @@ scalar attribute values for a \tt{KIWICALC} object.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[scale=0.7]{f2-5}
+  \input f2-5.tex
   \caption{Storing the Values of Scalar Attributes}
   \label{f:2-5}
 \end{figure}
@@ -330,9 +349,12 @@ of the compound value.
 
 Compound values are created (and displayed) with the \tt{COMPOUND}
 function. For example:
-\begin{qv}
-  (compound memory memory keyboard fd-35)
-\end{qv}
+
+\begin{quote}
+\begin{verbatim}
+(compound memory memory keyboard fd-35)
+\end{verbatim}
+\end{quote}
 
 RuleWorks does not have multilevel lists like LISP; the
 result of concatenating the compound value \tt{(COMPOUND A B C)},
@@ -370,16 +392,14 @@ information on creating and changing compound values.
 
 Use the \tt{COMPOUND} keyword in an \tt{OBJECT-CLASS} declaration to
 define the name of a compound attribute.
-
-\begin{example}[h]
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (object-class box
     (inherits-from part)
     ^card-in-slot compound
     ^card-in-slot-obj-id compound)
-\end{qv}
-\caption{\tt{OBJECT-CLASS}}
-\end{example}
+\end{verbatim}
+\end{quote}
 
 The compound attribute declaration is local to the object
 class (and its inheriting subclasses), so it is possible for
@@ -388,7 +408,7 @@ scalar in another. It is not possible for an attribute to be
 compound in the parent class but scalar in a subclass, or
 vice-versa.
 
-\subsubsection*{Data Type Declarations}
+\subsubsection{Data Type Declarations}
 
 By default, the value of a scalar attribute can have any
 valid atomic data type, and the value of a compound attribute
@@ -426,13 +446,13 @@ declarations for attributes.
     \toprule
     Data Type & Description & Default value \\
     \midrule
-    \tt{INTEGER}     & Integer number        & 0             \\
-    \tt{FLOAT}       & Floating point number & 0.0           \\
-    \tt{NUMBER}      & Either kind of number & 0             \\
-    \tt{SYMBOL}      & Symbolic atom         & \tt{NIL}           \\
-    \tt{INSTANCE-ID} & Object identifier     & \verb|#0|     \\
-    \tt{OPAQUE}      & Virtual address       & \verb|%x0|    \\
-    \tt{ANY}         & Any of the above      & \tt{NIL}           \\  
+    \tt{INTEGER}     & Integer number        & \tt{0} \\
+    \tt{FLOAT}       & Floating point number & \tt{0.0} \\
+    \tt{NUMBER}      & Either kind of number & \tt{0} \\
+    \tt{SYMBOL}      & Symbolic atom         & \tt{NIL} \\
+    \tt{INSTANCE-ID} & Object identifier     & \verb|#0| \\
+    \tt{OPAQUE}      & Virtual address       & \verb|%x0| \\
+    \tt{ANY}         & Any of the above      & \tt{NIL} \\  
     \bottomrule
   \end{tabular}
   \caption{Data Types for Attributes}
@@ -445,7 +465,7 @@ floats. To ensure that a value has the correct type, use one
 of the built-in coercion functions: \tt{FLOAT}, \tt{INTEGER}, or
 \tt{SYMBOL}.
 
-\subsubsection*{Default Value Declarations}
+\subsubsection{Default Value Declarations}
 
 When you create an object, you do not need to specify a value
 for each attribute. RuleWorks supplies a default value for
@@ -464,16 +484,15 @@ keyword in the \tt{OBJECT-CLASS} declaration. The following
 example shows the declaration of the \tt{PART} class from the
 sample configuration program.
 
-\begin{example}[h]
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (object-class part
     ^part-number
     ^name
     ^price 
     ^is-expanded (default no))
-\end{qv}
-\caption{Declaration of the \tt{PART} Class}
-\end{example}
+\end{verbatim}
+\end{quote}
 
 When any object that inherits from class \tt{PART} is made, and no
 new value for the \verb|^IS-EXPANDED| attribute is specified, the
@@ -485,8 +504,8 @@ contents of the attribute, if none is specified in the \tt{MAKE}
 action. The following example declares an initial value for
 the hypothetical compound attribute \verb|^TASKS|:
 
-\begin{example}
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (object-class agenda
     ^tasks compound symbol
        (default (compound input-order
@@ -496,11 +515,10 @@ the hypothetical compound attribute \verb|^TASKS|:
                           choose-slots
                           modify-software-media
                           output-new-order)))
-\end{qv}
-\caption{Declaring an Initial Value for \ct\tt{TASK}}
-\end{example}
+\end{verbatim}
+\end{quote}
 
-\subsubsection*{Fill Value Declarations}
+\subsubsection{Fill Value Declarations}
 
 You can modify a compound attribute by specifying a new value for any
 element. Thus, it is possible to modify a compound attribute``beyond''
@@ -513,18 +531,26 @@ RuleWorks' default fill value depends on the data type of the compound
 attribute, if any. You specify a different fill value in the
 \tt{OBJECT-CLASS} declaration, after the \tt{COMPOUND} keyword. For
 example, consider the declaration shown below:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 (object-class agenda
     ^tasks compound
        (default (compound input verify output))
        (fill no-op))
-\end{qv}
+\end{verbatim}
+\end{quote}
+
 When an \tt{AGENDA} object is made, the default value of its
 \verb|^TASKS| attribute is \tt{(COMPOUND INPUT VERIFY
   OUTPUT)}. Suppose the following \tt{MODIFY} action is executed:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 (modify <my-agenda> ^tasks[5] clean-up)
-\end{qv}
+\end{verbatim}
+\end{quote}
+
 The value of \verb|^TASKS| is now \tt{(COMPOUND INPUT VERIFY OUTPUT
   NO-OP CLEAN-UP)}.
 
@@ -547,12 +573,16 @@ atom. Atoms must be one of the data types listed in Table~\ref{t:2-2}.
 A symbolic atom is one that does not have a numeric value. A symbol
 consists of from 0 to 256 printable ASCII characters on a single
 line. For example:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 c
 PLANT
 ?-c
 10-14
-\end{qv}
+\end{verbatim}
+\end{quote}
+
 RuleWorks supports the eight-bit DEC Multinational Character
 Set. Table~\ref{t:2-3} lists the characters that cannot be used in
 unquoted RuleWorks symbols.
@@ -603,22 +633,30 @@ code. The empty symbol are vertical bars enclosing nothing
 (\verb,||,).
 
 To quote a vertical bar itself, double it. For example:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 |This is a vertical bar - ||.|
-\end{qv}
+\end{verbatim}
+\end{quote}
+
 When this atom is displayed or printed, it includes only one
 vertical bar:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 This is a vertical bar - |.
-\end{qv}
+\end{verbatim}
+\end{quote}
+
 When reading unquoted symbols, RuleWorks automatically turns lowercase
 characters into uppercase. An unquoted symbol printed by RuleWorks may
 appear to be different from the symbol read by RuleWorks. If you want
 the print form to be the same as the read form, you must use quoted
-symbols. Table~\ref{t:2-4} shows the read and print forms of several atoms.
+symbols. The following table shows the read and print forms of several
+atoms:
 
-\begin{table}[h]
-  \centering
+\begin{center}
   \begin{tabular}{lll}
     \toprule
     Read Form & Print Form & Data Type \\
@@ -631,9 +669,7 @@ symbols. Table~\ref{t:2-4} shows the read and print forms of several atoms.
     \verb,|A B|,     & \verb,A B,        & one \tt{SYMBOL} \\
   \bottomrule
   \end{tabular}
-  \caption{Read Forms and Print Forms}
-  \label{t:2-4}
-\end{table}
+\end{center}
 
 All atoms that are not symbols have read forms that are identical to
 their print forms.
@@ -641,6 +677,7 @@ their print forms.
 \subsubsection{Integer Atoms}
 
 Integer atoms consist of the following:
+
 \begin{itemize}
 \item An optional plus or minus sign
 \item One or more decimal digits
@@ -648,12 +685,16 @@ Integer atoms consist of the following:
 \end{itemize}
 
 The following are examples of integer atoms:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 0
 25.
 -14
 -5.
-\end{qv}
+\end{verbatim}
+\end{quote}
+
 Integer atoms can represent the same range of values as a ``long'' in
 the C language. On Digital UNIX for Alpha, integers are 64 bits. That
 is, the valid range for integer atoms is $-2^{63}$ to $2^{63}- 1$. On
@@ -662,6 +703,7 @@ all other systems, integers are 32 bits or $-2^{31}$ to $2^{31}-1$.
 \subsubsection{Floating-Point Atoms}
 
 A floating-point atom is composed of the following:
+
 \begin{itemize}
 \item An optional plus or minus sign
 \item Zero or more decimal digits
@@ -672,23 +714,28 @@ A floating-point atom is composed of the following:
   \item An optional exponent
   \end{itemize}
 \end{itemize}
+
 An exponent consists of the letter ``E'' followed by a signed
 or unsigned integer and represents a power of 10 by which a
 preceding number is to be multiplied. For example, E-8
 represents the value 10 raised to the power -8.
 
-\begin{quote}
-  \textbf{Note:} A floating-point atom must include a decimal point
-  followed by a digit or an exponent, or both.
-\end{quote}
+\begin{note}
+  A floating-point atom must include a decimal point followed by a
+  digit or an exponent, or both.
+\end{note}
 
 The following are examples of floating-point atoms:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 0.0
 .25
 10.05e-14
 -5.e10
-\end{qv}
+\end{verbatim}
+\end{quote}
+
 Floating-point numbers are stored in double-precision and can
 represent the same range of values as a ``double'' in the C
 language. (On VAX systems, this is \verb|D_float data|; see the
@@ -700,16 +747,19 @@ language. (On VAX systems, this is \verb|D_float data|; see the
 Values of type \tt{INSTANCE-ID} are used to identify objects.
 RuleWorks displays (and you type) an \tt{INSTANCE-ID} atom as a number
 sign (\verb|#|) followed by an integer.
-\begin{qv}
-#1
-#7955
-\end{qv}
 
 \begin{quote}
-  \textbf{Note:} \tt{INSTANCE-ID}s are not integers. Arithmetic
-  operations cannot be applied to values of type \tt{INSTANCE-ID}, and
-  they cannot be compared except for identity or nonidentity.
+\begin{verbatim}
+#1
+#7955
+\end{verbatim}
 \end{quote}
+
+\begin{note}
+  \tt{INSTANCE-ID}s are not integers. Arithmetic operations cannot be
+  applied to values of type \tt{INSTANCE-ID}, and they cannot be
+  compared except for identity or nonidentity.
+\end{note}
 
 More information on variables bound to atoms of type \tt{INSTANCE-ID}
 is found in Chapter~\ref{c:conditionelements}.
@@ -729,9 +779,13 @@ the \tt{INTEGER} data type.
 There is no way in RuleWorks directly to create a constant of
 type \tt{OPAQUE}, except for the null pointer which is a RuleWorks
 constant. For example:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 %x0 ; the null pointer
-\end{qv}
+\end{verbatim}
+\end{quote}
+
 An \tt{OPAQUE} constant can be passed into RuleWorks from an
 external routine, or as an input argument to an entry block,
 and then passed out or returned.
@@ -745,7 +799,7 @@ and then passed out or returned.
 \subsection{Variables}
 
 A variable is any unquoted symbol enclosed in angle brackets
-(\verb|< >|). An example is \verb|<PRICE>|.
+(\verb|<>|). An example is \verb|<PRICE>|.
 
 \begin{note}
   In RuleWorks, the symbols \verb|<=>| and \verb|<->| represent the
@@ -759,9 +813,12 @@ element or in a \tt{BIND} action.
 
 The following \tt{WRITE} action has two arguments: a quoted symbolic
 atom and a bound variable.
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 (write |The value found was:| <x>)
-\end{qv}
+\end{verbatim}
+\end{quote}
 
 \subsection{Arithmetic Expressions}
 
@@ -770,41 +827,50 @@ used. An arithmetic expression can contain numbers, variables bound to
 numbers, functions which return numbers, and arithmetic operators. The
 expression must be enclosed in parentheses, except when indexing into
 a compound value. For example:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 ^price = (<item-1> + <item-2>) ; add two bound variables
 ^card-in-slot[<n> + 1] memory ; add a variable and a constant
-\end{qv}
+\end{verbatim}
+\end{quote}
+
 The valid operators are:
-\begin{table}[h]
-  \centering
+
+\begin{center}
   \begin{tabular}{ll}
     \toprule
- Operator & Description    \\
+    Operator & Description    \\
     \midrule
-    \verb|+|        & Addition       \\
-    \verb|-|        & Subtraction    \\
-    \verb|*|        & Multiplication \\
-    \verb|/|        & Division       \\
-    \verb|\|        & Modulus        \\
+    \verb|+|  & Addition       \\
+    \verb|-|  & Subtraction    \\
+    \verb|*|  & Multiplication \\
+    \verb|/|  & Division       \\
+    \verb|\|  & Modulus        \\
     \bottomrule
   \end{tabular}
-  \caption{RuleWorks Operators}
-\end{table}
+\end{center}
 
 If an expression contains both integers and floating-point numbers,
 the result is a floating-point number. If an expression contains
 integers only, the result is an integer (by truncation). For example,
 7.0 (float) divided by 4 (integer) is 1.75 (float), but 7 (integer)
 divided by 4 (integer) is 1 (integer).
+
 \begin{note}
 Use the modulus operator only with integer operands.
 \end{note}
+
 Use infix notation in RuleWorks arithmetic expressions, that is, place
 operators between operands. Separate each operator and operand with a
 space. Surround the entire expression with parentheses. For example:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 (2 + <X>)
-\end{qv}
+\end{verbatim}
+\end{quote}
+
 Spaces are not required around any of the special characters in the
 first five rows of the table.
 
@@ -820,14 +886,22 @@ follows the normal conventions:
 \end{quote}
 
 For example, the following expression evaluates to 12, not 20:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 (2 + 2 * 5)
-\end{qv}
+\end{verbatim}
+\end{quote}
+
 To override the normal precedence, use more parentheses. The following
 expression does evaluate to 20:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 ((2 + 2)* 5)
-\end{qv}
+\end{verbatim}
+\end{quote}
+
 Consider the following rule:
 \begin{quote}
 \begin{verbatim}
@@ -858,20 +932,28 @@ scalar attribute.
 \subsection{Function Calls}
 
 The format for specifying a function call is:
+
 \begin{quote}
-\verb|(|\it{function-name} \it{argument-1} \it{argument-2} \ldots\verb|)|
+  \verb|(|\it{function-name} \it{argument-1} \it{argument-2} \ldots\verb|)|
 \end{quote}
+
 Use the same format whether the function is built-in or user-defined
 (as an external function or an entry block that returns a value).
+
 \begin{note}
   If a function requires no arguments, you must still enclose the
   function name in parentheses.
 \end{note}
+
 You can represent a value with a call to a built-in RuleWorks
 function. Consider the following \tt{MAKE} action:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 (make input-thing ^item (accept-atom infil))
-\end{qv}
+\end{verbatim}
+\end{quote}
+
 First, the run-time system evaluates the call to the \tt{ACCEPT-ATOM}
 function. The \tt{MAKE} action then stores the value returned by the
 \tt{ACCEPT-ATOM} function in the \verb|^ITEM| attribute of the
@@ -881,9 +963,12 @@ You can also represent a value with a call to a user-defined function,
 written in RuleWorks or some other language. In either case, you must
 declare the function before you call it. The following \tt{BIND}
 action calls the external function \verb|SQUARE-ROOT|:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 (bind <std-deviation> (square-root <variance>))
-\end{qv}
+\end{verbatim}
+\end{quote}
 
 %%% Local Variables:
 %%% mode: latex

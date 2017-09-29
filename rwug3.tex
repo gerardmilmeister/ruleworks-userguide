@@ -28,7 +28,6 @@ object class. The class name is the only required item. In
 the example below, the CE (start) matches the object made
 in the \tt{ON-ENTRY} statement.
 
-\begin{example}[h]
 \begin{quote}
 \begin{verbatim}
 (entry-block main)
@@ -41,14 +40,13 @@ in the \tt{ON-ENTRY} statement.
 (end-block main)
 \end{verbatim}
 \end{quote}
-\caption{Object Class---\tt{ON-ENTRY}}
-\end{example}
 
 Example~\ref{e:obclasdecl} hows some \tt{OBJECT-CLASS} declarations
 from the sample configuration program, \tt{KIWI.RUL}.
 
 \begin{example}[h]
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (object-class part
     ^part-number
     ^name
@@ -66,7 +64,8 @@ from the sample configuration program, \tt{KIWI.RUL}.
 
 (object-class memory
     (inherits-from hardware-option))
-\end{qv}
+\end{verbatim}
+\end{quote}
 \caption{Sample \tt{OBJECT-CLASS} Declarations}
 \label{e:obclasdecl}
 \end{example}
@@ -81,7 +80,8 @@ class \tt{PART} can match a CE that specifies the class name
 \tt{PART}.
 
 \begin{table}[h]
-  \begin{tabularx}{\columnwidth}{Xllll}
+  \centering
+  \begin{tabular}{lllll}
     \toprule
     An Object of Class & \multicolumn{4}{l}{Matches a Condition Element of  Class} \\
     \midrule
@@ -92,7 +92,7 @@ class \tt{PART} can match a CE that specifies the class name
     \tt{HARDWARE-OPTION}    & Yes  & Yes    & Yes      & No  \\
     \tt{MEMORY}             & Yes  & Yes    & Yes      & Yes  \\
     \bottomrule
-  \end{tabularx}
+  \end{tabular}
   \caption{Matching Object Classes}
   \label{t:matchingobclass}
 \end{table}
@@ -101,22 +101,21 @@ An object of any visible user-declared class matches a CE that
 specifies the built-in top-level class \verb|$ROOT|.
 
 Rules can refer only to classes that are visible to the entry block or
-rule block that contains them. See Chapter 5 for information on making
-object classes visible to more than one block.
+rule block that contains them. See Chapter~\ref{c:program} for
+information on making object classes visible to more than one block.
 
 Rules can refer to a parent class or to a specific subclass. In
-Example~\ref{e:obclassmatchrules}, the rule
-\tt{VERIFY-CONFIGURATION:APPLICATION-NEEDS-KIWOS} applies to any one
+the following example, the rule
+\tt{VERIFY-CONF:APPLICATION-NEEDS-KIWOS} applies to any one
 of the software applications: \tt{KiWindows}, \tt{KiwiCalc}, or
 \tt{KiwiTalk}. Conversely, rule
-\tt{VERIFY-CONFIGURATION:KIWITALK-NEEDS-NETWORK} applies only to
+\tt{VERIFY-CONF:KIWITALK-NEEDS-NETWORK} applies only to
 \tt{KiwiTalk}, not to \tt{KiWindows} or \tt{KiwiCalc}.
 
-\begin{example}[h]
 \begin{quote}
 \begin{verbatim}
-(rule verify-configuration:application-needs-kiwos
-  (active-context ^name verify-configuration)
+(rule verify-conf:application-needs-kiwos
+  (active-context ^name verify-conf)
   (kiwos-application ^$instance-of <applic>)
   - (kiwos)
 -->
@@ -127,8 +126,8 @@ of the software applications: \tt{KiWindows}, \tt{KiwiCalc}, or
      (crlf))
   (make kiwos))
 
-(rule verify-configuration:kiwitalk-needs-network
-  (active-context ^name verify-configuration)
+(rule verify-conf:kiwitalk-needs-network
+  (active-context ^name verify-conf)
   (kiwitalk)
   -(network-interface)
 -->
@@ -141,9 +140,6 @@ of the software applications: \tt{KiWindows}, \tt{KiwiCalc}, or
   (make network-interface))
 \end{verbatim}
 \end{quote}
-\caption{Object Class Match Rules}
-\label{e:obclassmatchrules}
-\end{example}
 
 \begin{note}
   Any attribute accessed in a rule must either be declared in the
@@ -158,7 +154,7 @@ attribute-value tests. These are the patterns that objects in working
 memory must match in order for the rule to fire. Attribute-value tests
 consist of an attribute name, a predicate, and a value. You can make
 combinations of tests on a single attribute by using conjunctions and
-disjunctions, which are similar to \tt{AND} and \tt{OR} operators.
+disjunctions, which are similar to AND and OR operators.
 
 The number of attribute-value tests on the LHS determines the test
 specificity of a rule. Test specificity is one of the principles used
@@ -175,20 +171,27 @@ of the following constructs:
 \end{itemize}
 The attribute operator (\verb|^|) must precede the attribute name.
 
-Given the declarations in Example 3-2, the following are valid CEs:
-\begin{qv}
+Given the declarations in the example above, the following are valid
+CEs:
+
+\begin{quote}
+\begin{verbatim}
 (part ^part-number KI-9200)
 (option ^part-number KI-9200)
 (hardware-option ^part-number KI-9200 ^takes-slot yes)
 (memory ^part-number KI-9200 ^takes-slot yes)
-\end{qv}
+\end{verbatim}
+\end{quote}
 
 The following CEs are not valid because the attributes
 have not been declared for the object classes:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 (part ^takes-slot no)
 (option ^is-placed yes)
-\end{qv}
+\end{verbatim}
+\end{quote}
 
 The built-in attribute names are \verb|^$INSTANCE-OF| (see
 Matching the Exact Class and Matching the Instance
@@ -204,7 +207,6 @@ binds the value of the \verb|^$INSTANCE-OF| attribute to the variable
 \verb|<OPTION>|. This variable is then used in the \verb|MODIFY|
 action.
 
-\begin{example}[h]
 \begin{quote}
 \begin{verbatim}
 ...
@@ -217,14 +219,11 @@ action.
   ^card-in-slot-obj-id [(<len> + 1)] <the-option>)
 ...
 \end{verbatim}
-\caption{Matching the Exact Class}
-\label{e:3-4}
 \end{quote}
 In this example, \verb|<OPTION>| might be bound to the symbol
 \verb|MEMORY|.
-\end{example}
 
-\subsubsection*{Matching the Instance Identifier}
+\subsubsection{Matching the Instance Identifier}
 
 The built-in, read-only attribute
 \verb|^$ID| stores the \tt{INSTANCE-ID} value of the object. If you
@@ -433,9 +432,11 @@ For example, the seventh row in Table~\ref{t:3-2} states that any
 tested for being greater than any other NUMBER. Thus, assuming the
 value of \verb|^LIST-PRICE| is the \verb|FLOAT| 29.95, the following
 test returns \verb|TRUE|:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 ^list-price > 20
-\end{qv}
+\end{verbatim}
+\end{quote}
 The same row also states that the greater-than predicate can be
 applied to two symbols. For example, the following test is valid, and
 the symbols are compared according to the lexicographic collating
@@ -443,9 +444,11 @@ sequence for the target platform (the operating system and hardware
 where the executable image will run). Assume that \verb|^ANIMAL| is
 bound to the symbol \tt{AARDVARK}, and the following test produces a
 match:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 ^animal < zebra
-\end{qv}
+\end{verbatim}
+\end{quote}
 
 A mixed type comparison such as the following generates a compile-time
 warning and fails to match at run time:
@@ -517,10 +520,12 @@ the attribute value in the object that matches the CE. All subsequent
 occurrences of that variable in that rule represent the same
 value. For example, suppose the LHS of a rule contains the following
 CEs:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (memory ^price <price>) ; variable <price> is bound here
 (disk ^price > <price>) ; variable <price> is tested here
-\end{qv}
+\end{verbatim}
+\end{quote}
 
 If the run-time system finds a match for the first CE, the system
 binds the variable \verb|<PRICE>| to the value stored in the
@@ -577,13 +582,17 @@ long. Assuming the variable \verb|<LIMIT>| is bound to 5.5, the
 following CE does not match this \tt{BOX} object because 5.5 is a
 floating-point number and the length predicates require integer
 operands:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (box ^card-in-slot [<=] <limit>)
-\end{qv}
+\end{verbatim}
+\end{quote}
   However, the next CE does match:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (box ^card-in-slot [<=] (integer <limit>))
-\end{qv}
+\end{verbatim}
+\end{quote}
 Function calls can include variables, but the variables
   must be bound to values. That is, the variables must
   have been used in a previous CE or previously in the
@@ -598,9 +607,11 @@ Function calls can include variables, but the variables
   To quote a value, precede it with the quote operator
   (\verb|//|). Using this operator is similar to enclosing an
   atom in vertical bars. For example:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (memory ^price // <price>)
-\end{qv}
+\end{verbatim}
+\end{quote}
 The above CE matches an object whose class is \tt{MEMORY} and whose
 \verb|^PRICE| attribute contains the symbol \verb|<PRICE>|. If the
 value is quoted with vertical bars, the symbol is \verb|<price>| in
@@ -625,9 +636,11 @@ use unbound variables in the index into a compound attribute.
 
 The following example binds the variable \verb|<THIRD>| to the third
 element of the compound attribute \verb|^CARD-IN-SLOT|:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (box ^card-in-slot[3] <third>)
-\end{qv}
+\end{verbatim}
+\end{quote}
 
 If \verb|<THIRD>| is already bound to the symbol \tt{KEYBOARD}, the
 above example matches the object shown in Figure 2-6.
@@ -648,14 +661,15 @@ unbound.
   last element. \verb|$LAST| cannot be used as part of an
   expression. It must stand alone. The following example
   binds or tests the last element:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (box ^card-in-slot[$last] <var>)
-\end{qv}
-% $
+\end{verbatim}
+\end{quote}
 
-  Using \verb|$LAST| for the index expression is an element-wise
-  access. Therefore, the above CE never matches an empty
-  \verb|^CARD-IN-SLOT| attribute.
+Using \verb|$LAST| for the index expression is an element-wise
+access. Therefore, the above CE never matches an empty
+\verb|^CARD-IN-SLOT| attribute.
 
 \subsubsection{The Entire Compound}
 
@@ -671,9 +685,11 @@ unbound.
 
   In the following CE, the variable \verb|<CARDS>| is bound to
   the entire compound attribute \verb|^CARD-IN-SLOT|:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (box ^card-in-slot <cards>)
-\end{qv}
+\end{verbatim}
+\end{quote}
 
 If \verb|<CARDS>| is already bound to a compound value, the CE above
 tests \verb|^CARD-IN-SLOT| and \verb|<CARDS>| for identity on an
@@ -701,10 +717,12 @@ RuleWorks provides six compound predicates for testing the number of
 values in a compound attribute: \verb|[=]|, \verb|[<>]|, \verb|[>]|,
 \verb|[>=]|, \verb|[<]|, and \verb|[<=]|.  An example attribute-value
 test:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 ^card-in-slot [>] 2 ; this test succeeds if the number of
                     ; values in ^card-in-slot is greater than 2
-\end{qv}
+\end{verbatim}
+\end{quote}
                   
 The length-equal-to compound predicate (\verb|[=]|) allows the exact
 number of elements in the compound attribute to be either bound or
@@ -720,14 +738,16 @@ element count is tested for identity with the resulting value. The
 value must be an integer equal to or greater than zero.
 
 The following CE shows both uses of the length-equal-to predicate:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (box ^card-in-slot [=] <len> ; bind the number of values in
                              ; ^card-in-slot to the variable <len>
 
 ^card-in-slot-obj-id [=] <len>) ; match only if the number of values
                                 ; in ^card-in-slot-obj-id is the same
                                 ; as in ^card-in-slot
-\end{qv}
+\end{verbatim}
+\end{quote}
 
 \subsubsection*{Testing for Emptiness}
 
@@ -735,9 +755,11 @@ Testing a compound value for emptiness is a common operation for
 stacks and queues. In RuleWorks this can be done by comparing the
 length of the compound attribute to zero. The following CE matches if
 the compound attribute \verb|^CARD-IN-SLOT| is empty:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (box ^card-in-slot [=] 0)
-\end{qv}
+\end{verbatim}
+\end{quote}
    
 \subsubsection*{Searching for a Value}
 
@@ -746,15 +768,19 @@ Two predicates, containment (\verb|[+]|) and non-containment
 contains a specified element value. The following CE matches if the
 compound attribute \verb|^CARD-IN-SLOT| contains the value
 \tt{MEMORY}:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (box ^card-in-slot [+] memory) ; match if memory found
-\end{qv}
+\end{verbatim}
+\end{quote}
 
 The next CE uses the opposite test from the previous one:
 
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (box ^card-in-slot [-] memory) ; match if memory is  NOT found
-\end{qv}
+\end{verbatim}
+\end{quote}
    
 The containment predicates, unlike the other compound predicates, can
 also be used to compare a scalar attribute value and a compound
@@ -774,9 +800,11 @@ compound element and the value. You can specify a different test by
 placing a scalar predicate next to the containment predicate. The
 compound value is then searched for an element that satisfies the
 specified test and scalar value. Consider the following CE:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (box ^power-consumed-per-slot [-] > 20)
-\end{qv}
+\end{verbatim}
+\end{quote}
 
 This could be pronounced as ``There is a \verb|BOX| object whose
 \verb|^POWER-CONSUMED-PER-SLOT| attribute contains no value greater
@@ -792,10 +820,12 @@ bound compound variable as the first argument to each of these
 functions. For example, the following CE matches a compound attribute
 \verb|^CARD-IN-SLOT| that has two consecutive elements equal to
 \tt{MEMORY}:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (box ^card-in-slot <cards>
      ^card-in-slot [((position <cards> memory) + 1)] = memory)
-\end{qv}   
+\end{verbatim}
+\end{quote}   
 The \tt{POSITION} function above finds only the first occurrence of
 \tt{MEMORY} in \verb|<CARDS>|, so a rule that uses this CE fires only
 once even on a \tt{BOX} object that has three or more consecutive
@@ -825,18 +855,24 @@ the first compound attribute, is more efficient than the first CE.
   braces (\verb|{}|). The following CE matches when there is an
   object of class \tt{HARDWARE-OPTION} whose \verb|^PRICE| attribute
   has a value between 100.00 and 500.00:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (hardware-option ^price { > 100.00 < 500.00 })
-\end{qv}
+\end{verbatim}
+\end{quote}
 If you want to bind as well as test the value of an
   attribute, you can use a conjunction. For example:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (hardware-option ^in-slot { <slot-num> <> nil})
-\end{qv}
+\end{verbatim}
+\end{quote}
 is equivalent to:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (hardware-option ^in-slot <slot-num> ^in-slot <> nil)
-\end{qv}
+\end{verbatim}
+\end{quote}
 
   If there is an object whose class name is
   \tt{HARDWARE-OPTION} or any subclass of \tt{HARDWARE-OPTION} and
@@ -846,9 +882,11 @@ is equivalent to:
 
   Conjunctions of compound predicates can also be applied
   to compound attributes. For example:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 ^card-in-slot {<cards> [+] memory [>] 2 [=] <num-cards> }
-\end{qv}
+\end{verbatim}
+\end{quote}
   Assuming both variables were unbound, the above
   conjunction first binds the entire compound value to the
   variable \tt{<CARDS>}. The next two tests produce a match if
@@ -869,9 +907,11 @@ is equivalent to:
   predicate is the only valid predicate for a disjunction.
 
   The following CE contains a disjunction:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (hardware-option ^takes-slot << no false nil >> )
-\end{qv}
+\end{verbatim}
+\end{quote}
 
   Note that you must put at least one white space
   character around each side of the double angle brackets.
@@ -879,16 +919,20 @@ is equivalent to:
   Variables or any other value expressions you specify in
   a disjunction are evaluated. Consider the following
   disjunction:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 ^number << 45 <number> >>
-\end{qv}
+\end{verbatim}
+\end{quote}
 
   This matches if the \verb|^NUMBER| attribute is 45 or it is
   identical to the binding of \verb|<NUMBER>|. The next example
   shows another valid test containing a function call:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 ^number << 45 <number> (length list) >>
-\end{qv}
+\end{verbatim}
+\end{quote}
 
 \section{Negative Condition Elements}
 
@@ -900,7 +944,8 @@ sign (\verb|-|) in front of it. Consider the rule
 program.
 
 \begin{example}[!h]
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (rule choose-slots:place-nonmemory
     (active-context ^name choose-slots)
     (box ^$id <the-box> ^card-in-slot { [=] <len> [<] 8 })
@@ -916,7 +961,8 @@ program.
         ^card-in-slot-obj-id [(<len> + 1)]
         <the-option>)
     (modify <the-option> ^is-placed yes ^in-slot (<len> + 1)))
-\end{qv} 
+\end{verbatim}
+\end{quote} 
 \caption{Negative Condition Elements}
 \end{example}
 The purpose of this rule is to assign slots to options that are not
@@ -942,20 +988,24 @@ disjunctions your code becomes more compact and more easily
 maintained.
 
 The following rule:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (rule test-ce-disjunctions
     << (obj-class-1 ^attr-1 <x>)
        (obj-class-2 ^attr-2 <x>) >>
   -->
     (write (crlf) |Value of attribute is| <x>))
-\end{qv}
+\end{verbatim}
+\end{quote}
 is equivalent to the following two simple rules:
-\begin{qv}
+\begin{quote}
+\begin{verbatim}
 (rule |test-ce-disjunctions;1|
     (obj-class-1 ^attr-1 <x>)
   -->
     (write (crlf) |Value of attribute is| <x>))
-\end{qv}
+\end{verbatim}
+\end{quote}
 and:
 \begin{quote}
 \begin{verbatim}

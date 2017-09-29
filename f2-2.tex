@@ -1,0 +1,30 @@
+\begin{tikzpicture}[
+  node distance=10mm,
+  inner sep=1ex,
+  boxstyle/.style={
+    rectangle,
+    minimum height=8ex,
+    minimum width=11ex,
+    very thick,
+    draw=blue!50!black!50,
+    top color=white,
+    bottom color=blue!50!black!20
+  }]
+  \node (ROOT) [boxstyle] {\verb|$ROOT|};
+  \node (Error) [boxstyle,below=of ROOT] {Error};
+  \node (Local) [boxstyle,left=of Error] {Local};
+  \node (Control-Context) [boxstyle,left=of Local,align=center] {Control-\\Context};
+  \node (Input-Thing) [boxstyle,right=of Error,align=center] {Input-\\Thing};
+  \node (Part) [boxstyle,right=of Input-Thing] {Part};
+
+  \draw (ROOT) -- (Error);
+  \draw (ROOT.south) -- ++(0,-5mm) -| (Local);
+  \draw (ROOT.south) -- ++(0,-5mm) -| (Control-Context);
+  \draw (ROOT.south) -- ++(0,-5mm) -| (Input-Thing);
+  \draw (ROOT.south) -- ++(0,-5mm) -| (Part);
+\end{tikzpicture}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "rwug"
+%%% End:

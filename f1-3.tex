@@ -1,0 +1,69 @@
+\usetikzlibrary{bending}
+\begin{tikzpicture}[
+  node distance=10mm,
+  inner sep=1.2ex,
+  boxstyle/.style={
+    rectangle,
+    very thick,
+    draw=blue!50!black!50,
+    top color=white,
+    bottom color=blue!50!black!20
+  },
+  ar/.style={
+    ->,
+    very thick,
+    arrows={-stealth[scale length=3]}
+  }]
+  \node (Rules) [boxstyle,text width=2.5cm,align=center] {
+    \textbf{Rules}
+    \vspace{1ex}\par
+    \textit{rule-name-1}\par   
+    \ldots\par
+    \textit{rule-name-2}
+  };
+
+  \node (WorkingMemory) [boxstyle,text width=10cm,align=center,right=of Rules] {
+    \textbf{Working Memory}
+    \vspace{1ex}
+    \par
+    \verb|#|\textit{instance-1} \textit{time-tag}
+    \verb|(|\textit{class-name}
+    \verb|^|\textit{attribute-value}
+    \ldots
+    \verb|)|
+    \par
+    \ldots
+    \par
+    \verb|#|\textit{instance-2} \textit{time-tag}
+    \verb|(|\textit{class-name}
+    \verb|^|\textit{attribute-value}
+    \ldots
+    \verb|)|
+  };
+
+  \node at (2,-3) (Match) [boxstyle] {\textbf{Match}};
+
+  \node at (2,-6) (ConflictSet) [boxstyle,text width=7cm,align=center] {
+    \textbf{Conflict Set}
+    \vspace{1ex}\par
+    \textit{rule-name-1} \verb|#|\textit{instance-id} \textit{time-tag} \ldots
+    \par\ldots\par
+    \textit{rule-name-n} \verb|#|\textit{instance-id} \textit{time-tag} \ldots
+  };
+
+  \node at (7,-9) (Select) [boxstyle] {\textbf{Select}};
+
+  \node at (11,-4) (Act) [boxstyle] {\textbf{Act}};
+
+  \draw [ar] (Rules) to [out=290,in=110] (Match);
+  \draw [ar] (WorkingMemory) to [out=200,in=70] (Match);
+  \draw [ar] (Match) to [out=270,in=90] (ConflictSet);
+  \draw[ar] (ConflictSet) to [out=290,in=180] (Select);
+  \draw[ar] (Select) to [out=0,in=270] (Act);
+  \draw[ar] (Act) to [out=100,in=320] (WorkingMemory);
+\end{tikzpicture}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "rwug"
+%%% End:

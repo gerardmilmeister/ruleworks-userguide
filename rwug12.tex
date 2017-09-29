@@ -12,6 +12,7 @@ includes:
 \end{itemize}
 
 \section{File Specifications}
+\label{c:portability:file}
 
 The restrictions on file names vary according to operating system. The
 following characteristics are typical of file names on various
@@ -33,9 +34,12 @@ If your file specification needs to be passed to the operating system
 in lowercase letters, you must enclose it in vertical bars (\verb,||,).
 
 The following command illustrates UNIX-style file specifications:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 @ |usr/users/smith/work/initialize-memory|
-\end{qv}
+\end{verbatim}
+\end{quote}
 
 If your file specification contains any of the following characters,
 you must enclose the file specification in vertical bars (\verb,| |,):
@@ -44,9 +48,12 @@ sign (\verb|%|), ampersand (\verb|&|), parentheses (\verb|()|), and
 braces (\verb|{}|).
 
 The following command illustrates MS-DOS-style file specifications:
-\begin{qv}
+
+\begin{quote}
+\begin{verbatim}
 @ |C:\smith\work\init%mem.com|
-\end{qv}
+\end{verbatim}
+\end{quote}
 
 \section{Input Source and Output Destination}
 
@@ -174,7 +181,7 @@ of the new modularity features:
 \item The name \tt{MAIN} (or \verb,|main|,), when used as an entry
   block name without an \tt{ACCEPTS} clause or a \tt{RETURNS} clause
   for the \tt{ENTRY-BLOCK} creates a C compliant entry point named
-  "main" by automatically adding a return type of long.
+  ``main'' by automatically adding a return type of long.
 
 \item \tt{RETURN} is now a command as well as an action.
 
