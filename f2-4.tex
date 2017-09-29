@@ -1,0 +1,48 @@
+\begin{tikzpicture}[
+  node distance=-0.5mm,
+  inner sep=1ex,
+  text height=1.7ex,
+  text depth=.25ex,
+  font=\small,
+  box/.style={ 
+    thick,
+    draw=blue!50!black!50,
+    top color=white,
+    minimum height=0.8cm,
+    minimum width=1.5cm,
+    bottom color=blue!50!black!20
+  },
+  a2/.style={
+    minimum width=2cm,
+  },
+  a3/.style={
+    minimum width=3cm,
+  },
+  a4/.style={
+    minimum width=5cm,
+  }]
+  \newcommand{\bline}[3]{
+    \node ({#2}1) [box] at #1 {\texttt{\#}#2};
+    \node ({#2}2) [box,a2,right=of {#2}1] {#2};
+    \node ({#2}3) [box,a3,right=of {#2}2] {\texttt{\MakeUppercase{Context}}};
+    \node ({#2}4) [box,a4,right=of {#2}3] {\texttt{\MakeUppercase{#3}}};
+  }
+
+  \node (01) [box,thick] at (0,1ex) {\verb|^$ID|};
+  \node (02) [box,a2,thick,right=of 01] {\textit{time-tag}};
+  \node (03) [box,a3,thick,right=of 02] {\textit{Class Name}};
+  \node (04) [box,a4,thick,right=of 03] {\verb|^name|};
+  
+  \bline{(0,-1cm)}{3}{Output-New-Order}
+  \bline{(0,-2cm)}{4}{Modify-Software-Media}
+  \bline{(0,-3cm)}{5}{Choose-Slots}
+  \bline{(0,-4cm)}{6}{Expand-Part-Skeletons}
+  \bline{(0,-5cm)}{7}{Verify-Configuration}
+  \bline{(0,-6cm)}{8}{Convert-to-Parts}
+  \bline{(0,-7cm)}{9}{Input-Order}
+\end{tikzpicture}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "rwug"
+%%% End:

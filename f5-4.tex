@@ -1,0 +1,64 @@
+\usetikzlibrary{calc}
+
+\begin{tikzpicture}[
+  node distance=1mm,
+  inner sep=1ex,
+%  text height=1.7ex,
+%  text depth=.25ex,
+  font=\small,
+  box/.style={ 
+    thick,
+    draw=blue!50!black!50,
+    top color=white,
+    minimum height=0.8cm,
+    minimum width=1.8cm,
+    bottom color=blue!50!black!20
+  },
+  label/.style={
+    rectangle,
+    fill=white
+  },
+  c/.style={
+    thick,
+    draw=red!50!black!50,
+    top color=white,
+    bottom color=red!50!black!20
+  }] 
+  \node[circle] (c) at (0,0) [minimum size=8cm] {};
+  \filldraw[c] (0,0) circle (4cm);  \draw [blue,dotted] (-4cm,0) -- (4cm,0);
+  \node [label] at (160:3cm) {$Z_1$};
+  \node [label] at (100:2.5cm) {$Z_2$};
+  \node [label] at (100:1cm) {$Z_3$};
+  \node [label] at (40:2.5cm) {$Z_4$};
+
+  \node [label] at (200:2.5cm) {$Y_1$};
+  \node [label] at (240:2.5cm) {$Y_2$};
+  \node [label] at (250:1cm) {$Y_3$};
+  \node [label] at (280:2.9cm) {$Y_4$};
+  \node [label] at (320:2.9cm) {$Y_5$};
+  \node [label] at (340:2cm) {$Y_6$};
+
+  \node at (0,-4.5cm) {Working Memory};
+
+  \node [box] (db) at (-8cm,2cm) [rectangle,draw,align=left] {
+    \texttt{(object-class Z \ldots)}
+  };
+
+  \node [above=of db] {Declaration Block \texttt{DB1}};
+
+  \node [box] (eb) at (-8cm,-2cm) [rectangle,draw,align=left] {
+    \texttt{(object-class Y \ldots)} \\
+    \texttt{(rule one} \\
+    \qquad\texttt{(\$ROOT \ldots)} \\
+    \texttt{-->}\\
+    \qquad\texttt{\ldots)}
+  };
+
+  \node [below=of eb] {Entry Block \texttt{EB1}};
+
+  \draw [->,-stealth,thick] (db) -- (eb) node[midway,right]{\texttt{(uses DB1)}};
+
+  \draw[black,dotted] (eb.east) -- (tangent cs:node=c,point={(eb.east)},solution=2);
+  \draw[black,dotted] (eb.east) -- (tangent cs:node=c,point={(eb.east)},solution=1) node[black,midway,below,yshift=-1ex] {matches};
+
+\end{tikzpicture}

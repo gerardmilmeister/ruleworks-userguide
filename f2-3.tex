@@ -1,0 +1,59 @@
+
+\begin{tikzpicture}[
+  node distance=-0.5mm,
+  inner sep=1ex,
+  text height=1.7ex,
+  text depth=.25ex,
+  font=\small,
+  box/.style={ 
+    thick,
+    draw=blue!50!black!50,
+    top color=white,
+    minimum height=0.8cm,
+    minimum width=1.8cm,
+    bottom color=blue!50!black!20
+  }]
+  \node (01) [box] at (0,0) {};
+  \node (02) [box,right=of 01] {};
+  \node (03) [box,right=of 02] {};
+  \node (04) [box,right=of 03] {};
+  \node (05) [box,right=of 04] {};
+  \node (06) [box,right=of 05] {};
+  \node (07) [box,right=of 06] {};
+
+  \node (Object Class) [above=of 01,align=center] {Object\\Class};
+  \node (Compound Attribute) [above=of 02,align=center] {Compound\\Attribute};
+  \node (Scalar Attributes) [inner sep=2pt,above=of 04,align=center,yshift=2.5ex] {Scalar Attributes};
+  \node (Compound Attributes) [inner sep=2pt,above=of 06.north east,align=center,yshift=2.5ex] {Compound Attributes};
+  \draw (Scalar Attributes.south) -- (04.north);
+  \draw (Scalar Attributes.south) -- ++(0,-1ex) -| (03.north);
+  \draw (Scalar Attributes.south) -- ++(0,-1ex) -| (05.north);
+  \draw (Compound Attributes.south) -- ++(0,-1ex) -| (06.north);
+  \draw (Compound Attributes.south) -- ++(0,-1ex) -| (07.north);
+
+  \node (a1) [box,below=of 02,yshift=-5ex] {};
+  \node (a2) [box,below=of a1] {};
+  \node (a3) [box,below=of a2] {};
+
+  \draw [->,-stealth,very thick] (02.south) -- (a1.north);
+
+  \node (b1) [box,below=of 07,yshift=-5ex] {};
+  \node (b2) [box,below=of b1] {};
+  \node (b3) [box,below=of b2] {};
+  \node (b4) [box,below=of b3] {};
+  \node (b5) [box,below=of b4] {};
+
+  \draw [->,-stealth,very thick] (07.south) -- (b1.north);
+  
+  \node (c1) [below=of 06,yshift=-5.5ex,rectangle,fill,inner sep=0pt,text height=0pt,text depth=0pt,minimum height=1pt,minimum width=2em] {};
+  \node (c2) [below=of c1,yshift=-1ex,rectangle,fill,inner sep=0pt,text height=0pt,text depth=0pt,minimum height=1pt,minimum width=1.5em] {};
+  \node (c3) [below=of c2,yshift=-1ex,rectangle,fill,inner sep=0pt,text height=0pt,text depth=0pt,minimum height=1pt,minimum width=1em] {};
+  \node (c4) [below=of c3,yshift=-1ex,rectangle,fill,inner sep=0pt,text height=0pt,text depth=0pt,minimum height=1pt,minimum width=0.5em] {};
+
+  \draw [->,-stealth,very thick,shorten >=2pt] (06.south) -- (c1.north);
+\end{tikzpicture}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "rwug"
+%%% End:
