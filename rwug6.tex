@@ -16,8 +16,7 @@ means that you can call external routines that are not written
 specifically for RuleWorks. Example~\ref{e:6-1} shows a simple
 RuleWorks program calling the C RTL routine, \verb|sqrt|.
 
-\begin{example}[h]
-\begin{quote}
+\begin{exampl}[Calling an External Routine from RuleWorks]
 \begin{verbatim}
 (declaration-block decls)
 
@@ -44,10 +43,8 @@ RuleWorks program calling the C RTL routine, \verb|sqrt|.
 
 (end-block main)
 \end{verbatim}
-\end{quote}
-\caption{Calling an External Routine from RuleWorks}
 \label{e:6-1}
-\end{example}
+\end{exampl}
 
 RuleWorks also allows entry blocks to be called from other
 languages. Entry blocks can accept arguments and return a value. Entry
@@ -194,9 +191,7 @@ to signal the end of the array, or pass the length as a separate
 parameter. Example~\ref{e:6-2} shows a C program that passes a
 compound value.
 
-\begin{example}[!h]
-\renewcommand{\baselinestretch}{0.9}
-\begin{quote}
+\begin{exampl}[Passing a Compound Value: C Function]
 \begin{verbatim}
 #include <stdio.h>
 #include <rul_rtl.h>
@@ -248,16 +243,13 @@ char *concat_compound (long num_elements, char *az_array[])
     return (&result);
 }
 \end{verbatim}
-\end{quote}
-\caption{Passing a Compound Value: C Function}
 \label{e:6-2}
-\end{example}
+\end{exampl}
 
 Example~\ref{e:6-3} shows the RuleWorks program that calls the C function in
 Example~\ref{e:6-2}.
 
-\begin{example}[h]
-\begin{quote}
+\begin{exampl}[Passing a Compound Value: RuleWorks Program]
 \begin{verbatim}
 (entry-block main
 
@@ -285,10 +277,8 @@ Example~\ref{e:6-2}.
 
 (end-block main)
 \end{verbatim}
-\end{quote}
-\caption{Passing a Compound Value: RuleWorks Program}
 \label{e:6-3}
-\end{example}
+\end{exampl}
 
 The dialog in the following example illustrates compiling, linking,
 and running Example~\ref{e:6-2} and Example~\ref{e:6-3} on a VMS
@@ -405,8 +395,7 @@ passed out to an external routine that expects a byte.
 Example~\ref{e:6-5} and Example~\ref{e:6-6} show how to return a
 compound value, and how to use a \tt{READ-WRITE} parameter.
 
-\begin{example}{!h}
-\begin{quote}
+\begin{exampl}[External Function That Returns an Array]
 \begin{verbatim}
 #include <stdio.h>
 #include <rul_rtl.h>
@@ -464,14 +453,10 @@ char **explode (char *in_string, long *num_returned)
     return (exploded) ;
 }
 \end{verbatim}
-\end{quote}
-\caption{External Function That Returns an Array}
 \label{e:6-5}
-\end{example}
+\end{exampl}
 
-
-\begin{example}{!h}
-\begin{quote}
+\begin{exampl}[RuleWorks Program That Passes a \tt{READ-WRITE} Parameter]
 \begin{verbatim}
 (entry-block main)
 
@@ -496,30 +481,25 @@ char **explode (char *in_string, long *num_returned)
 
 (end-block main)
 \end{verbatim}
-\end{quote}
-\caption{RuleWorks Program That Passes a READ-WRITE Parameter}
 \label{e:6-6}
-\end{example}
+\end{exampl}
 
 The dialog in Example~\ref{e:6-7} shows what happens when you run the
 RuleWorks program in Example~\ref{e:6-6}.
 
-\begin{example}{!h}
-\begin{quote}
-\begin{verbatim}
-RuleWorks> trace on wm
-RuleWorks> run 2
+\begin{exampl}[Passing a \tt{READ-WRITE} Parameter]
+\begin{Verbatim}[commandchars=\\\{\}]
+\RWP\cmd{trace on wm}
+\RWP\cmd{run 2}
 <=WM: #2 2 [NIL] (NAME ^AS-WORD hello)
 =>WM: #2 3 [EXPLODE-IT] (NAME ^AS-WORD hello ^AS-COMPOUND (COMPOUND h e l l o))
 <=WM: #1 1 [NIL] (NAME ^AS-WORD ABC)
 =>WM: #1 4 [EXPLODE-IT] (NAME ^AS-WORD ABC ^AS-COMPOUND (COMPOUND A B C))
 %RUL-I-PAUSE, Pausing after running requested number of rules
-RuleWorks>
-\end{verbatim}
-\end{quote}
-\caption{Passing a \tt{READ-WRITE} Parameter}
+\RWP
+\end{Verbatim}
 \label{e:6-7}
-\end{example}
+\end{exampl}
 
 \begin{note}
   Whenever a \tt{SYMBOL} is converted to a string to be passed to an
@@ -859,8 +839,7 @@ and prints that object; makes a new object with
 with \verb|rul_copy_instance|, modifies it, and prints it; and finally
 removes the object created with \verb|rul_make_instance|.
 
-\begin{example}[!h]
-\begin{quote}
+\begin{exampl}[Changing Working Memory: RuleWorks Program]
 \begin{verbatim}
 (entry-block main)
 
@@ -874,10 +853,8 @@ removes the object created with \verb|rul_make_instance|.
 
 (end-block)
 \end{verbatim}
-\end{quote}
-\caption{Changing Working Memory: RuleWorks Program}
 \label{e:6-8}
-\end{example}
+\end{exampl}
 
 Running Example~\ref{e:6-8} produces the following output:
 
@@ -890,9 +867,7 @@ Removed Instance: #2
 \end{verbatim}
 \end{quote}
 
-\begin{example}[h]
-\renewcommand{\baselinestretch}{0.9}
-\begin{quote}
+\begin{exampl}[Changing Working Memory: C Routine]
 \begin{verbatim}
 #include <stdio.h>
 #include <rul_rtl.h>
@@ -943,10 +918,8 @@ void MESS_WITH (rul_atom wme_id)
     fflush (stdout);
 }
 \end{verbatim}
-\end{quote}
-\caption{Changing Working Memory: C Routine}
 \label{e:6-9}
-\end{example}
+\end{exampl}
 
 \begin{table}[h]
   \begin{tabularx}{\columnwidth}{lX}
@@ -994,9 +967,11 @@ void MESS_WITH (rul_atom wme_id)
   \label{t:6-6}
 \end{table}
 
-Note: It may be necessary to call the appropriate declaration block
-before calling RTL routines that test declarations or that create
-WMOs, to ensure that the object classes have been initialized.
+\begin{note}
+  It may be necessary to call the appropriate declaration block before
+  calling RTL routines that test declarations or that create WMOs, to
+  ensure that the object classes have been initialized.
+\end{note}
 
 \begin{table}[h]
   \begin{tabularx}{\columnwidth}{lX}
@@ -1043,9 +1018,7 @@ Example~\ref{e:6-11} is a C routine that displays the read form, print
 form, and type of arbitrary atoms created by the RuleWorks program in
 Example~\ref{e:6-10}.
 
-
-Example 6-10 Testing and Converting Values: RuleWorks Program
-\begin{quote}
+\begin{exampl}[Testing and Converting Values: RuleWorks Program]
 \begin{verbatim}
 (entry-block main)
 
@@ -1071,10 +1044,10 @@ Example 6-10 Testing and Converting Values: RuleWorks Program
 
 (end-block main)
 \end{verbatim}
-\end{quote}
+\label{e:6-10}
+\end{exampl}
 
-Example 6-11 Testing and Converting Values: C Routine
-\begin{quote}
+\begin{exampl}[Testing and Converting Values: C Routine]
 \begin{verbatim}
 #include <stdio.h>
 #include <rul_rtl.h>
@@ -1114,7 +1087,8 @@ void WHICH_TYPE_IS_THIS (rul_atom atom_value)
     fflush (stdout);
 }
 \end{verbatim}
-\end{quote}
+\label{e:6-11}
+\end{exampl}
 
 Running Example~\ref{e:6-10} produces the following output:
 

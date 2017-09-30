@@ -44,8 +44,7 @@ in the \tt{ON-ENTRY} statement.
 Example~\ref{e:obclasdecl} hows some \tt{OBJECT-CLASS} declarations
 from the sample configuration program, \tt{KIWI.RUL}.
 
-\begin{example}[h]
-\begin{quote}
+\begin{exampl}[Sample \tt{OBJECT-CLASS} Declarations]
 \begin{verbatim}
 (object-class part
     ^part-number
@@ -65,10 +64,8 @@ from the sample configuration program, \tt{KIWI.RUL}.
 (object-class memory
     (inherits-from hardware-option))
 \end{verbatim}
-\end{quote}
-\caption{Sample \tt{OBJECT-CLASS} Declarations}
 \label{e:obclasdecl}
-\end{example}
+\end{exampl}
 
 When the class name in a CE is a parent class, objects of any of its
 inheriting subclasses can also match the CE.  Given the
@@ -245,9 +242,7 @@ side, is not a \verb|$ID| variable. Variables \verb|<PREVIOUS-DATA>|
 and \verb|<NEW-DATA>| cannot be used in \tt{MODIFY} actions as
 variables \verb|<FIRST-DATA>| and \verb|<LAST-DATA>| are.
 
-\begin{example}[!h]
-\renewcommand{\baselinestretch}{0.9}\normalsize
-\begin{quote}
+\begin{exampl}[Using \ct\tt{ID} Variables as Pointers]
 \begin{verbatim}
 (entry-block pointer-demo)
   (object-class data
@@ -295,10 +290,8 @@ variables \verb|<FIRST-DATA>| and \verb|<LAST-DATA>| are.
       <new-data>)))
 (end-block pointer-demo)
 \end{verbatim}
-\end{quote}
-\caption{Using \ct\tt{ID} Variables as Pointers}
 \label{e:3-5}
-\end{example}
+\end{exampl}
 
 \subsubsection*{Using a Bound Variable to Select an Attribute}
 
@@ -313,8 +306,7 @@ that object class (see Example~\ref{e:3-6}). RuleWorks issues a run-time
 warning if the attribute binding does not exist in the specified
 object class.
 
-\begin{example}[h]
-\begin{quote}
+\begin{exampl}[Variable Selection of Attributes Variable Selection of Attributes]
 \begin{verbatim}
 (object-class person
     ^name
@@ -345,10 +337,8 @@ object class.
     (write (crlf) |Person| <name> |slot| <slot> 
         |has value| <datum>))
 \end{verbatim}
-\end{quote}
-\caption{Variable Selection of Attributes Variable Selection of Attributes}
 \label{e:3-6}
-\end{example}
+\end{exampl}
 
 \section{Predicates}
 
@@ -943,8 +933,7 @@ sign (\verb|-|) in front of it. Consider the rule
 \tt{CHOOSE-SLOTS:PLACE-NONMEMORY} from the sample configuration
 program.
 
-\begin{example}[!h]
-\begin{quote}
+\begin{exampl}[Negative Condition Elements]
 \begin{verbatim}
 (rule choose-slots:place-nonmemory
     (active-context ^name choose-slots)
@@ -962,9 +951,8 @@ program.
         <the-option>)
     (modify <the-option> ^is-placed yes ^in-slot (<len> + 1)))
 \end{verbatim}
-\end{quote} 
-\caption{Negative Condition Elements}
-\end{example}
+\end{exampl}
+
 The purpose of this rule is to assign slots to options that are not
 memory after all the memory cards have been placed in a slot. The
 first negative CE specifies that the object that matched the third

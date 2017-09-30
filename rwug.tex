@@ -9,6 +9,7 @@
 \usepackage{newfloat}
 \usepackage{graphicx}
 \usepackage[pdftex]{hyperref}
+\usepackage{amsmath}
 \usepackage{tikz}
 \usetikzlibrary{positioning,shapes,shadows,arrows}
 
@@ -25,14 +26,34 @@
 \newcommand{\ct}{{\normalfont\tt{\^}}}
 \renewcommand{\it}[1]{\textit{#1}}
 \renewcommand{\tt}[1]{\texttt{#1}}
+\newcommand{\co}[1]{\texttt{#1}}
 \newenvironment{note}
   {\begin{quote}\textbf{Note:}}
   {\end{quote}}
 \DeclareFloatingEnvironment{example}
 \definecolor{rwp-color}{RGB}{0,1,149}
+
+\makeatletter
+\newenvironment{exampl}[1][\unskip]
+  {\refstepcounter{example}%
+    \par\addvspace{0.5\baselineskip}
+    \@beginparpenalty=10000
+    Example \theexample: #1
+    \list{}{\listparindent=0pt%
+      \itemindent\listparindent%
+      \rightmargin=\leftmargin%
+      \topsep=0pt%
+      \parsep\z@\@plus\p@}%
+  \item\relax}
+  {\endlist\par\addvspace{0.5\baselineskip}}
 \newcommand{\RWP}{\textcolor{rwp-color}{RuleWorks> }}
 \definecolor{cmd-color}{RGB}{149,0,0}
 \newcommand{\cmd}[1]{\textcolor{cmd-color}{#1}}
+\makeatother
+
+\renewenvironment{quote}
+  {\list{}{\leftmargin=1.5em\topsep=1ex\rightmargin=\leftmargin}\item\relax}
+  {\endlist}
 
 \parindent=0cm
 \parskip=1ex

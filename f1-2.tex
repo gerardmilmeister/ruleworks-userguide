@@ -1,0 +1,42 @@
+\begin{tikzpicture}[
+  node distance=1mm,
+  inner sep=1ex,
+  ]
+  \node (a) [align=left] {
+    \texttt{(rule} \textit{rule-name} \\
+    \qquad\texttt(\textit{condition-element-1}\texttt) \\
+    \qquad\texttt(\textit{condition-element-2}\texttt) \\
+    \qquad\vdots \\
+    \qquad\texttt(\textit{condition-element-n}\texttt) \\
+  };
+
+  \node (al) [left=of a,xshift=-1cm] {
+    Left-Hand Side
+  };
+
+  \node (b) [align=left,below=of a.south west,anchor=north west] {
+    \texttt{-->}
+  };
+
+  \node (c) [align=left,below=of b.south west,anchor=north west] {
+    \qquad\texttt(\textit{action-1}\texttt) \\
+    \qquad\texttt(\textit{action-2}\texttt) \\
+    \qquad\vdots \\
+    \qquad\texttt(\textit{action-n}\texttt)\texttt)
+  };
+
+  \node (bl) [right=of c,xshift=1cm] {
+    Right-Hand Side
+  };
+
+  \draw (al.east) -- ++(0.5,0) |- (a.north west);
+  \draw (al.east) -- ++(0.5,0) |- (a.south west);
+
+  \draw (bl.west) -- ++(-0.5,0) |- (c.north east);
+  \draw (bl.west) -- ++(-0.5,0) |- (c.south east);
+\end{tikzpicture}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "rwug"
+%%% End:

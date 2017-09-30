@@ -174,7 +174,6 @@ variable.
 \tt{ID} variables can be compared for identity or non-identity,
 as in the following rule, but nothing else:
 
-\begin{example}[h]
 \begin{quote}
 \begin{verbatim}
 (rule
@@ -194,8 +193,6 @@ as in the following rule, but nothing else:
          (make memory))
 \end{verbatim}
 \end{quote}
-\caption{Comparing Object Identifiers}
-\end{example}
 
 \subsubsection*{Class Name}
 
@@ -247,8 +244,7 @@ inheritance. The attributes that distinguish hardware from
 software are specified in separate \tt{OBJECT-CLASS} declarations.
 (See Example~\ref{e:declattr})
 
-\begin{example}[h]
-\begin{quote}
+\begin{exampl}[Declaring Additional Attributes]
 \begin{verbatim}
 ;The OBJECT-CLASS HARDWARE-OPTION. Hardware-options
 ;have to know whether they take up a slot in the
@@ -269,10 +265,8 @@ software are specified in separate \tt{OBJECT-CLASS} declarations.
     (inherits-from option)
     ^media-type)
 \end{verbatim}
-\end{quote}
-\caption{Declaring Additional Attributes}
 \label{e:declattr}
-\end{example}
+\end{exampl}
 
 Suppose you want to specify an object that has the class name
 \tt{KIWICALC}, is distributed on a 3.5-inch floppy disk, has part
@@ -280,8 +274,8 @@ number S-CA-9200, name KiwiCalc Spreadsheet Software, price {\$}29.95,
 and a status flag whose value is \tt{YES}. You can specify this object
 as shown in the example.
 
-\begin{example}[h]
-\begin{quote}
+\begin{exampl}[Specifying an Object]
+\label{e:specobj}
 \begin{verbatim}
 (kiwicalc ^media-type FD-35
           ^part-number S-CA-9200
@@ -297,10 +291,7 @@ You can declare this object class as follows:
 In this example, all the attributes are inherited. For a detailed
 description of the \tt{OBJECT-CLASS} declaration, see
 Chapter~\ref{c:conditionelements} of this manual.
-\end{quote}
-\caption{Specifying an Object}
-\label{e:specobj}
-\end{example}
+\end{exampl}
 
 Attributes are local to an object class and its descendants;
 you can use the same attribute name in unrelated object

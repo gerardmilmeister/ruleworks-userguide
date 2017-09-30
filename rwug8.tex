@@ -782,8 +782,7 @@ that all necessary recompilations are performed. Example~\ref{e:8-2}
 shows a sample Wmake file for the examples shipped in the RuleWorks
 kit.
 
-\begin{example}[h]
-\begin{quote}
+\begin{exampl}[Make File]
 \begin{verbatim}
 # Make file for building RuleWorks example programs  using Watcom.
 # Build with `wmake -f examples.mak'.
@@ -795,18 +794,20 @@ LINK = wcl386 # Command to invoke linker
 CFLAGS = -c -I$(RULDIR) # compile only, .h file location
 LINKFLAGS = -l=dos4g -k63000 # DOS extender, stack size
 SUFFIXES: .rul
+
 .rul.c : # Rule for RuleWorks to C (.rul to .c)
         $(RULECOMP) $<
+
 .c.obj : # Rule for compiling C program
         $(CC) $(CFLAGS) $<
+
 .obj.exe : # Rule for linking
         $(LINK) $(LINKFLAGS) $< $(RULRTL)
+
 all : count.exe advent.exe tourney.exe .symbolic
 \end{verbatim}
-\end{quote}
-\caption{Make File}
 \label{e:8-2}
-\end{example}
+\end{exampl}
 
 \section{Running RuleWorks Programs}
 

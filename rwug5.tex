@@ -75,14 +75,42 @@ the name of the entry block. The entry block name must contain only
 letters, numbers, and underscores, and must be no longer than 31
 characters.
 
-The complete syntax of an entry block is shown in Figure~\ref{f:5-1}.
+The complete syntax of an entry block is as follows:
+\begin{quote}
+  \tt{(entry-block} \it{entry-block-name}
+  
+  \qquad$\left[\texttt{(accepts} \left\{\substack{
+      \texttt{<}\textit{formal-parameter-name}\texttt{>}
+      [\texttt{[}[\textit{size}]\texttt{]}] \\
+      \textit{external-type} \\
+      [\textit{passing-mechanism}]
+    }\right\}
+  \ldots\texttt{)}\right]$
 
-\begin{figure}[h]
-  \centering
-  \includegraphics[scale=0.7]{f5-1}
-  \caption{Entry Block Syntax}
-  \label{f:5-1}
-\end{figure}
+\qquad$\left[
+\texttt{(returns} \left\{\substack{
+      \texttt{<}\textit{formal-parameter-name}\texttt{>}
+      [\texttt{[}[\textit{size}]\texttt{]}] \\
+      \textit{external-type} \\
+      [\textit{passing-mechanism}]
+    }\right\}
+  \texttt{)}\right]$
+
+\qquad[\tt{(activates} \it{rule-block-name} \ldots\tt{)}]
+
+\qquad[\tt{(uses} \it{declaration-block-name} \ldots\tt{)}]
+
+\qquad[\tt{(strategy}
+$\left\{\substack{\texttt{MEA}\\\texttt{LEX}} \right\}$\tt{)}]\tt{)}
+
+[\it{class-or-external-declaration}] \ldots
+
+[\it{on-whatever-statement}] \ldots
+
+[\it{rule-or-catcher}] \ldots
+
+\tt{(end-block} [\it{entry-block-name}]\tt{)}
+\end{quote}
 
 The clauses within the \tt{ENTRY-BLOCK} declaration are all optional:
 
@@ -162,8 +190,7 @@ to rules contained in or activated by the entry block. If rules need
 to match input arguments, their values must be placed into one or more
 objects (as shown in Example~\ref{e:5-1})
 
-\begin{example}[!h]
-\begin{quote}
+\begin{exampl}
 \begin{verbatim}
 ; Shareable Class Declaration
 (declaration-block numbers)
@@ -203,10 +230,8 @@ objects (as shown in Example~\ref{e:5-1})
 
 (end-block count_to)
 \end{verbatim}
-\end{quote}
-\caption{A Simple Entry Block and Declaration Block}
 \label{e:5-1}
-\end{example}
+\end{exampl}
 
 The same restrictions hold true of any variables bound in an \tt{ON-}
 clause. Such variables are also visible within any \tt{ON-} clause.
@@ -373,9 +398,9 @@ with names that begin with the prefix \tt{ON-} and end with the name
 of the special condition under which their associated actions are
 executed.
 
-\begin{figure}
+\begin{figure}[hb]
   \centering
-  \includegraphics[scale=0.7]{f5-2}
+  \input f5-2.tex
   \caption{\tt{ON-} Statements and the Recognize-Act Cycle}
   \label{f:5-2}
 \end{figure}
@@ -858,14 +883,22 @@ Rule blocks can also be used when the number of rules in a single
 entry block becomes too large to reasonably store in a single file.
 You can have rule blocks that are activated by only one entry block.
 
-The complete syntax of a rule block is shown in Figure~\ref{f:5-7}.
+The complete syntax of a rule block is as follows:
 
-\begin{figure}[h]
-  \centering
-  \includegraphics[scale=0.7]{f5-7}
-  \caption{Complete Syntax of Rule Block}
-  \label{f:5-7}
-\end{figure}
+\begin{quote}
+  \tt{(rule-block} \it{rule-block-name}
+  
+\qquad[\tt{(uses} \it{declaration-block-name} \ldots\tt{)}]
+
+\qquad[\tt{(strategy}
+$\left\{\substack{\texttt{MEA}\\\texttt{LEX}} \right\}$\tt{)}]\tt{)}
+
+[\it{class-or-external-declaration}] \ldots
+
+[\it{rule-or-catcher}] \ldots
+
+\tt{(end-block} [\it{rule-block-name}]\tt{)}
+\end{quote}
 
 Rule blocks are activated by entry blocks with the \tt{ACTIVATES}
 clause. Only rules contained in or activated by the active entry block

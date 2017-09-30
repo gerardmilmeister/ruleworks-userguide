@@ -171,13 +171,12 @@ right-hand side of the rule takes corrective actions.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[scale=0.7]{f1-2}
+  \input f1-2.tex
   \caption{Format of a Rule}
   \label{f:1-2}
 \end{figure}
 
-\begin{example}[h]
-\begin{quote}
+\begin{exampl}
 \begin{verbatim}
 (rule
     verify-configuration:application-needs-kiwos
@@ -193,10 +192,8 @@ right-hand side of the rule takes corrective actions.
     (make error ^severity warning ^message |No operating system|)
     (make kiwos))
 \end{verbatim}
-\end{quote}
-\caption{A Sample Rule}
 \label{e:samprule}
-\end{example}
+\end{exampl}
 
 \subsection{The Left-Hand Side}
 
