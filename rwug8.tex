@@ -1,10 +1,10 @@
 \chapter{Compiling, Linking, and Running Programs}
 
 You compile a RuleWorks program with the command
-\tt{rulework}, which invokes the RuleWorks compiler to
+\co{rulework}, which invokes the RuleWorks compiler to
 process the source code and verify that it contains no
 syntax errors or violations of the language semantics.
-You can compile only one source file with each \tt{rulework}
+You can compile only one source file with each \co{rulework}
 command. If no errors occur, the compiler generates an
 intermediate C language file.
 
@@ -33,7 +33,7 @@ compiling multiple blocks).
 
 The syntax for the RULEWORKS command is shown below:
 \begin{quote}
-\tt{rulework} \it{file-spec} [\it{qualifier}] \ldots
+\co{rulework} \it{file-spec} [\it{qualifier}] \ldots
 \end{quote}
 \it{file-spec} names the source file to be compiled into a C
 language file. The default file type for source files is
@@ -49,10 +49,10 @@ file naming conventions.
   \toprule
   File's Contents & Name & Extension/Type \\
   \midrule
-  RuleWorks source code & --- & \tt{.rul} \\\addlinespace
-  Generated C code & Same as source file & \tt{.c} \\\addlinespace
-  \raggedright Compiled declaration blocks & First eight alpha-numeric characters of the characters of the declaration block's name (one file for each block) & \tt{.use} \\\addlinespace
-  Error messages & Same as source file & \tt{.err} \\
+  RuleWorks source code & --- & \co{.rul} \\\addlinespace
+  Generated C code & Same as source file & \co{.c} \\\addlinespace
+  \raggedright Compiled declaration blocks & First eight alpha-numeric characters of the characters of the declaration block's name (one file for each block) & \co{.use} \\\addlinespace
+  Error messages & Same as source file & \co{.err} \\
   \bottomrule
 \end{tabularx}
 
@@ -82,10 +82,8 @@ Qualifier specifies an instruction to the compiler. You can put
 qualifiers before or after the file specification(s). Table 8-3 shows
 all the valid qualifiers and values (defaults are in bold print).
 
-Table 8-2 explains how to delimit RULEWORKS command
+The following table explains how to delimit RULEWORKS command
 qualifiers:
-
-Table 8-2. How to Delimit RULEWORK Command Qualifiers
 
 \begin{quote}
 \begin{tabular}{ll}
@@ -99,7 +97,7 @@ Table 8-2. How to Delimit RULEWORK Command Qualifiers
 \end{tabular}
 \end{quote}
 
-You can use either an equal sign (\tt{=}) or a colon (\verb|:|)
+You can use either an equal sign (\co{=}) or a colon (\verb|:|)
 between a qualifer and its value. You can shorten qualifier and value
 names to the smallest unique leading substring. Table 8-3 shows the
 full names and the abbreviations.
@@ -133,32 +131,32 @@ Table 8-3. RuleWorks Compiler Qualifiers
   \verb|/DEBUG=YES| or \verb|-d=y| or \verb|/D| or \verb|-d|
          &
            Includes debugging tables in the generated C code,
-           enables the \tt{DEBUG} and    
-           \tt{TRACE} actions, and
+           enables the \co{DEBUG} and    
+           \co{TRACE} actions, and
            automatically invokes the
            RuleWorks command
            interpreter. The        
            interpreter is invoked   
            immediately after the    
-           \tt{ON-ENTRY} actions, if any,
+           \co{ON-ENTRY} actions, if any,
            of the first entry block
            (of those contained in   
            the source file) to be 
            run.                     
-           \tt{YES} is the default if you 
-           specify \tt{DEBUG} without a   
+           \co{YES} is the default if you 
+           specify \co{DEBUG} without a   
            value. \\\addlinespace
   \raggedright
   \verb|/D=MAYBE| or \verb|-d=m| 
          &
            Includes debugging tables
            in the generated C code 
-           and enables the \tt{DEBUG} and
-           \tt{TRACE} actions, but does
+           and enables the \co{DEBUG} and
+           \co{TRACE} actions, but does
            not automatically invoke
            the RuleWorks command
            interpreter. You can put
-           the \tt{DEBUG} action in any
+           the \co{DEBUG} action in any
            executable statement to  
            invoke the interpreter, 
            or you can call the API
@@ -170,8 +168,8 @@ Table 8-3. RuleWorks Compiler Qualifiers
            Does not include
            debugging tables in the 
            generated C code, does 
-           not enable the \tt{DEBUG} and 
-           \tt{TRACE} actions, and does 
+           not enable the \co{DEBUG} and 
+           \co{TRACE} actions, and does 
            not invoke the RuleWorks 
            command interpreter. 
            Also, makes the 
@@ -183,11 +181,11 @@ Table 8-3. RuleWorks Compiler Qualifiers
            RuleWorks debugger on any 
            entry block in the file 
            being compiled. 
-           \tt{NO} is the default if you 
-           do not specify \tt{DEBUG} at 
+           \co{NO} is the default if you 
+           do not specify \co{DEBUG} at 
            all. \\\addlinespace
   \raggedright
-  \tt{/ERRORS}[\tt=\it{file-spec}] or \tt{-e}[\tt=\it{file-spec}] 
+  \co{/ERRORS}[\co=\it{file-spec}] or \co{-e}[\co=\it{file-spec}] 
          &
            Sends error messages to a
            file instead of 
@@ -195,10 +193,10 @@ Table 8-3. RuleWorks Compiler Qualifiers
            screen. The default 
            filename is the same as 
            the source file, with 
-           extension \tt{.err}, in the 
+           extension \co{.err}, in the 
            current directory. \\\addlinespace 
   \raggedright
-  \tt{/OPTIMIZE=REINVOCATION} or \tt{-op=r} or \tt{/OP} or  \tt{-op}
+  \co{/OPTIMIZE=REINVOCATION} or \co{-op=r} or \co{/OP} or  \co{-op}
          &
            Retains matching          
            information when the      
@@ -209,34 +207,34 @@ Table 8-3. RuleWorks Compiler Qualifiers
            dramatically when the     
            entry block is called     
            more than once.           
-           \tt{REINVOCATION} is the       
+           \co{REINVOCATION} is the       
            default if you specify    
-           \tt{OPTIMIZE} without a value. \\\addlinespace
+           \co{OPTIMIZE} without a value. \\\addlinespace
   \raggedright
-  \tt{/OP=SPACE} or \tt{-op=s} 
+  \co{/OP=SPACE} or \co{-op=s} 
          &
            Clears memory after     
            exiting the entry block.
            Not recommended if the  
            entry block is called   
            more than once          
-           \tt{SPACE} is the default if 
+           \co{SPACE} is the default if 
            you do not specify      
-           \tt{OPTIMIZE} at all. \\\addlinespace
+           \co{OPTIMIZE} at all. \\\addlinespace
   \raggedright
-  \tt{/OUTPUT=}\it{file-spec} or \tt{-ou=}\it{file-spec}
+  \co{/OUTPUT=}\it{file-spec} or \co{-ou=}\it{file-spec}
          &
            Names the generated C   
            file. The default is to 
            use the same name as the
            source file with the    
-           extension \tt{.c}, in the    
+           extension \co{.c}, in the    
            current directory. \\\addlinespace
-  \tt{/QUIET} or \tt{-q}
+  \co{/QUIET} or \co{-q}
          &
            Suppresses the RuleWorks
            copyright notice. \\\addlinespace
-  \tt{/USEDIRECTORY=}\it{dir-spec} or \tt{-u=}\it{dir-spec} 
+  \co{/USEDIRECTORY=}\it{dir-spec} or \co{-u=}\it{dir-spec} 
          &
            Names a directory (or  
            path) where .USE files,
@@ -259,30 +257,32 @@ that provide information, such as the contents of working
 memory and the conflict set, that is not accessible to
 your system debugger. To use the RuleWorks debugging
 features, compile your entry block(s) with the Debug
-qualifier set to \tt{YES}. For example:
+qualifier set to \co{YES}. For example:
+
 \begin{quote}
 \begin{verbatim}
 $ rulework /debug=yes config
 \end{verbatim}
 \end{quote}  
+
 The RuleWorks run-time system invokes the command interpreter
-immediately after the \tt{ON-ENTRY} actions (if any) of the first
+immediately after the \co{ON-ENTRY} actions (if any) of the first
 entry block that runs, before the first recognize-act cycle
 executes. At the interpreter prompt, you can give the debugging
 commands explained in Chapter~\ref{c:debugging}.
 
 If you want to use your system debugger but not the RuleWorks command
-interpreter, use the Debug qualifier set to \tt{MAYBE}. This causes
-the generated C file to include the same information as for \tt{YES},
+interpreter, use the Debug qualifier set to \co{MAYBE}. This causes
+the generated C file to include the same information as for \co{YES},
 but does not invoke the RuleWorks command interpreter
 automatically. You can invoke it from your system debugger by calling
-the API routine \verb|rul_debug|, or by putting the \tt{DEBUG} action
+the API routine \verb|rul_debug|, or by putting the \co{DEBUG} action
 in your source code.
 
 After you've finished debugging your entry blocks, you can increase
 the speed of compilation and decrease the size of the generated C
 files by compiling without the Debug qualifier (or with Debug set to
-\tt{NO}).
+\co{NO}).
 
 \subsubsection{Saving Error Messages (Errors)}
 
@@ -297,22 +297,22 @@ C:\> rulework config /err=bugs
 \end{quote}  
 
 If you specify the Errors qualifier with no value, the default is the
-source file name with the \tt{.err} file type, in your current
+source file name with the \co{.err} file type, in your current
 directory.
 
 The Errors qualifier affects compile-time messages only.
-Use the \tt{DEFAULT} command to redirect run-time messages.
+Use the \co{DEFAULT} command to redirect run-time messages.
 
 \subsubsection{Producing a Listing File (List)}
 
 A listing file is useful for debugging because it provides information
 about errors the compiler detects during compilation together with the
 source code listing.  In interactive mode, the compiler produces a
-listing file only if you specify the \tt{/LIST} qualifier. The default
+listing file only if you specify the \co{/LIST} qualifier. The default
 file specification for the listing file consists of the name of the
-RuleWorks source file with a \tt{.lis} file type. For example, the
+RuleWorks source file with a \co{.lis} file type. For example, the
 following command causes the compiler to produce the listing file
-\tt{config.lis}:
+\co{config.lis}:
 
 \begin{quote}
 \begin{verbatim}
@@ -321,8 +321,8 @@ System> rulework config /list
 \end{quote}  
 
 If you want to give the listing file a different name, use the
-\tt{/LIST} qualifier with a file specification. For example, to
-compile the program \tt{config.rul} naming the listing file
+\co{/LIST} qualifier with a file specification. For example, to
+compile the program \co{config.rul} naming the listing file
 \verb|config_list.lis|, use the following command:
 
 \begin{quote}
@@ -332,7 +332,7 @@ System> rulework config /list=config_list
 \end{quote}  
 
 In batch mode, the compiler produces a listing file by default. To
-suppress the listing file, use the \tt{/NOLIST} qualifier.
+suppress the listing file, use the \co{/NOLIST} qualifier.
 
 \subsubsection{Controlling the Case of C Function Names (Names)}
 
@@ -365,11 +365,11 @@ When an entry block exits, the memory used for its match information
 is normally freed. This means, however, that if the entry block is
 called again, then all match information must be recreated. This may
 have a serious impact on performance if you call the same entry block
-many times. Use the Optimize qualifier with the \tt{REINVOCATION}
+many times. Use the Optimize qualifier with the \co{REINVOCATION}
 value to keep match information in memory between calls to an entry
 block.
 
-For example, assuming the entry block \tt{VERIFY} is called
+For example, assuming the entry block \co{VERIFY} is called
 repeatedly, the following command retains some memory but
 may greatly reduce execution time:
 
@@ -379,14 +379,14 @@ may greatly reduce execution time:
 \end{verbatim}
 \end{quote}
 
-When deciding whether to use \tt{REINVOCATION}, the determining factor
+When deciding whether to use \co{REINVOCATION}, the determining factor
 is how much working memory, of classes visible to the called entry
 block, changes between the time that entry block returns and the time
 it is called again. If more WMOs stay the same than are created,
-changed, or deleted, then use \tt{REINVOCATION}. Conversely, if more WMOs
+changed, or deleted, then use \co{REINVOCATION}. Conversely, if more WMOs
 are created, changed, or deleted than are left the same, then you
 should compile the called entry block with Optimize left at the
-default, \tt{SPACE}.
+default, \co{SPACE}.
 
 \begin{note}
   Language semantics are not affected by this qualifier, only the cost
@@ -397,8 +397,8 @@ default, \tt{SPACE}.
 
 To produce a C file with a different name from your source file, use
 the Ouput qualifier with a new file name. The following command
-compiles the source file \tt{verify.rul} into the generated file
-\tt{config.c}:
+compiles the source file \co{verify.rul} into the generated file
+\co{config.c}:
 
 \begin{quote}
 \begin{verbatim}
@@ -407,7 +407,7 @@ C:\> rulework /out=config verify
 \end{quote}  
 
 The default for output files is the same name as the
-source file, with the \tt{.c} file type, in the current
+source file, with the \co{.c} file type, in the current
 directory.
 
 \subsubsection{Suppressing the Copyright Notice (Quiet)}
@@ -426,8 +426,8 @@ qualifier. For example:
 
 If you have declaration blocks that are shared by many entry blocks,
 you may find it convenient to keep their compiled declarations files
-(\tt{.use}, not \tt{.c}) in a separate directory, perhaps one that is
-accessible to other people. To do this, first place the \tt{.use}
+(\co{.use}, not \co{.c}) in a separate directory, perhaps one that is
+accessible to other people. To do this, first place the \co{.use}
 files generated by compiling the declaration blocks in one directory.
 From then on, compile all files that contain either those declaration
 blocks, or entry blocks and rule blocks that use those declaration
@@ -440,9 +440,9 @@ C:\rules\work> rulework config -usedir=d:\rulework\project\decls
 \end{verbatim}
 \end{quote}
 
-By default, \tt{.use} files are created in and read from the current
+By default, \co{.use} files are created in and read from the current
 directory (in this example, \verb|C:\rules\work|). The Usedirectory
-qualifier resets the directory for \tt{.use} files (in this example,
+qualifier resets the directory for \co{.use} files (in this example,
 to \verb|D:\rulework\project\decls|).
 
 \section{Compiling Generated C Files}
@@ -466,24 +466,20 @@ C:\> cc file-spec... -Ic:\rulework
 \end{quote}
 
 On OpenVMS systems, you must also compile the generated C files using
-the default floating-point arithmetic. Table 8-4 shows which C command
-qualifiers are restricted.
+the default floating-point arithmetic. The following table shows which
+C command qualifiers are restricted.
 
-TODO
-Table 4-4. VAX C and DEC C Compiler Qualifiers
-
-+-------------------------------------------------------+
-| Platform      | Compiler | Restrictions               |
-|---------------+----------+----------------------------|
-| OpenVMS VAX   | VAX C    | You must not use \verb|/g_float|  |
-|---------------+----------+----------------------------|
-| OpenVMS VAX   | DEC C    | You must not use           |
-|               |          | \verb|/float=g_float|             |
-|---------------+----------+----------------------------|
-| OpenVMS Alpha | DEC C    | You must not use           |
-|               |          | \verb|/float=d_float|             |
-+-------------------------------------------------------+
-
+\begin{center}
+\begin{tabular}{lll}
+  \toprule
+  Platform & Compiler & Restrictions \\
+  \midrule
+  OpenVMS VAX & VAX C & You must not use \verb|/g_float| \\
+  OpenVMS VAX & DEC C & You must not use \verb|/float=g_float| \\
+   OpenVMS Alpha & DEC C & You must not use \verb|/float=d_float| \\
+  \bottomrule
+\end{tabular}
+\end{center}
 
 \section{Linking RuleWorks Programs}
 
@@ -507,8 +503,8 @@ produce an executable file.  This creates a program that can run on
 systems that do not have the RuleWorks run-time system installed. You
 do this with your linker's library option.
 
-For example, the following commands link the modules \tt{phone.obj} and
-\tt{phonbook.obj} with the RuleWorks object library.
+For example, the following commands link the modules \co{phone.obj} and
+\co{phonbook.obj} with the RuleWorks object library.
 
 Using DEC C on OpenVMS:
 
@@ -552,8 +548,8 @@ Compiling an external routine creates an object file
 whose name you can include in the command you use to link
 your RuleWorks modules to produce an executable image.
 For example, if the compiled RuleWorks modules are
-\tt{stockinit.obj} and \tt{dostock.obj}, and the external routine
-object file is \tt{stocksub.obj}, the link command on OpenVMS
+\co{stockinit.obj} and \co{dostock.obj}, and the external routine
+object file is \co{stocksub.obj}, the link command on OpenVMS
 is:
 
 \begin{quote}
@@ -570,7 +566,7 @@ routines.
 \subsubsection{Effect of Declaration Blocks on Linking}
 
 Every time you compile a declaration block, the generated code (and
-the \tt{.use} compiled declarations file) includes a special generated
+the \co{.use} compiled declarations file) includes a special generated
 time/date/name linkage point (that is, a global variable). When other
 blocks use that declaration block they include a reference to the
 specific variable named in the compiled declaration file.
@@ -601,9 +597,9 @@ declaration block. (Remember to specify the correct directory - see
 Storing Declarations Separately (Usedirectory))
 
 If you are using project build utility, you can automate this checking
-by adding a dependency for each of your RuleWorks-generated \tt{.c}
-files. These dependencies should state that the \tt{.c} file depends
-not only on the \tt{.rul} file, but also on all the shared \tt{.use}
+by adding a dependency for each of your RuleWorks-generated \co{.c}
+files. These dependencies should state that the \co{.c} file depends
+not only on the \co{.rul} file, but also on all the shared \co{.use}
 files. See the section of this chapter, Sample Make File for a sample
 Wmake file.
 
@@ -702,7 +698,7 @@ Follow these steps when compiling multiple files:
 \end{enumerate}
 
 The following example shows these steps applied to a sample program
-called \tt{phone}. This program consists of a main routine and two
+called \co{phone}. This program consists of a main routine and two
 subroutines in C, three RuleWorks entry blocks, and one declaration
 block. Figure 8-1 illustrates the files used in the command sequence
 shown in the example, Modular Compilation.
@@ -735,10 +731,10 @@ $ run phone (7)
 \end{quote}
 Key to the table and figure Modular Compilation:
 \begin{itemize}
-\item[\tt{(1)}] The \verb|phonbook.rul| file contains the only
+\item[\co{(1)}] The \verb|phonbook.rul| file contains the only
   declaration block, so it is RuleWorks compiled first.
 
-\item[\tt{(2)}] The \verb|phon_reg.rul| and \verb|phonlook.rul| files
+\item[\co{(2)}] The \verb|phon_reg.rul| and \verb|phonlook.rul| files
   contain entry blocks and private declarations, but no declaration
   blocks. They are RuleWorks compiled after \verb|phonbook.rul|.
 
@@ -746,13 +742,13 @@ Key to the table and figure Modular Compilation:
   code, including the main routine. Note that it is compiled with the
   \verb|RUL$LIBRARY| logical (this syntax is for OpenVMS only).
 
-\item[\tt{(3)}] The generated files are all C compiled, again with the
+\item[\co{(3)}] The generated files are all C compiled, again with the
   \verb|RUL$LIBRARY| location specified.
 
-\item[\tt{(4)}] All modules are linked with the RuleWorks object
+\item[\co{(4)}] All modules are linked with the RuleWorks object
   library.
 
-\item[\tt{(5)}] The program is run (this syntax is OpenVMS only).
+\item[\co{(5)}] The program is run (this syntax is OpenVMS only).
 \end{itemize}
 
 If an entry block or rule block contains errors, you can edit that
@@ -839,51 +835,26 @@ C:\> phone
 
 When an entry block receives control, it invokes the RuleWorks
 run-time system. Depending on how the entry block was compiled, and
-whether it contains a \tt{DEBUG} action, the run-time system may
+whether it contains a \co{DEBUG} action, the run-time system may
 invoke the command interpreter.
 
-TODO
-Table 8-6. Run-time System
-
-+-------------------------------------------------------+
-| If the entry block |                                  |
-| was compiled with  | The run-time system...           |
-| the ...            |                                  |
-|--------------------+----------------------------------|
-|                    | executes the \tt{ON-ENTRY} actions    |
-|                    | (if any) and the match and       |
-|                    | select steps of the first        |
-| Debug qualifier    | recognize-act cycle, and then    |
-| set to \tt{YES}         | pauses the entry block and       |
-|                    | invokes the command interpreter. |
-|                    | Pauses the entry block again     |
-|                    | after its ON-EXIT actions (if    |
-|                    | any).                            |
-|--------------------+----------------------------------|
-| Debug qualifier    | executes all the ON-ENTRY        |
-| set to \tt{MAYBE} and   | actions and the match and select |
-| the \tt{ON-ENTRY}       | steps of the first recognize-act |
-| contains a DEBUG   | cycle, and then pauses the entry |
-| action             | block and invokes the command    |
-|                    | interpreter.                     |
-|--------------------+----------------------------------|
-|                    | executes the ON-ENTRY actions    |
-| Debug qualifier    | (if any), continues firing rules |
-| set to MAYBE and a | until it finishes the act phase  |
-| rule contains a    | for the rule that contains the   |
-| DEBUG action       | DEBUG action, and then pauses    |
-|                    | the entry block and invokes the  |
-|                    | command interpreter.             |
-|--------------------+----------------------------------|
-|                    | executes the ON-ENTRY actions    |
-| Debug qualifier    | (if any), continues to           |
-| set to NO          | completion, and returns without  |
-|                    | ever invoking the command        |
-|                    | interpreter.                     |
-+-------------------------------------------------------+
+\begin{table}[h]
+\begin{tabularx}{\columnwidth}{XX}
+  \toprule
+  If the entry block was compiled with the\ldots & The run-time system\ldots...\\
+  \midrule
+  Debug qualifier set to \co{YES} & executes the \co{ON-ENTRY} actions (if any) and the match and select steps of the first recognize-act cycle, and then  pauses the entry block and invokes the command interpreter.  Pauses the entry block again after its \co{ON-EXIT} actions (if  any).  \\\addlinespace
+  Debug qualifier set to \co{MAYBE} and the \co{ON-ENTRY} contains a \co{DEBUG} action & executes all the \co{ON-ENTRY} actions and the match and select steps of the first recognize-act cycle, and then pauses the entry block and invokes the command interpreter. \\\addlinespace
+  Debug qualifier set to \co{MAYBE} and a  rule contains a \co{DEBUG} action & executes the \co{ON-ENTRY} actions (if any), continues firing rules until it finishes the act phase for the rule that contains the \co{DEBUG} action, and then pauses the entry block and invokes the command interpreter. \\\addlinespace
+  Debug qualifier set to \co{NO} & executes the \co{ON-ENTRY} actions (if any), continues to completion, and returns without ever invoking the command interpreter. \\
+  \bottomrule
+\end{tabularx}
+\caption{Run-Time System}
+\label{t:8-6}
+\end{table}
 
 At the RuleWorks command interpreter, you run recognize-act cycles by
-entering the \tt{RUN} command:
+entering the \co{RUN} command:
 
 \begin{quote}
 \begin{Verbatim}[commandchars=\\\{\}]
@@ -892,7 +863,7 @@ entering the \tt{RUN} command:
 \end{quote}
 
 You can control the number of recognize-act cycles the run-time system
-executes by entering the \tt{RUN} command with an integer. For
+executes by entering the \co{RUN} command with an integer. For
 example, to execute four recognize-act cycles, specify:
 
 \begin{quote}
