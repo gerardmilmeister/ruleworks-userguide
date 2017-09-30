@@ -23,7 +23,7 @@
     bottom color=red!50!black!20
   }] 
   \node[circle] (c) at (0,0) [minimum size=8cm] {};
-  \filldraw[c] (0,0) circle (4cm);  \draw [blue,dotted] (-4cm,0) -- (4cm,0);
+  \filldraw[c] (0,0) circle (4cm); 
   \node [label] at (160:3cm) {$Z_1$};
   \node [label] at (100:2.5cm) {$Z_2$};
   \node [label] at (100:1cm) {$Z_3$};
@@ -38,14 +38,9 @@
 
   \node at (0,-4.5cm) {Working Memory};
 
-  \node [box] (db) at (-8cm,2cm) [rectangle,draw,align=left] {
-    \texttt{(object-class Z \ldots)}
-  };
-
-  \node [above=of db] {Declaration Block \texttt{DB1}};
-
   \node [box] (eb) at (-8cm,-2cm) [rectangle,draw,align=left] {
     \texttt{(object-class Y \ldots)} \\
+    \texttt{(object-class Z \ldots)} \\
     \texttt{(rule one} \\
     \qquad\texttt{(\$ROOT \ldots)} \\
     \texttt{-->}\\
@@ -54,9 +49,12 @@
 
   \node [below=of eb] {Entry Block \texttt{EB1}};
 
-  \draw [->,-stealth,thick] (db) -- (eb) node[midway,right]{\texttt{(uses DB1)}};
-
   \draw[black,dotted] (eb.east) -- (tangent cs:node=c,point={(eb.east)},solution=2);
   \draw[black,dotted] (eb.east) -- (tangent cs:node=c,point={(eb.east)},solution=1) node[black,midway,below,yshift=-1ex] {matches};
 
 \end{tikzpicture}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "rwug"
+%%% End:

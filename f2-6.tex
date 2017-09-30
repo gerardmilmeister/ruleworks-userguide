@@ -1,0 +1,63 @@
+\begin{tikzpicture}[
+  node distance=-0.5mm,
+  inner sep=1ex,
+%  text height=1.7ex,
+%  text depth=.25ex,
+ font=\small,
+  box/.style={ 
+    thick,
+    draw=blue!50!black!50,
+    top color=white,
+    minimum height=0.8cm,
+    minimum width=1.8cm,
+    bottom color=blue!50!black!20
+  },
+  box1/.style={
+    minimum width=2cm
+  },
+  rounded corner/.style={
+    rounded corners=10pt
+  },
+  a/.style={
+    -stealth,
+    thick
+  }
+  ]
+
+  \node (01) [box] at (0,0) {\texttt{Box}};
+  \node (02) [box,box1,right=of 01] {};
+  \node (03) [box,right=of 02] {};
+  \node (04) [box,right=of 03] {\texttt{KI-9200}};
+  \node (05) [box,right=of 04] {\texttt{Kiwi-9200 CPU}};
+  \node (06) [box,right=of 05] {\texttt{999.95}};
+  \node (07) [box,right=of 06] {\texttt{YES}};
+
+  \node (00) [minimum height=1.2cm,left=of 01,xshift=-5pt] {\texttt{\#27}};
+
+  \node (class-name) [above=of 01,align=left] {Class\\Name};
+  \node (card-in-slot-obj-id) [above=of 02,align=left] {\texttt{\^{}card-}\\\texttt{in-slot-}\\\texttt{obj-id}};
+  \node (card-in-slot) [above=of 03,align=left] {\texttt{\^{}card-}\\\texttt{in-slot}};
+  \node (part-number) [above=of 04,align=left] {\texttt{\^{}part-}\\\texttt{number}};
+  \node (name) [above=of 05,align=left] {\texttt{\^{}name}};
+  \node (name) [above=of 06,align=left] {\texttt{\^{}price}};
+  \node (is-expanded) [above=of 07,align=left] {\texttt{\^{}is-}\\\texttt{expanded}};
+  \node (id) [above=of 00,align=left] {\texttt{\^\$ID}};
+
+  \node (a1) [box,box1,below=of 02,yshift=-5ex] {\texttt{Memory}};
+  \node (a2) [box,box1,below=of a1] {\texttt{Memory}};
+  \node (a3) [box,box1,below=of a2] {\texttt{Keyboard}};
+  \node (a4) [box,box1,below=of a3] {\texttt{FD-35}};
+
+  \node (b1) [box,below=of 03,yshift=-5ex,minimum width=1.2cm] {\texttt{\#37}};
+  \node (b2) [box,below=of b1,minimum width=1.2cm] {\texttt{\#38}};
+  \node (b3) [box,below=of b2,minimum width=1.2cm] {\texttt{\#35}};
+  \node (b4) [box,below=of b3,minimum width=1.2cm] {\texttt{\#44}};
+
+  \draw [->,-stealth,very thick] (02.south) -- (a1.north);
+  \draw [->,-stealth,very thick] (03.south) -- (b1.north);
+\end{tikzpicture}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "rwug"
+%%% End:
