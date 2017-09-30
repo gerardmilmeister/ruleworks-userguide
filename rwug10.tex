@@ -6227,7 +6227,6 @@ The output is:
 \end{quote}
 
 \subsection{\co{TRACE}}
-TODO
 
 Displays or changes the run-time system's trace setting, which
 controls the amount of information the system displays while executing
@@ -6246,60 +6245,54 @@ a program.
 \begin{arguments}
 \item[trace-name]
 
-  The name of a trace setting, which are shown in the table, Trace
-  Settings. You can supply one or more names.
+  The name of a trace setting, which are shown in the table below. You
+  can supply one or more names.
 
-\item[*]
+\item[\normalfont\texttt{*}]
 
   All trace settings shown in the following table.
 \end{arguments}
 
-Name  Information Displayed
-
-{ENTRY-BLOCK}  Entry blocks being entered or exited
-
-{EB}
-
-RULE  Global and local rule firing counts and instantiation
-executed
-
-{RULE-GROUP} Rule group name added to RULE trace information
-{RG}
-
-WM  Objects being created, changed, or deleted from working
-memory
-
-CS  Instantiations into and out of the conflict set
-
-PM  Rules into and out of program memory
+\begin{tabular}{ll}
+  \toprule
+  Name & Information Displayed \\
+  \midrule
+  \co{ENTRY-BLOCK} or \co{EB} & Entry blocks being entered or exited \\
+  \co{RULE} & Global and local rule firing counts and instantiation
+executed \\
+  \co{ENTRY-BLOCK} or \co{EB} & Entry blocks being entered or exited \\
+  \co{RULE-GROUP} or \co{RG} & Global and local rule firing counts and instantiation executed \\
+  \co{WM} & Objects being created, changed, or deleted from working
+memory \\
+  \co{CS} & Instantiations into and out of the conflict set \\
+  \co{PM} & Rules into and out of program memory \\
+  \bottomrule
+\end{tabular}
 
 \Example
 
 The following command displays the current trace level:
 
 \begin{quote}
-\begin{verbatim}
-RuleWorks> trace
-ENTRY-BLOCK RULE-GROUP RULE WM
-\end{verbatim}
- 
+\begin{Verbatim}[commandchars=\\\{\}]
+\RWP\cmd{trace}
+   TRACEs set on:  ENTRY-BLOCK RULE-GROUP RULE WM CS
+\end{Verbatim}
 \end{quote}
 
 The following commands change and redisplay the trace
 setting:
 
 \begin{quote}
-\begin{verbatim}
-RuleWorks> trace off rg rule
-RuleWorks> trace
-ENTRY-BLOCK WM
-\end{verbatim}
+\begin{Verbatim}[commandchars=\\\{\}]
+\RWP\cmd{trace off rg rule}
+   TRACEs set on:  ENTRY-BLOCK WM CS
+\end{Verbatim}
 \end{quote}  
 
-For examples of trace output, see Chapter 9.9.
+For examples of trace output, see Section~\ref{s:trace}.
 
 \subsection{\co{WBREAK}}
-TODO
 
 Controls breakpoints on WMOs that match a specified pattern.
 
@@ -6323,15 +6316,15 @@ messages in the format below, and invokes the command interpreter:
 
 \Format
 
-\co{WBREAK} [ \co{ON} \it{object pattern} \co{OFF} \{
-\it{object-pattern} \it{number} \co* \} ]
+\co{WBREAK} [\co{ON} \it{object pattern} \co{OFF} \{\it{object-pattern}
+\it{number} \co*\}]
 
 \begin{arguments}
-\item[\co{ON}]
+\item[\normalfont\co{ON}]
 
   Sets a new breakpoint on an object pattern.
 
-\item[\co{OFF}]
+\item[\normalfont\co{OFF}]
 
   Clears the existing breakpoint on an object pattern.
 
@@ -6351,7 +6344,7 @@ messages in the format below, and invokes the command interpreter:
   breakpoint set. You get a list of integers and their patterns when
   you give the \co{WBREAK} command with no arguments.
 
-\item[\co{*}]
+\item[\normalfont\co{*}]
 
   You can use an asterisk (star) with the \co{OFF} keyword to mean
   ``clear all breakpoints on WMOs.''
@@ -6359,18 +6352,18 @@ messages in the format below, and invokes the command interpreter:
 
 \Example
 
-The following is an example of the WBREAK command:
+The following is an example of the \co{WBREAK} command:
 
 \begin{quote}
-\begin{verbatim}
-RuleWorks> wbreak on control-context
-RuleWorks> run
+\begin{Verbatim}[commandchars=\\\{\}]
+\RWP\cmd{wbreak on control-context}
+\RWP\cmd{run}
 <FAC>-I-WBREAK, WBREAK encountered on ACTIVE-CONTEXT #2
 =>WM: #2 [MAKE-CONTEXT-ACTIVE] (ACTIVE-CONTEXT ^NAME TASKS-TO-DO)
 <=WM: #1 [ | main | ON-ENTRY] (CONTEXT ^NAME TASKS-TO-DO)
 %RUL-I-BREAKNOTED, Execution paused by break
-RuleWorks>
-\end{verbatim}
+\RWP
+\end{Verbatim}
 \end{quote}
 
 \subsection{\co{WHILE}\ldots\co{DO}\ldots}
@@ -6464,9 +6457,9 @@ The following command displays the objects whose identifiers are
 \verb|#3| and \verb|#4|:
 
 \begin{quote}
-\begin{verbatim}
-RuleWorks> wm #3 #4
-\end{verbatim}
+\begin{Verbatim}[commandchars=\\\{\}]
+\RWP\cmd{wm #3 #4}
+\end{Verbatim}
 \end{quote}
 
 \subsection{\co{WMHISTORY}}
@@ -6535,11 +6528,11 @@ The system displays this information in the following format:
 The following example shows the history of an entire object:
 
 \begin{quote}
-\begin{verbatim}
-RuleWorks> enable wmhistory
-RuleWorks> run
+\begin{Verbatim}[commandchars=\\\{\}]
+\RWP\cmd{enable wmhistory}
+\RWP\cmd{run}
 ...
-RuleWorks> wmh #28
+\RWP\cmd{wmh #28}
 #28 [CHOOSE-SLOTS:PLACE-NONMEMORY] (BOX
 [CONVERT-PACKAGES-TO-PARTS:HOME-KIWI] ^CARD-IN-SLOT (COMPOUND
 MEMORY MEMORY KEYBOARD FD-35) [CHOOSE-SLOTS:PLACE-NONMEMORY]
@@ -6550,18 +6543,18 @@ MEMORY MEMORY KEYBOARD FD-35) [CHOOSE-SLOTS:PLACE-NONMEMORY]
 Unit [EXPAND-PART-SKELETONS:BOX] ^PRICE 999.95
 [EXPAND-PART-SKELETONS:BOX] ^IS-EXPANDED YES
 [EXPAND-PART-SKELETONS:BOX])
-\end{verbatim}
+\end{Verbatim}
 \end{quote}
 
 This example shows the history of an attribute:
 
 \begin{quote}
-\begin{verbatim}
-RuleWorks> wmh #28 ^card-in-slot
+\begin{Verbatim}[commandchars=\\\{\}]
+\RWP\cmd{wmh #28 ^card-in-slot}
 #28 [CHOOSE-SLOTS:PLACE-NONMEMORY] (BOX
 [CONVERT-PACKAGES-TO-PARTS:HOME-KIWI] ^CARD-IN-SLOT (COMPOUND
 MEMORY MEMORY KEYBOARD FD-35) [CHOOSE-SLOTS:PLACE-NONMEMORY])
-\end{verbatim}
+\end{Verbatim}
 \end{quote}
 
 \subsection{\co{WRITE}}
@@ -6571,9 +6564,9 @@ default, the \co{WRITE} action sends output to the terminal. To
 send output to a file, you can do one of the following:
 
 \begin{itemize}
-\item Specify the \co{WRITE} action with a file identifier
-\item Change the default destination for the \co{WRITE} action, using
-  the \co{DEFAULT} action or command
+\item specify the \co{WRITE} action with a file identifier,
+\item change the default destination for the \co{WRITE} action, using
+  the \co{DEFAULT} action or command.
 \end{itemize}
 
 \Format
@@ -6581,7 +6574,6 @@ send output to a file, you can do one of the following:
 \co{WRITE} [\it{file-id}] \it{RHS-expression}
 
 \begin{arguments}
-
 \item[file-id]
 
   The file identifier of the destination file for the \co{WRITE}
