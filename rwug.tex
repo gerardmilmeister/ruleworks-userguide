@@ -52,6 +52,23 @@
 \newcommand{\cmd}[1]{\textcolor{cmd-color}{#1}}
 \makeatother
 
+\makeatletter
+\newenvironment{arguments}
+               {\vspace{1ex}\noindent\textbf{Arguments}\@beginparpenalty=10000
+                 \list{}{\labelwidth\z@ \itemindent-\leftmargin
+                   \topsep=\z@                   
+                   \let\makelabel\operandlabel\let\labelsep=\textwidth}}
+               {\endlist}
+\newenvironment{argument}
+               {\vspace{1ex}\noindent\textbf{Argument}\@beginparpenalty=10000
+                 \list{}{\labelwidth\z@ \itemindent-\leftmargin
+                   \topsep=\z@                   
+                   \let\makelabel\operandlabel\let\labelsep=\textwidth}}
+               {\endlist}
+\newcommand*\operandlabel[1]{\hspace\labelsep
+  \parbox[t]\textwidth{\normalfont\it{#1}\vspace{1.5ex}}}
+\makeatother
+
 \renewenvironment{quote}
   {\list{}{\leftmargin=1.5em\topsep=1ex\rightmargin=\leftmargin}\item\relax}
   {\endlist}
@@ -97,7 +114,7 @@
 \include{rwug8}
 \include{rwug9}
 \include{rwug10}
-%\include{rwug11}
+\include{rwug11}
 \include{rwug12}
 
 \end{document}

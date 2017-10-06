@@ -1,3394 +1,2718 @@
 \chapter{Application Programming Interface}
 \label{c:api}
 
+\newcommand{\Syntax}{\smallHead{Syntax}}
+\newcommand{\CBinding}{\smallHead{C Binding}\vspace*{-1.6ex}}
+\newcommand{\SeeAlso}{\smallHead{See Also}}
+
+\makeatletter
+\newenvironment{seealso}
+  {\vspace{1ex}\noindent\textbf{See Also}\@beginparpenalty=10000
+   \list{}{\listparindent=0pt\itemindent\listparindent\rightmargin=\leftmargin\topsep=0pt}\item\relax}
+  {\endlist}
+\makeatother
+\newcommand{\argl}[3]{\it{#1}&{#2}&{#3}}
+
 This chapter contains reference information about each routine in the
 RuleWorks run-time library.
 
 The table below explains the constants defined in the RuleWorks API:
 
-RuleWorks Defined Constants
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{lp{7cm}l}
+  \toprule
+  Name  & Description &  Value \\
+  \midrule
+  \verb|RUL_C_INVALID_ATOM| & The atomic value used to signal an error & \co{NULL} \\\addlinespace
+  \verb|RUL_C_INVALID_LENGTH| & An integer value used to signal an error & -1 \\\addlinespace
+  \verb|RUL_C_MAX_SYMBOL_SIZE| &  Maximum numbers of characters in an atom of type \co{SYMBOL} & 256 \\\addlinespace
+  \verb|RUL_C_RESET_WM_ATOM| &  An object identifier defined to be the first (lowest) in working memory & \co{NULL} \\
+  \bottomrule
+\end{tabular}
+\end{center}
+\caption{RuleWorks Defined Constants}
+\end{table}
 
-Name  Description  Value
+\section*{\co{rul\_atom\_is\_compound}}
 
-RUL_C_INVALID_ATOM  The atomic value used to
-signal NULL
- an error
+Indicates whether a value is a RuleWorks \co{COMPOUND} value.
 
-RUL_C_INVALID_LENGTH  An integer value used to
-signal -1
- an error
+\Syntax
 
-RUL_C_MAX_SYMBOL_SIZE  Maximum numbers of
-characters 256
- in an atom of type SYMBOL
+\it{truth\_value} = \verb|rul_atom_is_compound|(\it{atom\_value})
 
-RUL_C_RESET_WM_ATOM  An object identifier
-defined to  NULL
- be the first (lowest) in working
- memory.
+\newenvironment{args}
+  {\begin{tabular}{lll}Argument & Data Type & Access\\}
+  {\end{tabular}}
 
- 
+\begin{args}
+\it{truth\_value} & boolean & write \\
+\it{atom\_value}  & opaque atom & read \\
+\end{args}
 
- 1. rul_atom_is_compound
+\CBinding
 
-    Indicates whether a value is a RuleWorks
-    COMPOUND value.
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_atom_is_compound(rul_atom atom_value);
+\end{verbatim}
 
-       1. Syntax
+\begin{argument}
+\item[atom\_value]
+  
+  The value to be tested.
+\end{argument}
 
-          truth_value = rul_atom_is_compound
-          (atom_value)
+\ReturnValue
 
-          Argument  Data Type    Access
+\co{TRUE} if its argument is a RuleWorks \co{COMPOUND} value;
+otherwise, \co{FALSE}.
 
-          truth_value  boolean    write
+\begin{seealso}
+  \verb|rul_atom_is_fatom|
 
-          atom_value  opaque atom   read
+  \verb|rul_atom_is_iatom|
+  
+  \verb|rul_atom_is_symbol|
+  
+  \verb|rul_atom_is_instance_id|
+\end{seealso}
 
-           
+\section*{\co{rul\_atom\_is\_fatom}}
 
-       2. C Binding
+Indicates whether a value is a RuleWorks \co{FLOAT} atom.
 
-          #include <rul_rtl.h>
+\Syntax
 
-          rul_boolean rul_atom_is_compound
-          (rul_atom atom_value);
+\it{truth\_value} = \verb|rul_atom_is_fatom|(\it{atom\_value})
 
-       3. Argument
+\begin{args}
+  \argl{truth\_value}{boolean}{write} \\
+  \argl{atom\_value}{opaque atom}{read}
+\end{args}
 
-          atom_value
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_atom_is_fatom(rul_atom atom_value);
+\end{verbatim}
 
-          The value to be tested.
+\begin{argument}
+\item[atom\_value]
+  
+  The value to be tested.
+\end{argument}
 
-       4. Return Values
+\ReturnValue
 
-          TRUE if its argument is a RuleWorks
-          COMPOUND value; otherwise, FALSE.
+\co{TRUE} if its argument is a RuleWorks \co{FLOAT} atom; otherwise,
+\co{FALSE}.
 
-       5. See Also
+\begin{seealso}
+  \co{rul\_atom\_is\_compound}
 
-    rul_atom_is_fatom
+  \co{rul\_atom\_is\_iatom}
 
-    rul_atom_is_iatom
+  \co{rul\_atom\_is\_symbol}
 
-    rul_atom_is_symbol
+  \co{rul\_atom\_is\_instance\_id}
+\end{seealso}
 
-    rul_atom_is_instance_id
+\section*{\co{rul\_atom\_is\_iatom}}
 
- 2. rul_atom_is_fatom
+Indicates whether a value is a RuleWorks \co{INTEGER} atom.
 
-    Indicates whether a value is a RuleWorks
-    FLOAT atom.
+\Syntax
 
-       1. Syntax
+\it{truth\_value} = \co{rul\_atom\_is\_iatom}(\it{atom\_value})
 
-          truth_value = rul_atom_is_fatom
-          (atom_value)
+\begin{args}
+\argl{truth\_value}{boolean}{write}\\
+\argl{atom\_value}{opaque atom}{read}
+\end{args}
 
-          Argument  Data Type    Access
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_atom_is_iatom(rul_atom atom_value);
+\end{verbatim}
 
-          truth_value  boolean    write
+\begin{arguments}
 
-          atom_value  opaque atom   read
+\item[atom\_value]
 
-           
+  The value to be tested.
+\end{arguments}
 
-       2. C Binding
+\ReturnValue
 
-          #include <rul_rtl.h>
+\co{TRUE} if the argument is a RuleWorks \co{INTEGER} atom; otherwise,
+\co{FALSE}.
 
-          rul_boolean rul_atom_is_fatom
-          (rul_atom atom_value);
+\begin{seealso}  
+  \co{rul\_atom\_is\_compound}
 
-       3. Argument
+  \co{rul\_atom\_is\_fatom}
 
-          atom_value
+  \co{rul\_atom\_is\_symbol}
 
-          The value to be tested.
+  \co{rul\_atom\_is\_instance\_id}
+\end{seealso}
+  
+\section*{\co{rul\_atom\_is\_instance\_id}}
 
-       4. Return Values
+Indicates whether a value is a RuleWorks \co{INSTANCE-ID} atom.
 
-          TRUE if its argument is a RuleWorks
-          FLOAT atom; otherwise, FALSE.
+Note that \co{rul\_atom\_is\_instance\_id} does not indicate that the
+object associated with the \co{INSTANCE-ID} still exists. Use
+\co{rul\_is\_instance} to check that.
 
-       5. See Also
+\Syntax
 
-    rul_atom_is_compound
+\it{truth\_value} = \co{rul\_atom\_is\_instance\_id}(\it{atom\_value})
 
-    rul_atom_is_iatom
+\begin{args}
+\argl{truth\_value}{boolean}{write} \\
+\argl{atom\_value}{opaque atom}{read}
+\end{args}
 
-    rul_atom_is_symbol
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_atom_is_instance_id(rul_atom atom_value);
+\end{verbatim}
 
-    rul_atom_is_instance_id
+\begin{argument}
+\item[atom\_value]
 
- 3. rul_atom_is_iatom
+The value to be tested.
+\end{argument}
 
-    Indicates whether a value is a RuleWorks
-    INTEGER atom.
 
-       1. Syntax
+\ReturnValue          
 
-          truth_value = rul_atom_is_iatom
-          (atom_value)
+\co{TRUE} if the argument is a RuleWorks \co{INSTANCE-ID} atom; otherwise,
+\co{FALSE}.
 
-          Argument  Data Type    Access
+\begin{seealso}
+  \co{rul\_atom\_is\_compound}
 
-          truth_value  boolean    write
+  \co{rul\_atom\_is\_fatom}
+  
+  \co{rul\_atom\_is\_iatom}
+  
+  \co{rul\_atom\_is\_symbol}
+  
+  \co{rul\_is\_instance}
+\end{seealso}
+  
+\section*{\co{rul\_atom\_is\_symbol}}
 
-          atom_value  opaque atom   read
+Indicates whether a value is a RuleWorks \co{SYMBOL} atom.
 
-           
+\Syntax
 
-       2. C Binding
+\it{truth\_value} = \co{rul\_atom\_is\_symbol}(\it{atom\_value})
 
-          #include <rul_rtl.h>
+\begin{args}
+\argl{truth\_value}{boolean}{write} \\
+\argl{atom\_value}{opaque atom}{read}
+\end{args}
 
-          rul_boolean rul_atom_is_iatom
-          (rul_atom atom_value);
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_atom_is_symbol(rul_atom atom_value);
+\end{verbatim}
 
-       3. Arguments
+\begin{argument}
+\item[atom\_value]
 
-          atom_value
+The value to be tested.
+\end{argument}
 
-          The value to be tested.
+\ReturnValue
 
-       4. Return Values
+\co{TRUE} if the argument is a RuleWorks \co{SYMBOL} atom; otherwise,
+\co{FALSE}.
 
-          TRUE if the argument is a RuleWorks
-          INTEGER atom; otherwise, FALSE.
+\begin{seealso}
+\co{rul\_atom\_is\_fatom}
 
-       5. See Also
+\co{rul\_atom\_is\_iatom}
 
-    rul_atom_is_compound
+\co{rul\_atom\_is\_instance\_id}
+\end{seealso}
 
-    rul_atom_is_fatom
+\section*{\co{rul\_atom\_to\_string}}
 
-    rul_atom_is_symbol
+Converts a RuleWorks atom to a string, regardless of the atom's type.
 
-    rul_atom_is_instance_id
+\Syntax
 
- 4. rul_atom_is_instance_id
+\it{num\_chars} = \co{rul\_atom\_to\_string}(\it{char\_string},
+\it{string\_size}, \it{atom\_value})
 
-    Indicates whether a value is a RuleWorks
-    INSTANCE-ID atom.
+\begin{args}
+  \argl{num\_chars}{integer}{write} \\
+  \argl{char\_string}{string}{write} \\
+  \argl{string\_size}{integer}{read} \\
+  \argl{atom\_value}{opaque atom}{read}
+\end{args}
+        
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+long rul_atom_to_string(char char_string, long string_size, rul_atom atom_value);
+\end{verbatim}
 
-    Note that rul_atom_is_instance_id does not
-    indicate that the object associated with
-    the INSTANCE-ID still exists. Use
-    rul_is_instance to check that.
+\begin{arguments}
+\item[char\_string]
 
-       1. Syntax
+  The read form of the specified atom, set by the function (see
+  Chapter~\ref{c:workingmem} for information on read forms).
 
-          truth_value =
-          rul_atom_is_instance_id (atom_value)
+\item[string\_size]
 
-          Argument  Data Type    Access
+  The maximum number of characters to copy into \it{char\_string}.
 
-          truth_value  boolean    write
+\item[atom\_value]
 
-          atom_value  opaque atom   read
+  The RuleWorks atom to be converted.
+\end{arguments}
 
-           
+\ReturnValue
 
-       2. C Binding
+The number of characters in the string that represents the read form
+of the specified atom; or \verb|RUL_C_INVALID_LENGTH| if an error
+occurs (for example, the buffer specified by \it{char\_string} is too
+small for the read form).
 
-          #include <rul_rtl.h>
+Since the print form of a RuleWorks atom is at most
+\co{RUL\_C\_MAX\_SYMBOL\_SIZE} characters, allocating a buffer 3 + (2
+\co{<}math\_char\co{>}(times) \co{RUL\_C\_MAX\_SYMBOL\_SIZE}) characters long is
+guaranteed to be adequate for any read form.
 
-          rul_boolean rul_atom_is_instance_id
-          (rul_atom atom_value);
+\Example
 
-       3. Argument
+The following example is in the C programming language.
+\begin{verbatim}
+char result[RUL_C_MAX_SYMBOL_SIZE + 1];
+char_count = rul_atom_to_string(result, RUL_C_MAX_SYMBOL_SIZE + 1, my_atom);
+\end{verbatim}
 
-          atom_value
+\begin{seealso}
+  \co{rul\_atom\_to\_string\_length}
 
-          The value to be tested.
+  \co{rul\_string\_to\_atom}
+\end{seealso}
 
-       4. Return Values
+\section*{\co{rul\_atom\_to\_string\_length}}
 
-          TRUE if the argument is a RuleWorks
-          INSTANCE-ID atom; otherwise, FALSE.
+Finds the number of characters in the read form of a specified atom.
 
-       5. See Also
+\Syntax
 
-    rul_atom_is_compound
+\it{num\_chars} = \co{rul\_atom\_to\_string\_length}(\it{atom\_value})
 
-    rul_atom_is_fatom
+\begin{args}
+  \argl{num\_chars}{integer}{write} \\
+  \argl{atom\_value}{opaque atom}{read}
+\end{args}
 
-    rul_atom_is_iatom
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+long rul_atom_to_string_length(rul_atom atom_value);
+\end{verbatim}
 
-    rul_atom_is_symbol
+\begin{argument}
+\item[atom\_value]
+  
+  The RuleWorks atom to be converted.
+\end{argument}
+  
+\ReturnValue
 
-    rul_is_instance
+The number of characters in the string that represents the read form
+of the specified atom.
 
- 5. rul_atom_is_symbol
+\begin{seealso}
+  \co{rul\_atom\_to\_string}
 
-    Indicates whether a value is a RuleWorks
-    SYMBOL atom.
+  \co{rul\_string\_to\_atom}
+\end{seealso}
 
-       1. Syntax
-
-          truth_value = rul_atom_is_symbol
-          (atom_value)
-
-          Argument  Data Type    Access
-
-          truth_value  boolean    write
-
-          atom_value  opaque atom   read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_boolean rul_atom_is_symbol
-          (rul_atom atom_value);
-
-       3. Argument
-
-          atom_value
-
-          The value to be tested.
-
-       4. Return Values
-
-          TRUE if the argument is a RuleWorks
-          SYMBOL atom; otherwise, FALSE.
-
-       5. See Also
-
-    rul_atom_is_fatom
-
-    rul_atom_is_iatom
-
-    rul_atom_is_instance_id
-
- 6. rul_atom_to_string
-
-    Converts a RuleWorks atom to a string,
-    regardless of the atom's type.
-
-       1. Syntax
-
-          num_chars = rul_atom_to_string
-          (char_string, string_size,
-          atom_value)
-
-          Argument  Data Type    Access
-
-          num_chars  integer    write
-
-          char_string  string    write
-
-          string_size  integer    read
-
-          atom_value  opaque atom   read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          long rul_atom_to_string (
-          char  char_string
-          long string_size
-          rul_atom atom_value);
-
-       3. Arguments
-
-          char_string
-
-          The read form of the specified atom,
-          set by the function (see Chapter 2
-          for information on read forms).
-
-          string_size
-
-          The maximum number of characters to
-          copy into char_string.
-
-          atom_value
-
-          The RuleWorks atom to be converted.
-
-          Return Values
-
-          The number of characters in the
-          string that represents the read form
-          of the specified atom; or
-          RUL_C_INVALID_LENGTH if an error
-          occurs (for example, the buffer
-          specified by char_string is too
-          small for the read form).
-
-          Since the print form of a RuleWorks
-          atom is at most
-          RUL_C_MAX_SYMBOL_SIZE characters,
-          allocating a buffer 3 + (2
-          <math_char>(times)
-          RUL_C_MAX_SYMBOL_SIZE) characters
-          long is guaranteed to be adequate
-          for any read form.
-
-       4. Examples
-
-          The following example is in the C
-          programming language.
-
-          char result[RUL_C_MAX_SYMBOL_SIZE +
-          1];
-
-          char_count = rul_atom_to_string
-          (result, RUL_C_MAX_SYMBOL_SIZE + 1,
-          my_atom);
-
-       5. See Also
-
-    rul_atom_to_string_length
-
-    rul_string_to_atom
-
- 7. rul_atom_to_string_length
-
-    Finds the number of characters in the read
-    form of a specified atom.
-
-       1. Syntax
-
-          num_chars =
-          rul_atom_to_string_length
-          (atom_value)
-
-          Argument  Data Type    Access
-
-          num_chars  integer    write
-
-          atom_value  opaque atom   read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          long rul_atom_to_string_length
-          (rul_atom atom_value);
-
-       3. Arguments
-
-          atom_value
-
-          The RuleWorks atom to be converted.
-
-       4. Return Values
-
-          The number of characters in the
-          string that represents the read form
-          of the specified atom.
-
-       5. See Also
-
-    rul_atom_to_string
-
-    rul_string_to_atom
-
- 8. rul_attr_is_compound
+\section*{\co{rul\_attr\_is\_compound}}
 
     Indicates whether an attribute is compound
     or scalar.
 
-       1. Syntax
+\Syntax
 
-          truth_value = rul_attr_is_compound
-          (class_name, attr_name, block_name)
+\it{truth\_value} = \co{rul\_attr\_is\_compound}(\it{class\_name},
+\it{attr\_name}, \it{block\_name})
 
-          Argument  Data Type    Access
+\begin{args}
+  \argl{truth\_value}{boolean}{write} \\
+  \argl{class\_name}{string}{read} \\
+  \argl{attr\_name}{string}{read} \\
+  \argl{block\_name}{string}{read}
+\end{args}
 
-          truth_value  boolean    write
+\CBinding
 
-          class_name  string    read
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_attr_is_compound(char *class_name, char *attr_name,
+                                 char *block_name);
+\end{verbatim}
 
-          attr_name  string    read
+\begin{arguments}
+\item[class\_name]
 
-          block_name  string    read
+  A string that names the object class of the attribute.
 
-           
+\item[attr\_name]
 
-       2. C Binding
+  A string that names the attribute to be tested.
 
-          #include <rul_rtl.h>
+\item[block\_name]
 
-          rul_boolean rul_attr_is_compound (
-          char *class_name,
-          char *attr_name,
-          char *block_name);
+  A string that names the block in which the object class was
+  declared.
+\end{arguments}
 
-       3. Arguments
+\ReturnValue
 
-          class_name
+\co{TRUE} if \it{attr\_name} is the name of an attribute declared to be compound
+in the object class specified by \it{class\_name}; otherwise, \co{FALSE}.
 
-          A string that names the object class
-          of the attribute.
+\begin{seealso}
+  \co{rul\_get\_comp\_attr\_length}
 
-          attr_name
+  \co{rul\_get\_comp\_attr\_string}
 
-          A string that names the attribute to
-          be tested.
+  \co{rul\_get\_comp\_elem\_atom}
+\end{seealso}
 
-          block_name
+\section*{\co{rul\_copy\_instance}}
 
-          A string that names the block in
-          which the object class was declared.
+Creates a new object identical to the one specified.
 
-       4. Return Values
+\Syntax
 
-          TRUE if attr_name is the name of an
-          attribute declared to be compound in
-          the object class specified by
-          class_name; otherwise, FALSE.
+\it{new\_object\_id} = \co{rul\_copy\_instance}(\it{old\_object\_id})
 
-       5. See Also
+\begin{args}
+\argl{new\_object\_id}{opaque INSTANCE-ID atom}{write} \\
+\argl{old\_object\_id}{opaque INSTANCE-ID atom}{read}
+\end{args}
 
-    rul_get_comp_attr_length
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_atom rul_copy_instance (rul_atom old_object_id)
+\end{verbatim}
 
-    rul_get_comp_attr_string
+\begin{argument}
+\item[old\_object\_id]
 
-    rul_get_comp_elem_atom
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  copied.
+\end{argument}
 
- 9. rul_copy_instance
+\ReturnValue
 
-    Creates a new object identical to the one
-    specified.
+The RuleWorks INSTANCE-ID atom associated with the newly-created
+object; or \co{RUL\_C\_INVALID\_ATOM} if for any reason the function was
+unable to create the new object.
 
-       1. Syntax
+\begin{seealso}
+  \co{rul\_get\_instance}
 
-          new_object_id = rul_copy_instance
-          (old_object_id)
+  \co{rul\_make\_instance}
 
-          Argument  Data Type     Access
+  \co{rul\_specialize\_instance}
+\end{seealso}
 
-          new_object_id  opaque INSTANCE-ID
-          atom  write
+\section*{\co{rul\_debug}}
 
-          old_object_id  opaque INSTANCE-ID
-          atom  read
+Causes the \co{RuleWorks>} prompt to appear at the beginning of the next
+recognize-act cycle, if the active entry block was compiled with the
+Debug qualifier set to \co{YES} or \co{MAYBE}.
 
-           
+\Syntax
 
-       2. C Binding
+\co{rul\_debug}()
 
-          #include <rul_rtl.h>
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+void rul_debug (void);
+\end{verbatim}
 
-          rul_atom rul_copy_instance (rul_atom
-          old_object_id)
+\Arguments
 
-       3. Argument
+None.
 
-          old_object_id
+\section*{\co{rul\_double\_to\_fatom}}
 
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          copied.
+Converts a double-precision floating-point number into a RuleWorks
+\co{FLOAT} atom.
 
-       4. Return Values
+\Syntax
 
-          The RuleWorks INSTANCE-ID atom
-          associated with the newly-created
-          object; or RUL_C_INVALID_ATOM if for
-          any reason the function was unable
-          to create the new object.
+\it{atom\_value} = \co{rul\_double\_to\_fatom}(\it{double\_value})
 
-       5. See Also
+\begin{args}
+  \argl{atom\_value}{opaque float atom}{write} \\
+  \argl{double\_value}{double float}{read}
+\end{args}
 
-    rul_get_instance
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_double_to_fatom(double double_value);
+\end{verbatim}
 
-    rul_make_instance
+\begin{argument}
+\item[double\_value]
 
-    rul_specialize_instance
+  The double-precision floating-point number to be converted.
+    
+  (On OpenVMS VAX systems, this is a \co{D\_float} value; on OpenVMS
+  AXP systems, a \co{G\_float}.)
+\end{argument}
 
-10. rul_debug
+\ReturnValue
 
-    Causes the RuleWorks> prompt to appear at
-    the beginning of the next recognize-act
-    cycle, if the active entry block was
-    compiled with the Debug qualifier set to
-    YES or MAYBE.
+A RuleWorks atom made from the floating-point number; or
+\co{RUL\_C\_INVALID\_ATOM} if the function was unable to create the
+new atom for any reason.
 
-       1. Syntax
+\begin{seealso}
+  \co{rul\_atom\_is\_fatom}
 
-          rul_debug ( )
+  \co{rul\_fatom\_to\_float}
+\end{seealso}
 
-       2. C Binding
+\section*{\co{rul\_end\_id\_translation}}
 
-          #include <rul_rtl.h>
+Signals the termination of an INSTANCE-ID translation table. See the
+description of \co{rul\_start\_id\_translation} for details.
 
-          void rul_debug (void);
+\Syntax
 
-       3. Arguments
+\co{rul\_end\_id\_translation}()
 
-    None.
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+void rul_end_id_translation (void);
+\end{verbatim}
 
-11. rul_double_to_fatom
+\Arguments
 
-    Converts a double-precision floating-point
-    number into a RuleWorks FLOAT atom.
+None.
 
-       1. Syntax
+\begin{seealso}
+  \co{rul\_make\_instance}
 
-          atom_value = rul_double_to_fatom
-          (double_value)
+  \co{rul\_start\_id\_translation}
+\end{seealso}
 
-          Argument   Data Type    Access
+\section*{\co{rul\_fatom\_to\_double}}
 
-          atom_value   opaque float atom
-            write
+Converts a RuleWorks \co{FLOAT} atom into a double-precision floating-point
+number.
 
-          double_value   double float    read
+(On OpenVMS VAX systems, this is an \co{F\_float} value; on OpenVMS AXP
+systems, a \co{G\_float}.)
 
-           
+\Syntax
 
-       2. C Binding
+\it{double\_value} = \co{rul\_fatom\_to\_double}(\it{atom\_value})
 
-          #include <rul_rtl.h>
+\begin{args}
+  \argl{double\_value}{double float}{write} \\
+  \argl{atom\_value}{opaque float atom}{read}
+\end{args}
 
-          rul_boolean rul_double_to_fatom
-          (double double_value);
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+double rul_fatom_to_double(rul_atom atom_value);
+\end{verbatim}
 
-       3. Argument
+\begin{argument}
+\item[atom\_value]
 
-          double_value
+  The RuleWorks \co{FLOAT} atom to be converted.
+\end{argument}
 
-          The double-precision floating-point
-          number to be converted.
+\ReturnValue
 
-          (On OpenVMS VAX systems, this is a
-          D_float value; on OpenVMS AXP
-          systems, a G_float.)
+A double-precision floating-point number made from the RuleWorks atom.
+If the argument is not a float atom, the function returns 0.0 and
+issues a warning.
 
-       4. Return Values
+\begin{seealso}
+  \co{rul\_atom\_is\_fatom}
 
-          A RuleWorks atom made from the
-          floating-point number; or
-          RUL_C_INVALID_ATOM if the function
-          was unable to create the new atom
-          for any reason.
+  \co{rul\_fatom\_to\_float}
+\end{seealso}
 
-       5. See Also
+\section*{\co{rul\_fatom\_to\_float}}
 
-    rul_atom_is_fatom
+Converts a RuleWorks \co{FLOAT} atom into a single-precision floating-point
+number.
 
-    rul_fatom_to_float
+(On VMS systems, this is an \co{F\_float} value.)
 
-12. rul_end_id_translation
+\Syntax
 
-    Signals the termination of an INSTANCE-ID
-    translation table. See the description of
-    rul_start_id_translation for details.
+\it{float\_value} = \co{rul\_fatom\_to\_float}(\it{atom\_value})
 
-       1. Syntax
+\begin{args}
+  \argl{float\_value}{single float}{write} \\
+  \argl{atom\_value}{opaque float atom}{read}
+\end{args}
 
-          rul_end_id_translation ( )
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+float rul_fatom_to_float(rul_atom atom_value);
+\end{verbatim}
 
-       2. C Binding
+\begin{argument}
+\item[atom\_value]
 
-          #include <rul_rtl.h>
+  The RuleWorks \co{FLOAT} atom to be converted.
+\end{argument}
 
-          void rul_end_id_translation (void);
+\ReturnValue
 
-       3. Arguments
+A single-precision floating-point number made from the RuleWorks atom.
+If the argument is not a float atom, the function returns 0.0 and
+issues a warning.
 
-          None.
+\begin{seealso}
+  \co{rul\_float\_to\_fatom}
+\end{seealso}
 
-       4. See Also
+\section*{\co{rul\_float\_to\_fatom}}
 
-    rul_make_instance
+Converts a single-precision floating-point number into a RuleWorks
+\co{FLOAT} atom.
 
-    rul_start_id_translation
+\Syntax
 
-13. rul_fatom_to_double
+\it{atom\_value} = \co{rul\_float\_to\_fatom}(\it{float\_value})
 
-    Converts a RuleWorks FLOAT atom into a
-    double-precision floating-point number.
+\begin{args}
+\argl{atom\_value}{opaque float atom}{write} \\
+\argl{float\_value}{single float}{read}
+\end{args}
 
-    (On OpenVMS VAX systems, this is an
-    F_float value; on OpenVMS AXP systems, a
-    G_float.)
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_float_to_fatom(float float_value);
+\end{verbatim}
 
-       1. Syntax
+\begin{argument}
+\item[float\_value]
 
-          double_value = rul_fatom_to_double
-          (atom_value)
+  The floating-point number to be converted.
 
-          Argument  Data Type     Access
+  (On VMS systems, this is an \co{F\_float} value.)
+\end{argument}
 
-          double_value  double float    write
+\ReturnValue
 
-          atom_value  opaque float atom
-             read
+A RuleWorks atom made from the floating-point number; or
+\co{RUL\_C\_INVALID\_ATOM} if the function was unable to create the
+new atom for any reason.
 
-           
+\begin{seealso}
+  \co{rul\_atom\_is\_fatom}
 
-       2. C Binding
+  \co{rul\_fatom\_to\_float}
+\end{seealso}
 
-          #include <rul_rtl.h>
+\section*{\co{rul\_genint}}
 
-          double rul_fatom_to_double (rul_atom
-          atom_value);
+Returns a RuleWorks \co{INTEGER} atom that is guaranteed to be unique
+throughout the run.
 
-       3. Argument
+The RuleWorks atom generator is used by the RuleWorks \co{GENATOM} and
+\co{GENINT} functions, and by the \co{rul\_genint}, \co{rul\_gensym}
+and \co{rul\_gensymp} API routines.  Every atom generated for any of
+these routines is unique while the program is running.
 
-          atom_value
+The generated atoms consist of an integer and an optional
+prefix. Within a program run, the first use of the atom generator
+returns 1, the second 2, and so on. The \co{rul\_genint} routine and
+the \co{GENINT} action return an integer with no prefix. The
+\co{rul\_gensymp} routine and the \co{GENATOM} action return an
+integer with a prefix that you can specify, or use the default prefix
+\co{G:}.  The \co{rul\_gensym} routine returns an integer prefixed by
+\co{G:}. The table below shows several uses of the atom generator and the
+atoms it returns:
 
-          The RuleWorks FLOAT atom to be
-          converted.
+\begin{tabular}{ll}
+  Routine Call or RHS Action &  Atom  Generated \\
+  \co{rul\_genint()} &   \co1 \\
+  \co{rul\_gensymp(R:)} &   \co{R:2} \\
+  \co{(GENATOM)} &   \co{G:3} \\
+  \co{(GENINT)}  &  \co4 \\
+  \co{rul\_gensym()} &  \co{G:5}
+\end{tabular}
 
-       4. Return Values
+The atom generator is reset by the \co{RESTORESTATE} action and
+command.
 
-          A double-precision floating-point
-          number made from the RuleWorks atom.
-          If the argument is not a float atom,
-          the function returns 0.0 and issues
-          a warning.
+\Syntax
 
-       5. See Also
+\it{value} = \co{rul\_genint}()
 
-    rul_atom_is_fatom
+\begin{args}
+\argl{value}{opaque symbol atom}{write}
+\end{args}
 
-    rul_fatom_to_float
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_atom rul_genint(void);
+\end{verbatim}
 
-14. rul_fatom_to_float
+\Arguments
 
-    Converts a RuleWorks FLOAT atom into a
-    single-precision floating-point number.
+None.
 
-    (On VMS systems, this is an F_float
-    value.)
+\ReturnValue
 
-       1. Syntax
+A RuleWorks-generated \co{INTEGER} atom.
 
-          float_value = rul_fatom_to_float
-          (atom_value)
+\begin{seealso}
+  \co{rul\_gensym}
 
-          Argument  Data Type    Access
+  \co{rul\_gensymp}
+\end{seealso}
 
-          float_value  single float   write
+\section*{\co{rul\_gensym}}
 
-          atom_value  opaque float atom   read
+Generates a new symbol. See \co{rul\_genint} for an explanation of the
+RuleWorks atom generator.
 
-           
+\Syntax
 
-       2. C Binding
+\it{value} = \co{rul\_gensym}()
 
-          #include <rul_rtl.h>
+\begin{args}
+  \argl{value}{opaque symbol atom}{write}
+\end{args}
 
-          float rul_fatom_to_float (rul_atom
-          atom_value);
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_atom rul_gensym(void);
+\end{verbatim}
 
-       3. Argument
+\Arguments
 
-          atom_value
+None.
 
-          The RuleWorks FLOAT atom to be
-          converted.
+\ReturnValue
 
-       4. Return Values
+A RuleWorks \co{SYMBOL} atom guaranteed to be unique throughout the run.
 
-          A single-precision floating-point
-          number made from the RuleWorks atom.
-          If the argument is not a float atom,
-          the function returns 0.0 and issues
-          a warning.
+\begin{seealso}
+  \co{rul\_genint}
 
-       5. See Also
+  \co{rul\_gensymp}
+\end{seealso}
 
-    rul_float_to_fatom
+\section*{\co{rul\_gensymp}}
 
-15. rul_float_to_fatom
+Generates a new symbol, as does the \co{rul\_gensym} routine, but with
+a prefix that you specify instead of \co{G:}. See \co{rul\_genint} for
+an explanation of the RuleWorks atom generator.
 
-    Converts a single-precision floating-point
-    number into a RuleWorks FLOAT atom.
+\Syntax
 
-       1. Syntax
+\it{value} = \co{rul\_gensymp}(\it{prefix})
 
-          atom_value = rul_float_to_fatom
-          (float_value)
+\begin{args}
+  \argl{value}{opaque symbol atom}{write} \\
+  \argl{prefix}{string}{read}
+\end{args}
 
-          Argument  Data Type    Access
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_atom rul_gensymp(char *prefix);
+\end{verbatim}
 
-          atom_value  opaque float atom
-            write
+\begin{argument}
+\item[prefix]
 
-          float_value  single float   read
+  A string to be placed in front of an integer by the RuleWorks atom
+  generator. See \co{rul\_genint} for details.
+\end{argument}
 
-           
+\ReturnValue
 
-       2. C Binding
+A RuleWorks \co{SYMBOL} atom guaranteed to be unique throughout the
+run.
 
-          #include <rul_rtl.h>
+\begin{seealso}
+  \co{rul\_genint}
 
-          rul_boolean rul_float_to_fatom
-          (float float_value);
+  \co{rul\_gensym}
+\end{seealso}
 
-       3. Argument
+\section*{\co{rul\_get\_attr\_atom}}
 
-          float_value
+Accesses the value of a scalar attribute in an object.
 
-          The floating-point number to be
-          converted.
+\Syntax
 
-          (On VMS systems, this is an F_float
-          value.)
+\it{value} = \co{rul\_get\_attr\_atom}(\it{object\_id}, \it{attr\_name})
 
-       4. Return Values
+\begin{args}
+  \argl{value}{opaque atom}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read} \\
+  \argl{attr\_name}{string}{read}
+\end{args}
 
-          A RuleWorks atom made from the
-          floating-point number; or
-          RUL_C_INVALID_ATOM if the function
-          was unable to create the new atom
-          for any reason.
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_atom rul_get_attr_atom(rul_atom object_id, char *attr_name);
+\end{verbatim}
 
-       5. See Also
+\begin{arguments}
+\item[object\_id]
 
-    rul_atom_is_fatom
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  accessed.
 
-    rul_fatom_to_float
+\item[attr\_name]
 
-16. rul_genint
+  A string that names the attribute whose value is returned.
+\end{arguments}
 
-    Returns a RuleWorks INTEGER atom that is
-    guaranteed to be unique throughout the
-    run.
+\ReturnValue
 
-    The RuleWorks atom generator is used by
-    the RuleWorks GENATOM and GENINT
-    functions, and by the rul_genint,
-    rul_gensym and rul_gensymp API routines.
-    Every atom generated for any of these
-    routines is unique while the program is
-    running.
+The RuleWorks atom value in the specified attribute of the specified
+object; or \co{RUL\_C\_INVALID\_ATOM} if the function is unable to
+retrieve the value for any reason.
 
-    The generated atoms consist of an integer
-    and an optional prefix. Within a program
-    run, the first use of the atom generator
-    returns 1, the second 2, and so on. The
-    rul_genint routine and the GENINT action
-    return an integer with no prefix. The
-    rul_gensymp routine and the GENATOM action
-    return an integer with a prefix that you
-    can specify, or use the default prefix G:.
-    The rul_gensym routine returns an integer
-    prefixed by G:. The table below shows
-    several uses of the atom generator and the
-    atoms it returns:
+\begin{seealso}
+  \co{rul\_get\_instance}
+\end{seealso}
 
-    Routine Call or RHS Action   Atom
-    Generated
+\section*{\co{rul\_get\_class\_string}}
 
-    rul_genint()    1
+Accesses the class name of an object.
 
-    rul_gensymp(R:)    R:2
+\Syntax
 
-    (GENATOM)    G:3
+\it{num\_chars} = \co{rul\_get\_class\_string}(\it{char\_string},
+\it{string\_size}, \it{object\_id})
 
-    (GENINT)    4
+\begin{args}
+  \argl{num\_chars}{integer}{write} \\
+  \argl{char\_string}{string}{write} \\
+  \argl{string\_size}{integer}{read} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read}
+\end{args}
 
-    rul_gensym()    G:5
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+long rul_get_class_string(char *char_string, long string_size,
+                          rul_atom object_id);
+\end{verbatim}
 
-    The atom generator is reset by the
-    RESTORESTATE  action and command.
+\begin{arguments}
+\item[char\_string]
 
-       1. Syntax
+  The class name of the specified object, set by the function.
 
-          value = rul_genint ( )
+\item[string\_size]
 
-          Argument  Data Type    Access
+  The number of characters in the class name.
 
-          value  opaque symbol atom  write
+\item[object\_id]
 
-           
+  The RuleWorks INSTANCE-ID atom associated with the object whose
+  class name is returned.
+\end{arguments}
 
-       2. C Binding
+\ReturnValue
 
-          #include <rul_rtl.h>
-
-          rul_atom rul_genint (void);
-
-       3. Arguments
-
-          None.
-
-       4. Return Values
-
-          A RuleWorks-generated INTEGER atom.
-
-       5. See Also
-
-    rul_gensym
-
-    rul_gensymp
-
-17. rul_gensym
-
-    Generates a new symbol. See rul_genintfor
-    an explanation of the RuleWorks atom
-    generator.
-
-       1. Syntax
-
-          value = rul_gensym ( )
-
-          Argument  Data Type    Access
-
-          value  opaque symbol atom  write
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_atom rul_gensym (void);
-
-       3. Arguments
-
-          None.
-
-       4. Return Values
-
-          A RuleWorks SYMBOL atom guaranteed
-          to be unique throughout the run.
-
-       5. See Also
-
-    rul_genint
-
-    rul_gensymp
-
-18. rul_gensymp
-
-    Generates a new symbol, as does the
-    rul_gensymroutine, but with a prefix that
-    you specify instead of G:. See
-    rul_genintfor an explanation of the
-    RuleWorks atom generator.
-
-       1. Syntax
-
-          value = rul_gensymp ( prefix )
-
-          Argument  Data Type     Access
-
-          value  opaque symbol atom   write
-
-          prefix  string     read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_atom rul_gensymp (char *prefix);
-
-       3. Argument
-
-          prefix
-
-          A string to be placed in front of an
-          integer by the RuleWorks atom
-          generator. See rul_genintfor
-          details.
-
-       4. Return Values
-
-          A RuleWorks SYMBOL atom guaranteed
-          to be unique throughout the run.
-
-       5. See Also
-
-    rul_genint
-
-    rul_gensym
-
-19. rul_get_attr_atom
-
-    Accesses the value of a scalar attribute
-    in an object.
-
-       1. Syntax
-
-          value = rul_get_attr_atom
-          (object_id, attr_name)
-
-          Argument  Data Type     Access
-
-          value  opaque atom    write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-          attr_name  string     read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_atom rul_get_attr_atom (
-          rul_atom object_id,
-          char *attr_name);
-
-       3. Arguments
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          accessed.
-
-          attr_name
-
-          A string that names the attribute
-          whose value is returned.
-
-       4. Return Values
-
-          The RuleWorks atom value in the
-          specified attribute of the specified
-          object; or RUL_C_INVALID_ATOM if the
-          function is unable to retrieve the
-          value for any reason.
-
-       5. See Also
-
-    rul_get_instance
-
-20. rul_get_class_string
-
-    Accesses the class name of an object.
-
-       1. Syntax
-
-          num_chars = rul_get_class_string
-          (char_string, string_size,
-          object_id)
-
-          Argument  Data Type     Access
-
-          num_chars  integer     write
-
-          char_string  string     write
-
-          string_size  integer     read
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          long rul_get_class_string (
-          char *char_string
-          long string_size
-          rul_atom object_id);
-
-       3. Arguments
-
-          char_string
-
-          The class name of the specified
-          object, set by the function.
-
-          string_size
-
-          The number of characters in the
-          class name.
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object whose
-          class name is returned.
-
-       4. Return Values
-
-          The number of characters in the
-          string that contains the name of the
-          class of the specified object; or
-          RUL_C_INVALID_LENGTH if an error
-          occurs (for example, the buffer
-          specified by char_string is too
-          small for the print form).
-
-          Since the class name can be no more
-          than RUL_C_MAX_SYMBOL_SIZE
-          characters, allocating a buffer
-          RUL_C_MAX_SYMBOL_SIZE + 1 characters
-          long is guaranteed to be adequate.
-
-       5. See Also
-
-    rul_get_class_string_length
-
-    rul_get_instance
-
-    rul_is_instance
-
-21. rul_get_class_string_length
-
-    Returns the number of characters in the
-    class name of an object.
-
-       1. Syntax
-
-          num_chars =
-          rul_get_class_string_length
-          (object_id)
-
-          Argument  Data Type     Access
-
-          num_chars  integer     write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          long rul_get_class_string_length
-          (rul_atom object_id);
-
-       3. Arguments
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object whose
-          class name is measured.
-
-       4. Return Values
-
-          The number of characters in the name
-          of the class of the specified
-          object.
-
-       5. See Also
-
-    rul_get_class_string
-
-22. rul_get_comp_attr_length
-
-    Accesses the length of a compound
-    attribute.
-
-       1. Syntax
-
-          length = rul_get_comp_attr_length
-          (object_id, attr_name)
-
-          Argument  Data Type     Access
-
-          length  integer     write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-          attr_name  string     read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          long rul_get_comp_attr_length (
-          rul_atom object_id,
-          char attr_name);
-
-       3. Arguments
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          accessed.
-
-          attr_name
-
-          A string that names a compound
-          attribute in the object to be
-          accessed.
-
-       4. Return Values
-
-          An integer that specifies the number
-          of elements in the compound
-          attribute's value; or
-          RUL_C_INVALID_LENGTH if the function
-          is unable to retrieve the specified
-          attribute length for any reason.
-
-       5. See Also
-
-    rul_attr_is_compound
-
-    rul_get_comp_elem_atom
-
-    rul_get_comp_attr_string
-
-    rul_get_comp_attr_string_len
-
-23. rul_get_comp_attr_string
-
-    Accesses the read form of all the values
-    in a compound attribute.
-
-       1. Syntax
-
-          num_chars = rul_get_comp_attr
-          (values_string, string_size,
-          object_id, attr_name)
-
-          Argument  Data Type     Access
-
-          num_chars  integer     write
-
-          values_string  string     write
-
-          string_size  integer     read
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-          attr_name  string     read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          long rul_get_comp_attr_string (
-          char *values_string
-          long string_size
-          rul_atom object_id
-          char *attr_name);
-
-       3. Arguments
-
-          values_string
-
-          A string that contains the read form
-          of each element in the specified
-          compound attribute, set by the
-          function. Values are separated by
-          spaces. This string does not include
-          the name COMPOUND and is not
-          enclosed in parentheses. (See
-          Chapter 2 for more information on
-          read forms.)
-
-          string_size
-
-          The number of characters in the read
-          form.
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          accessed.
-
-          attr_name
-
-          A string that names a compound
-          attribute in the object to be
-          accessed.
-
-       4. Return Values
-
-          The number of characters actually
-          found in the string that contains
-          the read forms of all the values in
-          the compound attribute; or
-          RUL_C_INVALID_LENGTH if an error
-          occurs (for example, the buffer
-          specified by values_string is too
-          small for the read forms).
-
-       5. See Also
-
-    rul_get_comp_attr_length
-
-    rul_get_comp_elem_atom
-
-    rul_get_comp_attr_string_len
-
-    rul_set_comp_attr_string
-
-24. rul_get_comp_attr_string_len
-
-    Returns the number of characters in the
-    read form of all the values in a compound
-    attribute.
-
-       1. Syntax
-
-          num_chars =
-          rul_get_comp_attr_string_len
-          (object_id, attr_name)
-
-          Argument  Data Type     Access
-
-          num_chars  integer     write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-          attr_name  string     read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          long rul_get_comp_attr_string_len (
-          rul_atom object_id
-          char *attr_name);
-
-       3. Arguments
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          accessed.
-
-          attr_name
-
-          A string that names a compound
-          attribute in the object to be
-          accessed.
-
-       4. Return Values
-
-          The number of characters in the
-          string that contains the read forms
-          of all the values in the compound
-          attribute.
-
-       5. See Also
-
-    rul_get_comp_attr_length
-
-    rul_get_comp_attr_string
-
-25. rul_get_comp_elem_atom
-
-    Accesses the value of a single element of
-    a compound attribute in an object.
-
-       1. Syntax
-
-          value = rul_get_comp_elem_atom
-          (object_id, attr_name,
-          element_index)
-
-          Argument  Data Type     Access
-
-          value  opaque atom    write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-          attr_name  string     read
-
-          element_index  integer     read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_atom rul_get_comp_elem_atom (
-          rul_atom object_id,
-          char *attr_name,
-          long element_index);
-
-       3. Arguments
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          accessed.
-
-          attr_name
-
-          A string that names a compound
-          attribute in the object to be
-          accessed.
-
-          element_index
-
-          An integer that specifies the
-          position of the element to be
-          accessed.
-
-          Return Values
-
-          The RuleWorks atom value of the
-          specified compound attribute
-          element; or RUL_C_INVALID_ATOM if
-          the function is unable to retrieve
-          the value for any reason.
-
-          See Also
-
-          rul_attr_is_compound
-
-          rul_get_comp_attr_length
-
-          rul_get_comp_attr_string
-
-          rul_get_firing_rule
-
-          Identifies the rule that the
-          RuleWorks run-time system is
-          currently executing.
-
-       4. Syntax
-
-          value = rul_get_firing_rule ( )
-
-          Argument  Data Type  Access
-
-          value  opaque symbol atom  write
-
-           
-
-       5. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_atom rul_get_firing_rule ( void
-          );
-
-       6. Arguments
-
-          None.
-
-          Return Values
-
-          The SYMBOL atom that identifies the
-          name of the rule that is currently
-          executing, or the symbol NIL if no
-          rule is executing.
-
-          rul_get_instance
-
-          Accesses the read form of a
-          working-memory object.
-
-       7. Syntax
-
-          num_chars = rul_get_instance
-          (print_string, string_size,
-          object_id)
-
-          Argument  Data Type     Access
-
-          num_chars  integer     write
-
-          print_string  string     write
-
-          string_size  integer     read
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-           
-
-       8. C Binding
-
-          #include <rul_rtl.h>
-
-          long rul_get_instance (
-          char *print_string
-          long string_size
-          rul_atom object_id);
-
-       9. Arguments
-
-          print_string
-
-          The read form of the specified
-          object, set by the function. The
-          string returned is in a form similar
-          to that printed by the PPWM debugger
-          command. It is enclosed in
-          parentheses and includes the ^$ID
-          value, so that it can be used with
-          rul_start_id_translation and
-          rul_end_id_translation
-
-          string_size
-
-          The number of characters allocated
-          for the read form.
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          accessed.
-
-      10. Return Values
-
-          The number of characters actually
-          found in the string that contains
-          the read form of the specified
-          object; or RUL_C_INVALID_LENGTH if
-          an error occurs (for example, the
-          buffer specified by string_size is
-          too small for the read form).
-
-      11. Example
-
-          See rul_make_instance and
-          rul_get_instance_length.
-
-      12. See Also
-
-    rul_end_id_translation
-
-    rul_get_attr_atom
-
-    rul_get_comp_attr_length
-
-    rul_get_comp_attr_string
-
-    rul_get_instance_length
-
-    rul_make_instance
-
-    rul_start_id_translation
-
-26. rul_get_instance_length
-
-    Returns the number of characters in the
-    read form of a working-memory object.
-
-       1. Syntax
-
-          num_chars = rul_get_instance_length
-          (object_id)
-
-          Argument  Data Type     Access
-
-          num_chars  integer     write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          long rul_get_instance_length
-          (rul_atom object_id);
-
-       3. Arguments
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          accessed.
-
-       4. Return Values
-
-          The number of characters in the read
-          form of the specified object.
-
-       5. Example
-
-          The C routine below uses
-          rul_get_instance_length to find the
-          correct string_size argument for
-          rul_get_instance:
-
-          #include <rul_rtl.h>
-
-          #include <stdlib.h>__/* For malloc()
-          */
-
-          #include <stdio.h>__/* For printf()
-          */
-
-          /*
-
-          * Print the readform of the WME
-          whose instance ID is passed.
-
-          */
-
-          void
-
-          print_wme(rul_atom wme_id)
-
-          {
-
-          char *buffer;
-
-          unsigned int buffer_size;
-
-          buffer_size =
-          rul_get_instance_length(wme_id) + 1;
-
-          ____/* Add 1 for null terminator */
-
-          buffer = (char *)
-          malloc(buffer_size);
-
-          if (buffer == NULL) {
-
-          _fprintf(stderr, "Unable to allocate
-          memory");
-
-          _exit(EXIT_FAILURE);
-
-          }
-
-          rul_get_instance(buffer,
-          buffer_size, wme_id);
-
-          printf("%s\n", buffer);
-
-          free(buffer);
-
-       6. See Also
-
-    rul_get_instance
-
-27. rul_get_next_instance
-
-    Allows iteration over the entire set of
-    objects in working memory.
-
-    To do this, start by passing the defined
-    constant, RUL_C_RESET_WM_ATOM, to
-    rul_get_next_instance. The function then
-    returns the INSTANCE-ID of the first
-    object in working memory. Pass this return
-    value on the second call to
-    rul_get_next_instance to get the
-    INSTANCE-ID of the second object. Continue
-    this cycle until the function returns
-    RUL_C_INVALID_ATOM, which means the
-    identifiers of all existing objects have
-    been returned.
-
-    Note: that this function returns
-    INSTANCE-IDs in no particular order. If
-    any objects are made, modified, or removed
-    during iteration over the set of objects,
-    undesired results will occur. For example,
-    the function may return the same
-    INSTANCE-ID more than once, or may never
-    return a particular INSTANCE-ID.
-
-       1. Syntax
-
-          object_id = rul_get_next_instance
-          (previous_instance_id)
-
-          Argument  Data Type     Access
-
-          object_id  opaque INSTANCE-ID atom
-           write
-
-          previous_instance_id  opaque
-          INSTANCE-ID atom  read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_atom rul_get_next_instance
-          (rul_atom previous_instance_id);
-
-       3. Arguments
-
-          previous_instance_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object
-          previously accessed.
-
-       4. Return Values
-
-          The RuleWorks INSTANCE-ID atom that
-          identifies the next object in the
-          set.
-
-       5. See Also
-
-    rul_get_instance
-
-28. rul_iatom_to_integer
-
-    Converts a RuleWorks INTEGER atom into an
-    integer.
-
-       1. Syntax
-
-          integer_value = rul_iatom_to_integer
-          (atom_value)
-
-          Argument  Data Type    Access
-
-          integer_value  integer    write
-
-          atom_value  opaque integer atom
-           read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          long rul_iatom_to_integer (rul_atom
-          atom_value);
-
-       3. Argument
-
-          atom_value
-
-          The RuleWorks INTEGER atom to be
-          converted.
-
-       4. Return Values
-
-          An integer made from the RuleWorks
-          atom. If the input argument is not
-          an INTEGER atom, the function
-          returns 0 and issues a warning.
-
-       5. See Also
-
-          rul_fatom_to_float
-
-          rul_integer_to_iatom
-
-          rul_integer_to_iatom
-
-          Converts an integer number into a
-          RuleWorks INTEGER atom.
-
-       6. Syntax
-
-          atom_value = rul_integer_to_iatom
-          (integer_value)
-
-          Argument  Data Type    Access
-
-          atom_value  opaque integer atom
-           write
-
-          integer_value  integer    read
-
-           
-
-       7. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_atom rul_integer_to_atom (long
-          integer_value);
-
-       8. Argument
-
-          integer_value
-
-          The integer to be converted.
-
-       9. Return Values
-
-          The RuleWorks INTEGER atom made from
-          the integer; or RUL_C_INVALID_ATOM
-          if the function was unable to create
-          the atom for any reason.
-
-      10. See Also
-
-    rul_float_to_fatom
-
-    rul_iatom_to_integer
-
-29. rul_is_attribute
-
-    Indicates whether an attribute is declared
-    in the specified object class.
-
-       1. Syntax
-
-          truth_value = rul_is_attribute
-          (class_name, attr_name, block_name)
-
-          Argument  Data Type   Access
-
-          truth_value  boolean   write
-
-          class_name  string   read
-
-          attr_name  string   read
-
-          block_name  string   read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_boolean rul_is_attribute (
-          char *class_name,
-          char *attr_name,
-          char *block_name);
-
-       3. Arguments
-
-          class_name
-
-          A string that names the desired
-          object class.
-
-          attr_name
-
-          A string that names the desired
-          attribute.
-
-          block_name
-
-          A string that names the block in
-          which the object class was declared.
-
-       4. Return Values
-
-          TRUE if the attribute is declared in
-          the specified class; FALSE if it is
-          not declared.
-
-       5. See Also
-
-    rul_get_attr_atom
-
-30. rul_is_class
-
-    Indicates whether an object class with the
-    specified name has been declared in an
-    OBJECT-CLASS declaration.
-
-       1. Syntax
-
-          truth_value = rul_is_class
-          (class_name, block_name)
-
-          Argument  Data Type    Access
-
-          truth_value  boolean    write
-
-          class_name  string    read
-
-          block_name  string    read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_boolean rul_is_class (
-          char *class_name,
-          char *block_name);
-
-       3. Arguments
-
-          class_name
-
-          A string that names the desired
-          object class.
-
-          block_name
-
-          A string that names the block in
-          which the object class was declared.
-
-       4. Return Values
-
-          TRUE if the specified object class
-          name has been declared; FALSE if it
-          has not been declared.
-
-       5. See Also
-
-    rul_get_class_string
-
-31. rul_is_instance
-
-    Indicates whether the object that
-    corresponds to the specified INSTANCE-ID
-    exists.
-
-       1. Syntax
-
-          truth_value = rul_is_instance
-          (object_id)
-
-          Argument  Data Type     Access
-
-          truth_value  boolean     write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_boolean rul_is_instance
-          (rul_atom object_id);
-
-       3. Argument
-
-          object_id
-
-          The RuleWorks INSTANCE-ID associated
-          with the object to be tested.
-
-       4. Return Values
-
-          TRUE if the argument is a RuleWorks
-          INSTANCE-ID atom and the object
-          associated with that INSTANCE-ID
-          exists in working memory; otherwise,
-          FALSE.
-
-       5. See Also
-
-    rul_atom_is_instance_id
-
-    rul_get_instance
-
-    rul_make_instance
-
-32. rul_is_subclass
-
-    Indicates whether one object class is a
-    subclass of another.
-
-       1. Syntax
-
-          truth_value = rul_is_subclass
-          (child_name, parent_name,
-          block_name)
-
-          Argument  Data Type   Access
-
-          truth_value  boolean   write
-
-          child_name  string   read
-
-          parent_name  string   read
-
-          block_name  string   read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_boolean rul_is_subclass (
-          char *child_name,
-          char *parent_name,
-          char *block_name);
-
-       3. Arguments
-
-          child_name
-
-          A string that names the object class
-          to be tested for subclass status.
-
-          parent_name
-
-          A string that names the object class
-          to be tested for ancestor status.
-
-          block_name
-
-          A string that names the block in
-          which the object classes are
-          declared.
-
-       4. Return Values
-
-          TRUE if both arguments are the names
-          of declared object classes and the
-          first argument is the name of a
-          subclass of the second argument;
-          otherwise, FALSE.
-
-       5. See Also
-
-    rul_is_class
-
-33. rul_make_instance
-
-    Creates a new object from a string.
-
-       1. Syntax
-
-          object_id = rul_make_instance
-          (char_string, block_name)
-
-          Argument  Data Type     Access
-
-          object_id  opaque INSTANCE-ID atom
-           write
-
-          char_string  string     read
-
-          block_name  string     read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_atom rul_make_instance (
-          char *string,
-          char *block_name);
-
-       3. Arguments
-
-          char_string
-
-          The string to be made into an
-          object. This string must be in the
-          same format as would be passed to a
-          MAKE action in the RuleWorks
-          language. The class name of the
-          object to be created is required;
-          attribute names and values are
-          optional. The object class must be
-          declared in the block named by
-
-          block_name.
-
-          The string may be enclosed in
-          parentheses but they are not
-          required. If the string includes the
-          ^$ID value, it is ignored unless ID
-          translation is on (see
-          rul_start_id_translation.
-
-          block_name
-
-          A string that names the block in
-          which the object class was declared.
-
-          Return Values
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the newly-created
-          object; or RUL_C_INVALID_ATOM if the
-          function is unable to create an
-          object from the specified string for
-          any reason.
-
-          Example
-
-          The following example, in the C
-          programming language, makes an
-          object of class animal with
-          attributes color and species set.
-
-          object_id = rul_make_instance
-          ("(ANIMAL ^COLOR BLACK ^SPECIES
-          PANTHER)",
-
-          "my-block")
-
-       4. See Also
-
-    rul_copy_instance
-
-    rul_end_id_translation
-
-    rul_get_instance
-
-    rul_remove_instance
-
-    rul_specialize_instance
-
-    rul_start_id_translation
-
-34. rul_remove_instance
-
-    Removes an object from working memory.
-
-       1. Syntax
-
-          status = rul_remove_instance
-          (object_id)
-
-          Argument  Data Type     Access
-
-          status  boolean     write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_boolean rul_remove_instance
-          (rul_atom object_id);
-
-       3. Argument
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          removed.
-
-       4. Return Values
-
-          TRUE if the object is successfully
-          removed; FALSE if the function is
-          unable to remove the object for any
-          reason.
-
-       5. See Also
-
-    rul_copy_instance
-
-    rul_make_instance
-
-35. rul_set_attr_atom
-
-    Changes the value of a scalar attribute.
-
-       1. Syntax
-
-          status = rul_set_attr_atom
-          (object_id, attr_name, value)
-
-          Argument  Data Type     Access
-
-          status  boolean     write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-          attr_name  string     read
-
-          value  opaque atom    read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_boolean rul_set_attr_atom (
-          rul_atom object_id,
-          char *attr_name,
-          rul_atom value);
-
-       3. Arguments
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          modified.
-
-          attr_name
-
-          A string that names the attribute to
-          be modified.
-
-          value
-
-          The RuleWorks atom that specifies
-          the new value of the attribute. This
-          atom may be any RuleWorks data type,
-          even INSTANCE-ID.
-
-       4. Return Values
-
-          TRUE if the attribute is
-          successfully modified; FALSE if the
-          function is unable to change the
-          specified attribute value for any
-          reason.
-
-       5. See Also
-
-    rul_set_attr_double
-
-    rul_set_attr_float
-
-    rul_set_attr_integer
-
-    rul_set_attr_string
-
-36. rul_set_attr_double
-
-    Changes the value of a scalar attribute to
-    a double-precision floating-point number.
-
-       1. Syntax
-
-          status = rul_set_attr_double
-          (object_id, attr_name, value)
-
-          Argument  Data Type     Access
-
-          status  boolean     write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-          attr_name  string     read
-
-          value  double float    read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_boolean rul_set_attr_double (
-          rul_atom object_id,
-          char *attr_name,
-          double value);
-
-       3. Arguments
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          modified.
-
-          attr_name
-
-          A string that names the attribute to
-          be modified.
-
-          value
-
-          The double-precision floating-point
-          number that specifies the new value
-          of the attribute. This argument is
-          converted into a RuleWorks FLOAT
-          atom before it is placed into the
-          specified attribute.
-
-       4. Return Values
-
-          TRUE if the attribute is
-          successfully modified; FALSE if the
-          function is unable to change the
-          specified attribute value for any
-          reason.
-
-          See Also
-
-          rul_set_attr_atom
-
-          rul_set_attr_float
-
-          rul_set_attr_integer
-
-          rul_set_attr_string
-
-          rul_set_attr_float
-
-          Changes the value of a scalar
-          attribute to a single-precision
-          floating-point number.
-
-       5. Syntax
-
-          status = rul_set_attr_float
-          (object_id, attr_name, value)
-
-          Argument  Data Type     Access
-
-          status  boolean     write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-          attr_name  string     read
-
-          value  float     read
-
-           
-
-       6. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_boolean rul_set_attr_float (
-          rul_atom object_id,
-          char *attr_name,
-          float value);
-
-       7. Arguments
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          modified.
-
-          attr_name
-
-          A string that names the attribute to
-          be modified.
-
-          value
-
-          The single-precision floating-point
-          number that specifies the new value
-          of the attribute. This argument is
-          converted into a RuleWorks FLOAT
-          atom before it is placed into the
-          specified attribute.
-
-          Return Values
-
-          TRUE if the attribute is
-          successfully modified; FALSE if the
-          function is unable to change the
-          specified attribute value for any
-          reason.
-
-          See Also
-
-          rul_set_attr_atom
-
-          rul_set_attr_double
-
-          rul_set_attr_integer
-
-          rul_set_attr_string
-
-          rul_set_attr_integer
-
-          Changes the value of a scalar
-          attribute to an integer.
-
-       8. Syntax
-
-          status = rul_set_attr_integer
-          (object_id, attr_name, value)
-
-          Argument  Data Type     Access
-
-          status  boolean     write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-          attr_name  string     read
-
-          value  integer     read
-
-           
-
-       9. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_boolean rul_set_attr_integer (
-          rul_atom object_id,
-          char *attr_name,
-          long value);
-
-      10. Arguments
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          modified.
-
-          attr_name
-
-          A string that names the attribute to
-          be modified.
-
-          value
-
-          The integer that specifies the new
-          value of the attribute. This
-          argument is converted into a
-          RuleWorks INTEGER atom before it is
-          placed into the specified attribute.
-
-      11. Return Values
-
-          TRUE if the object is successfully
-          modified; FALSE if the function is
-          unable to change the attribute value
-          for any reason.
-
-      12. See Also
-
-    rul_set_attr_atom
-
-    rul_set_attr_double
-
-    rul_set_attr_float
-
-    rul_set_attr_string
-
-37. rul_set_attr_string
-
-    Changes the value of an attribute to a
-    symbol.
-
-       1. Syntax
-
-          status = rul_set_attr_string
-          (object_id, attr_name, value)
-
-          Argument  Data Type     Access
-
-          status  boolean     write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-          attr_name  string     read
-
-          value  string     read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_boolean rul_set_attr_string (
-          rul_atom object_id,
-          char *attr_name,
-          char *value);
-
-       3. Arguments
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          modified.
-
-          attr_name
-
-          A string that names the attribute to
-          be modified.
-
-          value
-
-          A string that specifies the new
-          value of the attribute. This
-          argument is converted to a SYMBOL
-          atom before it is placed into the
-          specified attribute (see Chapter 2
-          for more information on symbolic
-          atoms).
-
-          Return Values
-
-          TRUE if the object is successfully
-          modified; FALSE if the function is
-          unable to change the attribute value
-          for any reason.
-
-       4. See Also
-
-    rul_set_attr_atom
-
-    rul_set_attr_double
-
-    rul_set_attr_float
-
-    rul_set_attr_integer
-
-38. rul_set_comp_attr_string
-
-    Changes the value of an entire compound
-    attribute to the values extracted from a
-    single string.
-
-       1. Syntax
-
-          status = rul_set_comp_attr_string
-          (object_id, attr_name, values)
-
-          Argument  Data Type     Access
-
-          status  boolean     write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-          attr_name  string     read
-
-          values  string     read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_boolean rul_set_comp_attr_string
-          (
-          rul_atom object_id,
-          char *attr_name,
-          char *values);
-
-       3. Arguments
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          modified.
-
-          attr_name
-
-          A string that names the compound
-          attribute to be modified.
-
-          values
-
-          A single string that contains the
-          new value for each element in the
-          compound attribute. The items in
-          this string must be read forms that
-          follow the RuleWorks rules for
-          quoted atoms (see Chapter 2) and are
-          separated by white space.
-
-          Return Values
-
-          TRUE if the object is successfully
-          modified; FALSE if the function is
-          unable to change the compound
-          attribute for any reason.
-
-       4. Example
-
-          The following example, in the C
-          programming language, changes the
-          value of the compound attribute
-          colors with a single string
-          containing four values.
-
-          status = rul_set_comp_attr (
-          object_id_1, "COLORS", "BLACK GREEN
-          WHITE RED" );
-
-       5. See Also
-
-    rul_get_comp_attr_string
-
-    rul_set_comp_elem_atom
-
-    rul_set_comp_elem_float
-
-    rul_set_comp_elem_integer
-
-    rul_set_comp_elem_string
-
-39. rul_set_comp_elem_atom
-
-    Changes the value of a single element of a
-    compound attribute to an atom value.
-
-       1. Syntax
-
-          status = rul_set_comp_elem_atom
-          (object_id, attr_name,
-          element_index, value)
-
-          Argument  Data Type     Access
-
-          status  boolean     write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-          attr_name  string     read
-
-          element_index  integer     read
-
-          value  opaque atom    read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_boolean rul_set_comp_elem_atom (
-          rul_atom object_id,
-          char *attr_name,
-          long element_index,
-          rul_atom value);
-
-       3. Arguments
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          modified.
-
-          attr_name
-
-          A string that names the compound
-          attribute to be modified.
-
-          element_index
-
-          An integer that specifies the
-          position within the compound
-          attribute of the element to be
-          modified.
-
-          value
-
-          The RuleWorks atom that specifies
-          the new value of the compound
-          attribute element. This atom may be
-          any RuleWorks data type, even
-          INSTANCE-ID.
-
-          Return Values
-
-          TRUE if the compound element
-          attribute is successfully modified;
-          FALSE if the function is unable to
-          change the element value for any
-          reason.
-
-          See Also
-
-          rul_get_comp_elem_atom
-
-          rul_set_comp_elem_float
-
-          rul_set_comp_elem_double
-
-          rul_set_comp_elem_integer
-
-          rul_set_comp_elem_string
-
-          rul_set_comp_elem_double
-
-          Changes the value of a single
-          element of a compound attribute to a
-          double-precision floating-point
-          number.
-
-       4. Syntax
-
-          status = rul_set_comp_elem_double
-          (object_id, attr_name,
-          element_index, value)
-
-          Argument  Data Type     Access
-
-          status  boolean     write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-          attr_name  string     read
-
-          element_index  integer     read
-
-          value  float     read
-
-           
-
-       5. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_boolean rul_set_comp_elem_double
-          (
-          rul_atom object_id,
-          char *attr_name,
-          long element_index,
-          double value);
-
-       6. Arguments
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          modified.
-
-          attr_name
-
-          A string that names the compound
-          attribute to be modified.
-
-          element_index
-
-          An integer that specifies the
-          position within the compound
-          attribute of the element to be
-          modified.
-
-          value
-
-          A double-precision floating-point
-          number that specifies the new value
-          of the compound attribute element.
-          This number is converted to a
-          RuleWorks FLOAT atom before the
-          value is set.
-
-          Return Values
-
-          TRUE if the compound attribute
-          element is successfully modified;
-          FALSE if the function is unable to
-          change the element value for any
-          reason.
-
-          See Also
-
-          rul_get_comp_elem_atom
-
-          rul_set_comp_elem_atom
-
-          rul_set_comp_elem_float
-
-          rul_set_comp_elem_integer
-
-          rul_set_comp_elem_string
-
-          rul_set_comp_elem_float
-
-          Changes the value of a single
-          element of a compound attribute to a
-          single-precision floating-point
-          number.
-
-       7. Syntax
-
-          status = rul_set_comp_elem_float
-          (object_id, attr_name,
-          element_index, value)
-
-          Argument  Data Type     Access
-
-          status  boolean     write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-          attr_name  string     read
-
-          element_index  integer     read
-
-          value  float     read
-
-           
-
-       8. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_boolean rul_set_comp_elem_float
-          (
-          rul_atom object_id,
-          char  *attr_name,
-          long   element_index,
-          float  value);
-
-       9. Arguments
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          modified.
-
-          attr_name
-
-          A string that names the compound
-          attribute to be modified.
-
-          element_index
-
-          An integer that specifies the
-          position within the compound
-          attribute of the element to be
-          modified.
-
-          value
-
-          A single-precision floating-point
-          number that specifies the new value
-          of the compound attribute element.
-          This number is converted to a
-          RuleWorks FLOAT atom before the
-          value is set.
-
-          Return Values
-
-          TRUE if the compound attribute
-          element is successfully modified;
-          FALSE if the function is unable to
-          change the element value for any
-          reason.
-
-      10. See Also
-
-          rul_get_comp_elem_atom
-
-          rul_set_comp_elem_atom
-
-          rul_set_comp_elem_double
-
-          rul_set_comp_elem_integer
-
-          rul_set_comp_elem_string
-
-          rul_set_comp_elem_integer
-
-          Changes the value of a single
-          element of a compound attribute to
-          an integer.
-
-      11. Syntax
-
-          status = rul_set_comp_elem_integer
-          (object_id, attr_name,
-          element_index, value)
-
-          Argument  Data Type     Access
-
-          status  boolean     write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-          attr_name  string     read
-
-          element_index  integer     read
-
-          value  integer     read
-
-           
-
-      12. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_boolean
-          rul_set_comp_elem_integer (
-          rul_atom object_id,
-          char *attr_name,
-          long element_index,
-          long value);
-
-      13. Arguments
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          modified.
-
-          attr_name
-
-          A string that names the compound
-          attribute to be modified.
-
-          element_index
-
-          An integer that specifies the
-          position within the compound
-          attribute of the element to be
-          modified.
-
-          value
-
-          An integer that specifies the new
-          value of the compound attribute
-          element. The integer is converted to
-          a RuleWorks INTEGER atom before the
-          value is set.
-
-          Return Values
-
-          TRUE if the compound attribute
-          element was successfully modified;
-          FALSE if the function is unable to
-          change the element value for any
-          reason.
-
-          See Also
-
-          rul_get_comp_elem_atom
-
-          rul_set_comp_elem_atom
-
-          rul_set_comp_elem_float
-
-          rul_set_comp_elem_string
-
-          rul_set_comp_elem_string
-
-          Changes the value of a single
-          element of a compound attribute to a
-          string.
-
-      14. Syntax
-
-          status = rul_set_comp_elem_string
-          (object_id, attr_name,
-          element_index, value)
-
-          Argument  Data Type     Access
-
-          status  boolean     write
-
-          object_id  opaque INSTANCE-ID atom
-           read
-
-          attr_name  string     read
-
-          element_index  integer     read
-
-          value  string     read
-
-           
-
-      15. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_boolean rul_set_comp_elem_string
-          (
-          rul_atom object_id,
-          char *attr_name,
-          long element_index,
-          char *value);
-
-      16. Arguments
-
-          object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          modified.
-
-          attr_name
-
-          A string that names the compound
-          attribute to be modified.
-
-          element_index
-
-          An integer that specifies the
-          position within the compound
-          attribute of the element to be
-          modified.
-
-          value
-
-          A character string that specifies
-          the new value of the compound
-          attribute element. The string is
-          converted to a RuleWorks SYMBOL atom
-          before the value is set.
-
-          Return Values
-
-          TRUE if the compound attribute
-          element is successfully modified;
-          FALSE if the function is unable to
-          change the element value for any
-          reason.
-
-          See Also
-
-          rul_get_comp_elem_atom
-
-          rul_set_comp_elem_atom
-
-          rul_set_comp_elem_float
-
-          rul_set_comp_elem_integer
-
-          rul_specialize_instance
-
-          Changes an instance of a parent
-          class to an instance of a subclass.
-
-      17. Syntax
-
-          same_object_id =
-          rul_specialize_instance
-          (old_object_id, subclass)
-
-          Argument  Data Type     Access
-
-          same_object_id  opaque INSTANCE-ID
-          atom  write
-
-          old_object_id  opaque INSTANCE-ID
-          atom  read
-
-          subclass  string     read
-
-           
-
-      18. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_atom rul_specialize_instance (
-          rul_atom old_object_id,
-          char *subclass);
-
-      19. Arguments
-
-          old_object_id
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the object to be
-          specialized.
-
-          subclass
-
-          A string that names an object class
-          that inherits from the current class
-          of the object being specialized.
-
-          Return Values
-
-          The RuleWorks INSTANCE-ID atom
-          associated with the newly-modified
-          object; or RUL_C_INVALID_ATOM if for
-          any reason the function was unable
-          to change the class. Note that the
-          return value should be the same as
-          the old_object_id.
-
-          See Also
-
-          rul_copy_instance
-
-          rul_get_instance
-
-          rul_make_instance
-
-          rul_start_id_translation
-
-          Signals the creation of an
-          INSTANCE-ID translation table.
-
-          A translation table allows a set of
-          objects saved by an application as a
-          set of text strings to be recreated
-          via rul_make_instance. Interobject
-          references in the strings are
-          correctly integrated with the
-          current RuleWorks program. A
-          translation table is built
-          incrementally from the strings
-          passed to the rul_make_instance
-          function. The table stores the
-          mapping between INSTANCE-IDs
-          contained in the strings and
-          INSTANCE-IDs actually allocated by
-          the current program for the new
-          objects created by the
-          rul_make_instance function.
-
-          When rul_end_id_translation is
-          called, all INSTANCE-ID attribute
-          values in the newly-made objects are
-          updated, and the table is deleted.
-          INSTANCE-ID values within the
-          strings passed to rul_make_instance
-          that correspond to objects created
-          while ID translation was in effect
-          are set to the actual INSTANCE-IDs
-          of the new objects. INSTANCE-ID
-          values within the strings whose
-          corresponding objects were not
-          created within the scope of the
-          translation are set to INSTANCE-ID
-          values for which no objects exist.
-
-      20. Syntax
-
-          rul_start_id_translation ( )
-
-          C Binding
-
-          #include <rul_rtl.h>
-
-          void rul_start_id_translation
-          (void);
-
-      21. Arguments
-
-          None.
-
-      22. Example
-
-    This example, in the C programming
-    language, illustrates the effect of
-    INSTANCE-ID translation on objects created
-    by rul_make_instance.
-
-    rul_start_id_translation();
-
-    rul_make_instance ("SEAL ^$ID #293 ^NAME
-    CHUBBY", NULL);
-
-    rul_make_instance ("SEAL ^$ID #232 ^NAME
-    NOISY ^FATHER #293 ^MOTHER #288", 0);
-
-    rul_make_instance ("SEAL ^$ID #239 ^NAME
-    SKINNY ^FATHER #298 ^MOTHER #288", 0);
-
-    rul_make_instance ("KILLER-WHALE ^$ID #103
-    ^NAME SHAMMY", 0);
-
-    rul_make_instance ("KILLER-WHALE ^$ID #137
-    ^NAME TAMMY ^FATHER #103", 0);
-
-    rul_make_instance ("KILLER-WHALE ^$ID #143
-    ^NAME WHAMMY ^MOTHER #137", 0);
-
-    rul_end_id_translation(); The translation
-    table for this example would contain the
-    following INSTANCE-ID values:
-
-    INSTANCE-ID WMO Created? (^name)  New
-    INSTANCE-ID
-    from String
-
-    #293  Yes (Chubby)   #2112
-
-    #232  Yes (Noisy)   #2113
-
-    #288  No    #2114
-
-    #239  Yes (Skinny)   #2115
-
-    #298  No    #2116
-
-    #103  Yes (Shammy)   #2117
-
-    #137  Yes (Tammy)   #2118
-
-    #143  Yes (Whammy)   #2119
-
-    (The middle column is shown for clarity.)
-    Note that a new INSTANCE-ID is generated
-    to correspond to #288 even though no
-    object with that INSTANCE-ID is made.
-
-    RuleWorks>ppwm killer-whale ^name whammy
-
-    #2119 7116 [NIL] (KILLER-WHALE ^NAME
-    WHAMMY ^MOTHER #2118)
-
-    This PPWM command shows that the ^MOTHER
-    attribute in the object created for Whammy
-    correctly points to the object created for
-    Tammy.
-
-    RuleWorks>ppwm seal
-
-    #2112 7111 [NIL] (SEAL ^NAME CHUBBY)
-
-    #2113 7112 [NIL] (SEAL ^NAME NOISY ^FATHER
-    #2112 ^MOTHER #2114)
-
-    #2115 7113 [NIL] (SEAL ^NAME SKINNY
-    ^FATHER #2116 ^MOTHER #2114)
-
-    This PPWM command shows that the ^MOTHER
-    attribute in the objects created for Noisy
-    and Skinny both point to the same
-    nonexistent object. Conversely, the
-    ^FATHER and ^MOTHER attributes of Skinny
-    point to different nonexistent objects.
-
-    See Also
-
-    rul_end_id_translation
-
-    rul_make_instance
-
-40. rul_string_to_atom
-
-    Converts the first token of a string into
-    a RuleWorks atom.
-
-       1. Syntax
-
-          atom_value = rul_string_to_atom
-          (char_string)
-
-          Argument  Data Type    Access
-
-          atom_value  opaque atom   write
-
-          char_string  string    read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_atom rul_string_to_atom (char
-          *char_string);
-
-       3. Argument
-
-          char_string
-
-          The read form of the atom to be made
-          (see Chapter 2 for details on read
-          forms).
-
-       4. Return Values
-
-    The RuleWorks atom that corresponds to the
-    first token in the character string.
-    Tokens are groups of characters separated
-    by white space: parentheses and other
-    nonalphanumerics count as characters, not
-    separators. If possible, the returned atom
-    is an INTEGER, FLOAT, or INSTANCE-ID; if
-    not, a SYMBOL. See Chapter 2 for an
-    explanation of atom types.
-
-    See Also
-
-    rul_atom_to_string
-
-    rul_string_to_compound
-
-    rul_string_to_symbol
-
-41. rul_string_to_compound
-
-    Converts a string into a RuleWorks
-    COMPOUND value.
-
-       1. Syntax
-
-          atom_value = rul_string_to_compound
-          (char_string)
-
-          Argument  Data Type    Access
-
-          atom_value  opaque atom   write
-
-          char_string  string    read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_atom atom_value
-          rul_string_to_compound (char
-          *char_string);
-
-       3. Argument
-
-          char_string
-
-          The read form of the COMPOUND value
-          to be made (see Chapter 2 for
-          details on read forms).
-
-          Return Values
-
-          The RuleWorks COMPOUND value that
-          corresponds to the character string.
-
-       4. See Also
-
-    rul_string_to_atom
-
-    rul_string_to_symbol
-
-42. rul_string_to_symbol
-
-    Converts a character string into a
-    RuleWorks SYMBOL atom.
-
-       1. Syntax
-
-          atom_value = rul_string_to_symbol
-          (char_string)
-
-          Argument  Data Type    Access
-
-          atom_value  opaque symbol atom
-           write
-
-          char_string  string    read
-
-           
-
-       2. C Binding
-
-          #include <rul_rtl.h>
-
-          rul_atom rul_string_to_symbol (char
-          *string);
-
-       3. Argument
-
-          char_string
-
-          The character string to be converted
-          to a RuleWorks atom.
-
-          Return Values
-
-          The RuleWorks SYMBOL atom made from
-          the string; or RUL_C_INVALID_ATOM if
-          the function was unable to create
-          the atom for any reason.
-
-          See Also
-
-          rul_string_to_atom
-
-          rul_string_to_compound
-
-          rul_symbol_to_string
-
-          rul_symbol_to_string
-
-          Converts a RuleWorks SYMBOL atom
-          into a character string.
-
-       4. Syntax
-
-          num_chars = rul_symbol_to_string
-          (char_string, string_size,
-          atom_value)
-
-          Argument  Data Type    Access
-
-          num_chars  integer    write
-
-          char_string  string    write
-
-          string_size  integer    read
-
-          atom_value  opaque symbol atom  read
-
-           
-
-       5. C Binding
-
-          #include <rul_rtl.h>
-
-          long rul_symbol_to_string (
-          char *char_string
-          long string_size
-          rul_atom atom_value);
-
-       6. Arguments
-
-char_string
-
-The print form of the specified symbol, set by
-the function.
-
-string_size
-
-The maximum number of characters to return in
-char_string.
-
-atom_value
-
-The RuleWorks atom to be converted.
-
-Return Values
-
-The number of characters in the string made
-from the RuleWorks atom; or
-RUL_C_INVALID_LENGTH if an error occurs (for
-example, the buffer specified by char_string
+The number of characters in the string that contains the name of the
+class of the specified object; or \co{RUL\_C\_INVALID\_LENGTH} if an
+error occurs (for example, the buffer specified by \it{char\_string}
 is too small for the print form).
 
-Note: that since RuleWorks atoms are at most
-RUL_C_MAX_SYMBOL_SIZE characters long, a
-buffer that is RUL_C_MAX_SYMBOL_SIZE + 1
-characters long is always adequate.
+Since the class name can be no more than \co{RUL\_C\_MAX\_SYMBOL\_SIZE}
+characters, allocating a buffer $\co{RUL\_C\_MAX\_SYMBOL\_SIZE} + 1$ characters
+long is guaranteed to be adequate.
 
-See Also
+\begin{seealso}
+  \co{rul\_get\_class\_string\_length}
 
-rul_string_to_symbol
+  \co{rul\_get\_instance}
+
+  \co{rul\_is\_instance}
+\end{seealso}
+
+\section*{\co{rul\_get\_class\_string\_length}}
+
+Returns the number of characters in the class name of an object.
+
+\Syntax
+
+\it{num\_chars} = \co{rul\_get\_class\_string\_length}(\it{object\_id})
+
+\begin{args}
+  \argl{num\_chars}{integer}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+long rul_get_class_string_length(rul_atom object_id);
+\end{verbatim}
+
+\begin{argument}
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object whose
+  class name is measured.
+\end{argument}
+        
+\ReturnValue
+
+The number of characters in the name of the class of the specified
+object.
+
+\begin{seealso}
+  \co{rul\_get\_class\_string}
+\end{seealso}
+
+\section*{\co{rul\_get\_comp\_attr\_length}}
+
+Accesses the length of a compound attribute.
+
+\Syntax
+
+\it{length} = \co{rul\_get\_comp\_attr\_length}(\it{object\_id},
+\it{attr\_name})
+
+\begin{args}
+  \argl{length}{integer}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read} \\
+  \argl{attr\_name}{string}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+long rul_get_comp_attr_length(rul_atom object_id, char attr_name);
+\end{verbatim}
+
+\begin{arguments}
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  accessed.
+
+\item[attr\_name]
+
+  A string that names a compound attribute in the object to be
+  accessed.
+\end{arguments}
+
+\ReturnValue
+
+An integer that specifies the number of elements in the compound
+attribute's value; or \co{RUL\_C\_INVALID\_LENGTH} if the function is unable
+to retrieve the specified attribute length for any reason.
+
+\begin{seealso}
+  \co{rul\_attr\_is\_compound}
+
+  \co{rul\_get\_comp\_elem\_atom}
+
+  \co{rul\_get\_comp\_attr\_string}
+
+  \co{rul\_get\_comp\_attr\_string\_len}
+\end{seealso}
+
+\section*{\co{rul\_get\_comp\_attr\_string}}
+
+Accesses the read form of all the values in a compound attribute.
+
+\Syntax
+
+\it{num\_chars} = \co{rul\_get\_comp\_attr}(\it{values\_string},
+\it{string\_size}, \it{object\_id}, \it{attr\_name})
+
+\begin{args}
+  \argl{num\_chars}{integer}{write} \\
+  \argl{values\_string}{string}{write} \\
+  \argl{string\_size}{integer}{read} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read} \\
+  \argl{attr\_name}{string}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+long rul_get_comp_attr_string(char *values_string, long string_size,
+                              rul_atom object_id, char *attr_name);
+\end{verbatim}
+
+\begin{arguments}
+\item[values\_string]
+
+  A string that contains the read form of each element in the
+  specified compound attribute, set by the function. Values are
+  separated by spaces. This string does not include the name
+  \co{COMPOUND} and is not enclosed in parentheses. (See
+  Chapter~\ref{c:workingmem} for more information on read forms.)
+
+\item[string\_size]
+
+  The number of characters in the read form.
+
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  accessed.
+
+\item[attr\_name]
+
+  A string that names a compound attribute in the object to be
+  accessed.
+\end{arguments}
+
+\ReturnValue
+
+The number of characters actually found in the string that contains
+the read forms of all the values in the compound attribute; or
+\co{RUL\_C\_INVALID\_LENGTH} if an error occurs (for example, the buffer
+specified by \it{values\_string} is too small for the read forms).
+
+\begin{seealso}
+  \co{rul\_get\_comp\_attr\_length}
+
+  \co{rul\_get\_comp\_elem\_atom}
+
+  \co{rul\_get\_comp\_attr\_string\_len}
+
+  \co{rul\_set\_comp\_attr\_string}
+\end{seealso}
+
+\section*{\co{rul\_get\_comp\_attr\_string\_len}}
+
+Returns the number of characters in the read form of all the values in
+a compound attribute.
+
+\Syntax
+
+\it{num\_chars} =
+\co{rul\_get\_comp\_attr\_string\_len}(\it{object\_id},
+\it{attr\_name})
+
+\begin{args}
+  \argl{num\_chars}{integer}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read} \\
+  \argl{attr\_name}{string}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+long rul_get_comp_attr_string_len(rul_atom object_id, char *attr_name);
+\end{verbatim}
+
+\begin{arguments}
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  accessed.
+
+\item[attr\_name]
+
+  A string that names a compound attribute in the object to be
+  accessed.
+\end{arguments}
+
+\ReturnValue
+
+The number of characters in the string that contains the read forms of
+all the values in the compound attribute.
+
+\begin{seealso}
+  \co{rul\_get\_comp\_attr\_length}
+
+  \co{rul\_get\_comp\_attr\_string}
+\end{seealso}
+
+\section*{\co{rul\_get\_comp\_elem\_atom}}
+
+Accesses the value of a single element of a compound attribute in an
+object.
+
+\Syntax
+
+\it{value} = \co{rul\_get\_comp\_elem\_atom}(\it{object\_id},
+\it{attr\_name}, \it{element\_index})
+
+\begin{args}
+  \argl{value}{opaque atom}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read} \\
+  \argl{attr\_name}{string}{read} \\
+  \argl{element\_index}{integer}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_atom rul_get_comp_elem_atom (rul_atom object_id, char *attr_name, 
+                                 long element_index);
+\end{verbatim}
+
+\begin{arguments}
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  accessed.
+
+\item[attr\_name]
+
+  A string that names a compound attribute in the object to be
+  accessed.
+
+\item[element\_index]
+
+  An integer that specifies the position of the element to be
+  accessed.
+\end{arguments}
+
+\ReturnValue
+
+The RuleWorks atom value of the specified compound attribute element;
+or \co{RUL\_C\_INVALID\_ATOM} if the function is unable to retrieve the value
+for any reason.
+
+\begin{seealso}
+  \co{rul\_attr\_is\_compound}
+
+  \co{rul\_get\_comp\_attr\_length}
+
+  \co{rul\_get\_comp\_attr\_string}
+
+  \co{rul\_get\_firing\_rule}
+\end{seealso}
+
+\section*{\co{rul\_get\_firing\_rule}}
+
+Identifies the rule that the RuleWorks run-time system is currently
+executing.
+
+\Syntax
+
+\it{value} = \co{rul\_get\_firing\_rule}()
+
+\begin{args}
+  \argl{value}{opaque symbol atom}{write}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_atom rul_get_firing_rule(void);
+\end{verbatim}
+
+\Arguments
+
+None.
+
+\ReturnValue
+
+The \co{SYMBOL} atom that identifies the name of the rule that is
+currently executing, or the symbol \co{NIL} if no rule is executing.
+
+\section*{\co{rul\_get\_instance}}
+
+Accesses the read form of a working-memory object.
+
+\Syntax
+
+\it{num\_chars} = \co{rul\_get\_instance}(\it{print\_string},
+\it{string\_size}, \it{object\_id})
+
+\begin{args}
+  \argl{num\_chars}{integer}{write} \\
+  \argl{print\_string}{string}{write} \\
+  \argl{string\_size}{integer}{read} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+long rul_get_instance(char *print_string, long string_size,
+                      rul_atom object_id);
+\end{verbatim}
+
+\begin{arguments}
+\item[print\_string]
+
+  The read form of the specified object, set by the function. The
+  string returned is in a form similar to that printed by the
+  \co{PPWM} debugger command. It is enclosed in parentheses and
+  includes the
+  \verb|^$ID| value, so that it can be used with
+  \co{rul\_start\_id\_translation} and \co{rul\_end\_id\_translation}
+
+\item[string\_size]
+
+  The number of characters allocated for the read form.
+
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  accessed.
+\end{arguments}
+
+\ReturnValue
+
+The number of characters actually found in the string that contains
+the read form of the specified object; or \co{RUL\_C\_INVALID\_LENGTH}
+if an error occurs (for example, the buffer specified by \it{string\_size}
+is too small for the read form).
+
+\Example
+
+See \co{rul\_make\_instance} and \co{rul\_get\_instance\_length}.
+
+\begin{seealso}
+  \co{rul\_end\_id\_translation}
+
+  \co{rul\_get\_attr\_atom}
+
+  \co{rul\_get\_comp\_attr\_length}
+
+  \co{rul\_get\_comp\_attr\_string}
+
+  \co{rul\_get\_instance\_length}
+
+  \co{rul\_make\_instance}
+
+  \co{rul\_start\_id\_translation}
+\end{seealso}
+
+\section*{\co{rul\_get\_instance\_length}}
+
+Returns the number of characters in the read form of a working-memory
+object.
+
+\Syntax
+
+\it{num\_chars} = \co{rul\_get\_instance\_length}(\it{object\_id})
+
+\begin{args}
+  \argl{num\_chars}{integer}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+long rul_get_instance_length(rul_atom object_id);
+\end{verbatim}
+
+\begin{argument}
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  accessed.
+\end{argument}
+
+\ReturnValue
+
+The number of characters in the read form of the specified object.
+
+\Example
+
+The C routine below uses \co{rul\_get\_instance\_length} to find the correct
+\it{string\_size} argument for \co{rul\_get\_instance}:
+
+\begin{verbatim}
+#include <rul_rtl.h>
+#include <stdlib.h> /* For malloc() */
+#include <stdio.h> /* For printf() */
+
+/*
+ * Print the readform of the WME whose instance ID is passed.
+ */
+void print_wme(rul_atom wme_id)
+{
+    char *buffer;
+    unsigned int buffer_size;
+    buffer_size = rul_get_instance_length(wme_id) + 1;
+    /* Add 1 for null terminator */
+    buffer = (char *) malloc(buffer_size);
+    if (buffer == NULL) {
+        fprintf(stderr, "Unable to allocate memory");
+        exit(EXIT_FAILURE);
+    }
+    rul_get_instance(buffer, buffer_size, wme_id);
+    printf("%s\n", buffer);
+    free(buffer);
+}
+\end{verbatim}
+
+\begin{seealso}  
+  \co{rul\_get\_instance}
+\end{seealso}
+
+\section*{\co{rul\_get\_next\_instance}}
+
+Allows iteration over the entire set of objects in working memory.
+
+To do this, start by passing the defined constant,
+\co{RUL\_C\_RESET\_WM\_ATOM}, to \co{rul\_get\_next\_instance}. The
+function then returns the INSTANCE-ID of the first object in working
+memory. Pass this return value on the second call to
+\co{rul\_get\_next\_instance} to get the INSTANCE-ID of the second
+object. Continue this cycle until the function returns
+\co{RUL\_C\_INVALID\_ATOM}, which means the identifiers of all existing
+objects have been returned.
+
+Note that this function returns INSTANCE-IDs in no particular
+order. If any objects are made, modified, or removed during iteration
+over the set of objects, undesired results will occur. For example,
+the function may return the same INSTANCE-ID more than once, or may
+never return a particular INSTANCE-ID.
+
+\Syntax
+
+\it{object\_id} = \co{rul\_get\_next\_instance}(\it{previous\_instance\_id})
+
+\begin{args}
+  \argl{object\_id}{opaque INSTANCE-ID atom}{write} \\
+  \argl{previous\_instance\_id}{opaque INSTANCE-ID atom}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_atom rul_get_next_instance(rul_atom previous_instance_id);
+\end{verbatim}
+
+
+\begin{argument}
+\item[previous\_instance\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object previously
+  accessed.
+\end{argument}
+
+\ReturnValue
+
+The RuleWorks INSTANCE-ID atom that identifies the next object in the
+set.
+
+\begin{seealso}
+  \co{rul\_get\_instance}
+\end{seealso}
+
+\section*{\co{rul\_iatom\_to\_integer}}
+
+Converts a RuleWorks \co{INTEGER} atom into an integer.
+
+\Syntax
+
+\it{integer\_value} = \co{rul\_iatom\_to\_integer}(\it{atom\_value})
+
+\begin{args}
+  \argl{integer\_value}{integer}{write} \\
+  \argl{atom\_value}{opaque integer atom}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+long rul_iatom_to_integer(rul_atom atom_value);
+\end{verbatim}
+
+\begin{argument}
+\item[atom\_value]
+
+  The RuleWorks \co{INTEGER} atom to be converted.
+\end{argument}
+
+\ReturnValue  
+
+An integer made from the RuleWorks atom. If the input argument is not
+an \co{INTEGER} atom, the function returns 0 and issues a warning.
+
+\begin{seealso}
+  \co{rul\_fatom\_to\_float}
+
+  \co{rul\_integer\_to\_iatom}
+
+  \co{rul\_integer\_to\_iatom}
+\end{seealso}
+
+\section*{\co{rul\_integer\_to\_iatom}}
+
+Converts an integer number into a RuleWorks \co{INTEGER} atom.
+
+\Syntax
+
+\it{atom\_value} = \co{rul\_integer\_to\_iatom}(\it{integer\_value})
+
+\begin{args}
+  \argl{atom\_value}{opaque integer atom}{write} \\
+  \argl{integer\_value}{integer}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_atom rul_integer_to_atom(long integer_value);
+\end{verbatim}
+
+\begin{argument}
+\item[integer\_value]
+
+  The integer to be converted.
+\end{argument}
+
+\ReturnValue
+
+The RuleWorks \co{INTEGER} atom made from the integer; or
+\co{RUL\_C\_INVALID\_ATOM} if the function was unable to create the
+atom for any reason.
+
+\begin{seealso}
+  \co{rul\_float\_to\_fatom}
+
+  \co{rul\_iatom\_to\_integer}
+\end{seealso}
+
+\section*{\co{rul\_is\_attribute}}
+
+Indicates whether an attribute is declared in the specified object
+class.
+
+\Syntax
+
+\it{truth\_value} = \co{rul\_is\_attribute}(\it{class\_name},
+\it{attr\_name}, \it{block\_name})
+
+\begin{args}
+  \argl{truth\_value}{boolean}{write} \\
+  \argl{class\_name}{string}{read} \\
+  \argl{attr\_name}{string}{read} \\
+  \argl{block\_name}{string}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_is_attribute(char *class_name, char *attr_name, 
+                             char *block_name);
+\end{verbatim}
+
+\begin{arguments}
+\item[class\_name]
+
+  A string that names the desired object class.
+
+\item[attr\_name]
+
+  A string that names the desired attribute.
+
+\item[block\_name]
+
+  A string that names the block in which the object class was
+  declared.
+\end{arguments}
+
+\ReturnValue
+
+\co{TRUE} if the attribute is declared in the specified class;
+\co{FALSE} if it is not declared.
+
+\begin{seealso}
+  \co{rul\_get\_attr\_atom}
+\end{seealso}
+
+\section*{\co{rul\_is\_class}}
+
+Indicates whether an object class with the specified name has been
+declared in an \co{OBJECT-CLASS} declaration.
+
+\Syntax
+
+\it{truth\_value} = \co{rul\_is\_class}(\it{class\_name},
+\it{block\_name})
+
+\begin{args}
+  \argl{truth\_value}{boolean}{write} \\
+  \argl{class\_name}{string}{read} \\
+  \argl{block\_name}{string}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_is_class(char *class_name, char *block_name);
+\end{verbatim}
+
+\begin{arguments}
+\item[class\_name]
+
+  A string that names the desired object class.
+
+\item[block\_name]
+
+  A string that names the block in which the object class was
+  declared.
+\end{arguments}
+
+\ReturnValue
+
+\co{TRUE} if the specified object class name has been declared;
+\co{FALSE} if it has not been declared.
+
+\begin{seealso}
+  \co{rul\_get\_class\_string}
+\end{seealso}
+
+\section*{\co{rul\_is\_instance}}
+
+Indicates whether the object that corresponds to the specified
+INSTANCE-ID exists.
+
+\Syntax
+
+\it{truth\_value} = \co{rul\_is\_instance}(\it{object\_id})
+
+\begin{args}
+  \argl{truth\_value}{boolean}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_is_instance(rul_atom object_id);
+\end{verbatim}
+
+\begin{argument}
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID associated with the object to be tested.
+\end{argument}
+
+\ReturnValue
+
+\co{TRUE} if the argument is a RuleWorks INSTANCE-ID atom and the object
+associated with that INSTANCE-ID exists in working memory; otherwise,
+\co{FALSE}.
+
+\begin{seealso}
+  \co{rul\_atom\_is\_instance\_id}
+
+  \co{rul\_get\_instance}
+
+  \co{rul\_make\_instance}
+\end{seealso}
+
+\section*{\co{rul\_is\_subclass}}
+
+Indicates whether one object class is a subclass of another.
+
+\Syntax
+
+\it{truth\_value} = \co{rul\_is\_subclass}(\it{child\_name},
+\it{parent\_name}, \it{block\_name})
+
+\begin{args}
+  \argl{truth\_value}{boolean}{write} \\
+  \argl{child\_name}{string}{read} \\
+  \argl{parent\_name}{string}{read} \\
+  \argl{block\_name}{string}{read}
+\end{args}
+
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_is_subclass(char *child_name, char *parent_name,
+                            char *block_name);
+\end{verbatim}
+
+\begin{arguments}
+\item[child\_name]
+
+  A string that names the object class to be tested for subclass
+  status.
+
+\item[parent\_name]
+
+  A string that names the object class to be tested for ancestor
+  status.
+
+\item[block\_name]
+
+  A string that names the block in which the object classes are
+  declared.
+\end{arguments}
+
+\ReturnValue
+
+\co{TRUE} if both arguments are the names of declared object classes and
+the first argument is the name of a subclass of the second argument;
+otherwise, \co{FALSE}.
+
+\begin{seealso}
+  \co{rul\_is\_class}
+\end{seealso}
+
+\section*{\co{rul\_make\_instance}}
+
+Creates a new object from a string.
+
+\Syntax
+
+\it{object\_id} = \co{rul\_make\_instance}(\it{char\_string},
+\it{block\_name})
+
+\begin{args}
+  \argl{object\_id}{opaque INSTANCE-ID atom}{write} \\
+  \argl{char\_string}{string}{read} \\
+  \argl{block\_name}{string}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+
+rul_atom rul_make_instance(char *string, char *block_name);
+\end{verbatim}
+
+\begin{arguments}
+\item[char\_string]
+
+  The string to be made into an object. This string must be in the
+  same format as would be passed to a \co{MAKE} action in the
+  RuleWorks language. The class name of the object to be created is
+  required; attribute names and values are optional. The object class
+  must be declared in the block named by \it{block\_name} The string
+  may be enclosed in parentheses but they are not required. If the
+  string includes the
+  \verb|^$ID| value, it is ignored unless ID translation is on (see
+  \co{rul\_start\_id\_translation}.
+
+\item[block\_name]
+
+  A string that names the block in which the object class was
+  declared.
+\end{arguments}
+
+\ReturnValue
+
+The RuleWorks INSTANCE-ID atom associated with the newly-created
+object; or \co{RUL\_C\_INVALID\_ATOM} if the function is unable to
+create an object from the specified string for any reason.
+
+\Example
+
+The following example, in the C programming language, makes an object
+of class animal with attributes color and species set.
+
+\begin{verbatim}
+object_id = rul_make_instance("(ANIMAL ^COLOR BLACK ^SPECIES PANTHER)",
+                              "my-block");
+\end{verbatim}
+
+\begin{seealso}
+  \co{rul\_copy\_instance}
+
+  \co{rul\_end\_id\_translation}
+
+  \co{rul\_get\_instance}
+
+  \co{rul\_remove\_instance}
+
+  \co{rul\_specialize\_instance}
+
+  \co{rul\_start\_id\_translation}
+\end{seealso}
+
+\section*{\co{rul\_remove\_instance}}
+
+Removes an object from working memory.
+
+\Syntax
+
+\it{status} = \co{rul\_remove\_instance}(\it{object\_id})
+
+\begin{args}
+  \argl{status}{boolean}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+
+rul_boolean rul_remove_instance(rul_atom object_id);
+\end{verbatim}
+
+\begin{argument}
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  removed.
+\end{argument}
+
+\ReturnValue
+
+\co{TRUE} if the object is successfully removed; \co{FALSE} if the function is
+unable to remove the object for any reason.
+
+\begin{seealso}
+  \co{rul\_copy\_instance}
+
+  \co{rul\_make\_instance}
+\end{seealso}
+
+\section*{\co{rul\_set\_attr\_atom}}
+
+Changes the value of a scalar attribute.
+
+\Syntax
+
+\it{status} = \co{rul\_set\_attr\_atom}(\it{object\_id},
+\it{attr\_name}, \it{value})
+
+\begin{args}
+  \argl{status}{boolean}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read} \\
+  \argl{attr\_name}{string}{read} \\
+  \argl{value}{opaque atom}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_set_attr_atom(rul_atom object_id, char *attr_name,
+                              rul_atom value);
+\end{verbatim}
+
+\begin{arguments}
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  modified.
+
+\item[attr\_name]
+
+  A string that names the attribute to be modified.
+
+\item[value]
+
+  The RuleWorks atom that specifies the new value of the
+  attribute. This atom may be any RuleWorks data type, even
+  INSTANCE-ID.
+\end{arguments}
+
+\ReturnValue
+
+\co{TRUE} if the attribute is successfully modified; \co{FALSE} if the
+function is unable to change the specified attribute value for any
+reason.
+
+\begin{seealso}
+  \co{rul\_set\_attr\_double}
+
+  \co{rul\_set\_attr\_float}
+
+  \co{rul\_set\_attr\_integer}
+
+  \co{rul\_set\_attr\_string}
+\end{seealso}
+
+\section*{\co{rul\_set\_attr\_double}}
+
+Changes the value of a scalar attribute to a double-precision
+floating-point number.
+
+\Syntax
+
+\it{status} = \co{rul\_set\_attr\_double}(\it{object\_id},
+\it{attr\_name}, \it{value})
+
+\begin{args}
+  \argl{status}{boolean}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read} \\
+  \argl{attr\_name}{string}{read} \\
+  \argl{value}{double float}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_set_attr_double(rul_atom object_id, char *attr_name,
+                                double value);
+\end{verbatim}
+
+\begin{arguments}
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  modified.
+
+\item[attr\_name]
+
+  A string that names the attribute to be modified.
+   
+\item[value]
+
+  The double-precision floating-point number that specifies the new
+  value of the attribute. This argument is converted into a RuleWorks
+  \co{FLOAT} atom before it is placed into the specified attribute.
+\end{arguments}
+
+\ReturnValue
+
+\co{TRUE} if the attribute is successfully modified; \co{FALSE} if the
+function is unable to change the specified attribute value for any
+reason.
+
+\begin{seealso}
+  \co{rul\_set\_attr\_atom}
+
+  \co{rul\_set\_attr\_float}
+
+  \co{rul\_set\_attr\_integer}
+
+  \co{rul\_set\_attr\_string}
+
+  \co{rul\_set\_attr\_float}
+\end{seealso}
+
+\section*{\co{rul\_set\_attr\_float}}
+
+Changes the value of a scalar attribute to a single-precision
+floating-point number.
+
+\Syntax
+
+\it{status} = \co{rul\_set\_attr\_float}(\it{object\_id},
+\it{attr\_name}, \it{value})
+
+\begin{args}
+  \argl{status}{boolean}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read} \\
+  \argl{attr\_name}{string}{read} \\
+  \argl{value}{float}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_set_attr_float(rul_atom object_id, char *attr_name,
+                               float value);
+\end{verbatim}
+
+\begin{arguments}
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  modified.
+
+\item[attr\_name]
+
+  A string that names the attribute to be modified.
+   
+\item[value]
+
+  The single-precision floating-point number that specifies the new
+  value of the attribute. This argument is converted into a RuleWorks
+  \co{FLOAT} atom before it is placed into the specified attribute.
+\end{arguments}
+
+\ReturnValue
+
+\co{TRUE} if the attribute is successfully modified; \co{FALSE} if the
+function is unable to change the specified attribute value for any
+reason.
+
+\begin{seealso}
+  \co{rul\_set\_attr\_atom}
+
+  \co{rul\_set\_attr\_double}
+
+  \co{rul\_set\_attr\_integer}
+
+  \co{rul\_set\_attr\_string}
+
+  \co{rul\_set\_attr\_integer}
+\end{seealso}
+
+\section*{\co{rul\_set\_attr\_integer}}
+
+Changes the value of a scalar attribute to an integer.
+
+\Syntax
+
+\it{status} = \co{rul\_set\_attr\_integer}(\it{object\_id},
+\it{attr\_name}, \it{value})
+
+\begin{args}
+  \argl{status}{boolean}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read} \\
+  \argl{attr\_name}{string}{read} \\
+  \argl{value}{integer}{read}
+\end{args}
+        
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_set_attr_integer(rul_atom object_id, char *attr_name,
+                                 long value);
+\end{verbatim}
+
+\begin{arguments}
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  modified.
+
+\item[attr\_name]
+
+  A string that names the attribute to be modified.
+
+\item[value]
+
+  The integer that specifies the new value of the attribute. This
+  argument is converted into a RuleWorks \co{INTEGER} atom before it is
+  placed into the specified attribute.
+\end{arguments}
+
+\ReturnValue
+
+\co{TRUE} if the object is successfully modified; \co{FALSE} if the
+function is unable to change the attribute value for any reason.
+
+\begin{seealso}
+  \co{rul\_set\_attr\_atom}
+  
+  \co{rul\_set\_attr\_double}
+  
+  \co{rul\_set\_attr\_float}
+
+  \co{rul\_set\_attr\_string}
+\end{seealso}
+
+\section*{\co{rul\_set\_attr\_string}}
+
+Changes the value of an attribute to a symbol.
+
+\Syntax
+
+\it{status} = \co{rul\_set\_attr\_string}(\it{object\_id},
+\it{attr\_name}, \it{value})
+
+\begin{args}
+  \argl{status}{boolean}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read} \\
+  \argl{attr\_name}{string}{read} \\
+  \argl{value}{string}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_set_attr_string(rul_atom object_id, char *attr_name,
+                                char *value);
+\end{verbatim}
+
+\begin{arguments}
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  modified.
+
+\item[attr\_name]
+
+  A string that names the attribute to be modified.
+
+\item[value]
+
+  A string that specifies the new value of the attribute. This
+  argument is converted to a \co{SYMBOL} atom before it is placed into
+  the specified attribute (see Chapter~\ref{c:workingmem} for more
+  information on symbolic atoms).
+\end{arguments}
+
+\ReturnValue
+
+\co{TRUE} if the object is successfully modified; \co{FALSE} if the
+function is unable to change the attribute value for any reason.
+
+\begin{seealso}
+  \co{rul\_set\_attr\_atom}
+
+  \co{rul\_set\_attr\_double}
+    
+  \co{rul\_set\_attr\_float}
+
+  \co{rul\_set\_attr\_integer}
+\end{seealso}
+
+\section*{\co{rul\_set\_comp\_attr\_string}}
+
+Changes the value of an entire compound attribute to the values
+extracted from a single string.
+
+\Syntax
+
+\it{status} = \co{rul\_set\_comp\_attr\_string}(\it{object\_id},
+\it{attr\_name}, \it{values})
+
+\begin{args}
+  \argl{status}{boolean}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read} \\
+  \argl{attr\_name}{string}{read} \\
+  \argl{values}{string}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_set_comp_attr_string(rul_atom object_id, char *attr_name,
+                                     char *values);
+\end{verbatim}
+
+\begin{arguments}
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  modified.
+
+\item[attr\_name]
+
+  A string that names the compound attribute to be modified.
+
+\item[values]
+
+  A single string that contains the new value for each element in the
+  compound attribute. The items in this string must be read forms that
+  follow the RuleWorks rules for quoted atoms (see
+  Chapter~\ref{c:workingmem}) and are separated by white space.
+\end{arguments}
+
+\ReturnValue
+
+\co{TRUE} if the object is successfully modified; \co{FALSE} if the
+function is unable to change the compound attribute for any reason.
+
+\Example 
+
+The following example, in the C programming language, changes the
+value of the compound attribute colors with a single string containing
+four values.
+
+\begin{verbatim}
+status = rul_set_comp_attr(object_id_1, "COLORS", "BLACK GREEN WHITE RED");
+\end{verbatim}
+
+\begin{seealso}
+  \co{rul\_get\_comp\_attr\_string}
+
+  \co{rul\_set\_comp\_elem\_atom}
+
+  \co{rul\_set\_comp\_elem\_float}
+
+  \co{rul\_set\_comp\_elem\_integer}
+
+  \co{rul\_set\_comp\_elem\_string}
+\end{seealso}
+
+\section*{\co{rul\_set\_comp\_elem\_atom}}
+
+Changes the value of a single element of a compound attribute to an
+atom value.
+
+\Syntax
+
+\it{status} = \co{rul\_set\_comp\_elem\_atom}(\it{object\_id},
+\it{attr\_name}, \it{element\_index}, \it{value})
+
+\begin{args}
+  \argl{status}{boolean}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read} \\
+  \argl{attr\_name}{string}{read} \\
+  \argl{element\_index}{integer}{read} \\
+  \argl{value}{opaque atom}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_set_comp_elem_atom(rul_atom object_id, char *attr_name,
+                                   long element_index, rul_atom value);
+\end{verbatim}
+
+\begin{arguments}
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  modified.
+
+\item[attr\_name]
+
+  A string that names the compound attribute to be modified.
+
+\item[element\_index]
+
+  An integer that specifies the position within the compound attribute
+  of the element to be modified.
+
+\item[value]
+
+  The RuleWorks atom that specifies the new value of the compound
+  attribute element. This atom may be any RuleWorks data type, even
+  INSTANCE-ID.
+\end{arguments}
+
+\ReturnValue
+
+\co{TRUE} if the compound element attribute is successfully modified;
+\co{FALSE} if the function is unable to change the element value for
+any reason.
+
+\begin{seealso}
+  \co{rul\_get\_comp\_elem\_atom} 
+
+  \co{rul\_set\_comp\_elem\_float}
+
+  \co{rul\_set\_comp\_elem\_double}
+
+  \co{rul\_set\_comp\_elem\_integer}
+
+  \co{rul\_set\_comp\_elem\_string}
+
+  \co{rul\_set\_comp\_elem\_double}
+\end{seealso}
+
+\section*{\co{rul\_set\_comp\_elem\_double}}
+
+Changes the value of a single element of a compound attribute to a
+double-precision floating-point number.
+
+\Syntax
+
+\it{status} = \co{rul\_set\_comp\_elem\_double}(\it{object\_id},
+\it{attr\_name}, \it{element\_index}, \it{value})
+
+\begin{args}
+  \argl{status}{boolean}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read} \\
+  \argl{attr\_name}{string}{read} \\
+  \argl{element\_index}{integer}{read} \\
+  \argl{value}{float}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_set_comp_elem_double(rul_atom object_id, char *attr_name,
+                                     long element_index, double value);
+\end{verbatim}
+
+\begin{arguments}
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  modified.
+         
+\item[attr\_name]
+
+  A string that names the compound attribute to be modified.
+
+\item[element\_index]
+
+  An integer that specifies the position within the compound attribute
+  of the element to be modified.
+
+\item[value]
+
+  A double-precision floating-point number that specifies the new
+  value of the compound attribute element.  This number is converted
+  to a RuleWorks \co{FLOAT} atom before the value is set.
+\end{arguments}
+
+\ReturnValue
+
+\co{TRUE} if the compound attribute element is successfully modified;
+\co{FALSE} if the function is unable to change the element value for
+any reason.
+
+\begin{seealso}
+  \co{rul\_get\_comp\_elem\_atom}
+
+  \co{rul\_set\_comp\_elem\_atom}
+
+  \co{rul\_set\_comp\_elem\_float}
+
+  \co{rul\_set\_comp\_elem\_integer}
+
+  \co{rul\_set\_comp\_elem\_string}
+
+  \co{rul\_set\_comp\_elem\_float}
+\end{seealso}
+
+\section*{\co{rul\_set\_comp\_elem\_float}}
+
+Changes the value of a single element of a compound attribute to a
+single-precision floating-point number.
+
+\Syntax
+
+\it{status} = \co{rul\_set\_comp\_elem\_float}(\it{object\_id},
+\it{attr\_name}, \it{element\_index}, \it{value})
+
+\begin{args}
+  \argl{status}{boolean}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read} \\
+  \argl{attr\_name}{string}{read} \\
+  \argl{element\_index}{integer}{read} \\
+  \argl{value}{float}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_set_comp_elem_float(rul_atom object_id, char *attr_name,
+                                    long element_index, float value);
+\end{verbatim}
+
+\begin{arguments}
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  modified.
+
+\item[attr\_name]
+
+  A string that names the compound attribute to be modified.
+
+\item[element\_index]
+
+  An integer that specifies the position within the compound attribute
+  of the element to be modified.
+
+\item[value]
+
+  A single-precision floating-point number that specifies the new
+  value of the compound attribute element.  This number is converted
+  to a RuleWorks \co{FLOAT} atom before the value is set.
+\end{arguments}
+
+\ReturnValue
+
+\co{TRUE} if the compound attribute element is successfully modified;
+\co{FALSE} if the function is unable to change the element value for
+any reason.
+
+\begin{seealso}
+  \co{rul\_get\_comp\_elem\_atom}
+
+  \co{rul\_set\_comp\_elem\_atom}
+
+  \co{rul\_set\_comp\_elem\_double}
+
+  \co{rul\_set\_comp\_elem\_integer}
+
+  \co{rul\_set\_comp\_elem\_string}
+
+  \co{rul\_set\_comp\_elem\_integer}
+\end{seealso}
+
+\section*{\co{rul\_set\_comp\_elem\_integer}}
+
+Changes the value of a single element of a compound attribute to an
+integer.
+
+\Syntax
+
+\it{status} = \co{rul\_set\_comp\_elem\_integer}(\it{object\_id},
+\it{attr\_name}, \it{element\_index}, \it{value})
+
+\begin{args}
+  \argl{status}{boolean}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read} \\
+  \argl{attr\_name}{string}{read} \\
+  \argl{element\_index}{integer}{read} \\
+  \argl{value}{integer}{read}
+\end{args}
+
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_set_comp_elem_integer(rul_atom object_id, char *attr_name,
+                                      long element_index, long value);
+\end{verbatim}
+
+\begin{arguments}
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  modified.
+
+\item[attr\_name]
+
+  A string that names the compound attribute to be modified.
+
+\item[element\_index]
+
+  An integer that specifies the position within the compound attribute
+  of the element to be modified.
+
+\item[value]
+
+  An integer that specifies the new value of the compound attribute
+  element. The integer is converted to a RuleWorks \co{INTEGER} atom
+  before the value is set.
+\end{arguments}
+
+\ReturnValue
+
+\co{TRUE} if the compound attribute element was successfully modified;
+\co{FALSE} if the function is unable to change the element value for
+any reason.
+
+\begin{seealso}
+  \co{rul\_get\_comp\_elem\_atom}
+
+  \co{rul\_set\_comp\_elem\_atom}
+
+  \co{rul\_set\_comp\_elem\_float}
+
+  \co{rul\_set\_comp\_elem\_string}
+
+  \co{rul\_set\_comp\_elem\_string}
+\end{seealso}
+
+\section*{\co{rul\_set\_comp\_elem\_string}}
+
+Changes the value of a single element of a compound attribute to a
+string.
+
+\Syntax
+
+\it{status} = \co{rul\_set\_comp\_elem\_string}(\it{object\_id},
+\it{attr\_name}, \it{element\_index}, \it{value})
+
+\begin{args}
+  \argl{status}{boolean}{write} \\
+  \argl{object\_id}{opaque INSTANCE-ID atom}{read} \\
+  \argl{attr\_name}{string}{read} \\
+  \argl{element\_index}{integer}{read} \\
+  \argl{value}{string}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_boolean rul_set_comp_elem_string(rul_atom object_id, char *attr_name,
+                                     long element_index, char *value);
+\end{verbatim}
+
+\begin{arguments}
+\item[object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  modified.
+
+\item[attr\_name]
+
+  A string that names the compound attribute to be modified.
+
+\item[element\_index]
+
+  An integer that specifies the position within the compound attribute
+  of the element to be modified.
+
+\item[value]
+
+  A character string that specifies the new value of the compound
+  attribute element. The string is converted to a RuleWorks \co{SYMBOL}
+  atom before the value is set.
+\end{arguments}
+
+\ReturnValue
+
+\co{TRUE} if the compound attribute element is successfully modified;
+\co{FALSE} if the function is unable to change the element value for
+any reason.
+
+\begin{seealso}
+  \co{rul\_get\_comp\_elem\_atom}
+
+  \co{rul\_set\_comp\_elem\_atom}
+
+  \co{rul\_set\_comp\_elem\_float}
+
+  \co{rul\_set\_comp\_elem\_integer}
+
+  \co{rul\_specialize\_instance}
+\end{seealso}
+
+\section*{\co{rul\_specialize\_instance}}
+
+Changes an instance of a parent class to an instance of a subclass.
+
+\Syntax
+
+\it{same\_object\_id} =
+\co{rul\_specialize\_instance}(\it{old\_object\_id}, \it{subclass})
+
+\begin{args}
+  \argl{same\_object\_id}{opaque INSTANCE-ID atom}{write} \\
+  \argl{old\_object\_id}{opaque INSTANCE-ID atom}{read} \\
+  \argl{subclass}{string}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_atom rul_specialize_instance(rul_atom old_object_id, char *subclass);
+\end{verbatim}
+
+\begin{arguments}
+\item[old\_object\_id]
+
+  The RuleWorks INSTANCE-ID atom associated with the object to be
+  specialized.
+
+\item[subclass]
+
+  A string that names an object class that inherits from the current
+  class of the object being specialized.
+\end{arguments}
+
+\ReturnValue
+
+The RuleWorks INSTANCE-ID atom associated with the newly-modified
+object; or \co{RUL\_C\_INVALID\_ATOM} if for any reason the function was
+unable to change the class. Note that the return value should be the
+same as the \it{old\_object\_id}.
+
+\begin{seealso}
+  \co{rul\_copy\_instance}
+
+  \co{rul\_get\_instance}
+
+  \co{rul\_make\_instance}
+
+  \co{rul\_start\_id\_translation}
+\end{seealso}
+
+\section*{\co{rul\_start\_id\_translation}}
+
+Signals the creation of an INSTANCE-ID translation table.
+
+A translation table allows a set of objects saved by an application as
+a set of text strings to be recreated via
+\co{rul\_make\_instance}. Interobject references in the strings are
+correctly integrated with the current RuleWorks program. A translation
+table is built incrementally from the strings passed to the
+\co{rul\_make\_instance} function. The table stores the mapping
+between INSTANCE-IDs contained in the strings and INSTANCE-IDs
+actually allocated by the current program for the new objects created
+by the \co{rul\_make\_instance} function.
+
+When \co{rul\_end\_id\_translation} is called, all INSTANCE-ID
+attribute values in the newly-made objects are updated, and the table
+is deleted.  INSTANCE-ID values within the strings passed to
+\co{rul\_make\_instance} that correspond to objects created while ID
+translation was in effect are set to the actual INSTANCE-IDs of the
+new objects. INSTANCE-ID values within the strings whose corresponding
+objects were not created within the scope of the translation are set
+to INSTANCE-ID values for which no objects exist.
+
+\Syntax
+
+\co{rul\_start\_id\_translation}()
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+void rul_start_id_translation(void);
+\end{verbatim}
+
+\Arguments
+
+None.
+
+\Example
+
+This example, in the C programming language, illustrates the effect of
+INSTANCE-ID translation on objects created by \co{rul\_make\_instance}.
+
+\begin{verbatim}
+rul_start_id_translation();
+rul_make_instance("SEAL ^$ID #293 ^NAME CHUBBY", NULL);
+rul_make_instance("SEAL ^$ID #232 ^NAME NOISY ^FATHER #293 ^MOTHER #288", 0);
+rul_make_instance("SEAL ^$ID #239 ^NAME SKINNY ^FATHER #298 ^MOTHER #288", 0);
+rul_make_instance("KILLER-WHALE ^$ID #103 ^NAME SHAMMY", 0);
+rul_make_instance("KILLER-WHALE ^$ID #137 ^NAME TAMMY ^FATHER #103", 0);
+rul_make_instance("KILLER-WHALE ^$ID #143 ^NAME WHAMMY ^MOTHER #137", 0);
+rul_end_id_translation(); 
+\end{verbatim}
+
+The translation table for this example would contain the following
+INSTANCE-ID values:
+\begin{center}
+\begin{tabular}{lll}
+  \toprule
+  INSTANCE-ID & WMO Created? (\ct{}name) & New INSTANCE-ID from String \\
+  \midrule
+  \co\#293  & Yes (Chubby) & \co\#2112 \\
+  \co\#232  & Yes (Noisy) & \co\#2113 \\
+  \co\#288  & No  & \co\#2114 \\
+  \co\#239  & Yes (Skinny) & \co\#2115 \\
+  \co\#298  & No  & \co\#2116 \\
+  \co\#103  & Yes (Shammy) &  \co\#2117 \\
+  \co\#137  & Yes (Tammy) &  \co\#2118 \\
+  \co\#143  & Yes (Whammy) &  \co\#2119 \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+(The middle column is shown for clarity.)
+
+Note that a new INSTANCE-ID is generated to correspond to \co\#288 even
+though no object with that INSTANCE-ID is made.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\RWP\cmd{ppwm killer-whale ^name whammy}
+   #2119 7116 [NIL] (KILLER-WHALE ^NAME WHAMMY ^MOTHER #2118)
+\end{Verbatim}
+
+This \co{PPWM} command shows that the
+\verb|^MOTHER| attribute in the object created for Whammy correctly
+points to the object created for Tammy.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\RWP\cmd{ppwm seal}
+   #2112 7111 [NIL] (SEAL ^NAME CHUBBY)
+   #2113 7112 [NIL] (SEAL ^NAME NOISY ^FATHER #2112 ^MOTHER #2114)
+   #2115 7113 [NIL] (SEAL ^NAME SKINNY ^FATHER #2116 ^MOTHER #2114)
+\end{Verbatim}
+
+This \co{PPWM} command shows that the \verb|^MOTHER| attribute in the
+objects created for Noisy and Skinny both point to the same
+nonexistent object. Conversely, the \verb|^FATHER| and \verb|^MOTHER|
+attributes of Skinny point to different nonexistent objects.
+
+\begin{seealso}
+  \co{rul\_end\_id\_translation}
+
+  \co{rul\_make\_instance}
+\end{seealso}
+
+\section*{\co{rul\_string\_to\_atom}}
+
+Converts the first token of a string into a RuleWorks atom.
+
+\Syntax
+
+\it{atom\_value} = \co{rul\_string\_to\_atom}(\it{char\_string})
+
+\begin{args}
+  \argl{atom\_value}{opaque atom}{write} \\
+  \argl{char\_string}{string}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_atom rul_string_to_atom (char *char_string);
+\end{verbatim}
+
+\begin{argument}
+\item[char\_string]
+
+  The read form of the atom to be made (see Chapter~\ref{c:workingmem}
+  for details on read forms).
+\end{argument}
+
+\ReturnValue
+
+The RuleWorks atom that corresponds to the first token in the
+character string.  Tokens are groups of characters separated by white
+space: parentheses and other nonalphanumerics count as characters, not
+separators. If possible, the returned atom is an \co{INTEGER},
+\co{FLOAT}, or INSTANCE-ID; if not, a \co{SYMBOL}. See
+Chapter~\ref{c:workingmem} for an explanation of atom types.
+
+\begin{seealso}
+  \co{rul\_atom\_to\_string}
+
+  \co{rul\_string\_to\_compound}
+
+  \co{rul\_string\_to\_symbol}
+\end{seealso}
+
+\section*{\co{rul\_string\_to\_compound}}
+
+Converts a string into a RuleWorks \co{COMPOUND} value.
+
+\Syntax
+
+\it{atom\_value} = \co{rul\_string\_to\_compound}(\it{char\_string})
+
+\begin{args}
+  \argl{atom\_value}{opaque atom}{write} \\
+  \argl{char\_string}{string}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_atom atom_value rul_string_to_compound(char *char_string);
+\end{verbatim}
+
+\begin{argument}
+\item[char\_string]
+
+  The read form of the \co{COMPOUND} value to be made (see
+  Chapter~\ref{c:workingmem} for details on read forms).
+\end{argument}
+
+\ReturnValue
+
+The RuleWorks \co{COMPOUND} value that corresponds to the character string.
+
+\begin{seealso}
+  \co{rul\_string\_to\_atom}
+
+  \co{rul\_string\_to\_symbol}
+\end{seealso}
+
+\section*{\co{rul\_string\_to\_symbol}}
+
+Converts a character string into a RuleWorks \co{SYMBOL} atom.
+
+\Syntax
+
+\it{atom\_value} = \co{rul\_string\_to\_symbol}(\it{char\_string})
+
+\begin{args}
+  \argl{atom\_value}{opaque symbol atom}{write} \\
+  \argl{char\_string}{string}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+rul_atom rul_string_to_symbol(char *string);
+\end{verbatim}
+
+\begin{argument}
+\item[char\_string]
+
+The character string to be converted to a RuleWorks atom.
+\end{argument}
+
+\ReturnValue
+
+The RuleWorks \co{SYMBOL} atom made from the string; or
+\co{RUL\_C\_INVALID\_ATOM} if the function was unable to create the
+atom for any reason.
+
+\begin{seealso}
+\co{rul\_string\_to\_atom}
+
+\co{rul\_string\_to\_compound}
+
+\co{rul\_symbol\_to\_string}
+\end{seealso}
+
+\section*{\co{rul\_symbol\_to\_string}}
+
+Converts a RuleWorks \co{SYMBOL} atom into a character string.
+
+\Syntax
+
+\it{num\_chars} = \co{rul\_symbol\_to\_string}(\it{char\_string},
+\it{string\_size}, \it{atom\_value})
+
+\begin{args}
+\argl{num\_chars}{integer}{write} \\
+\argl{char\_string}{string}{write} \\
+\argl{string\_size}{integer}{read} \\
+\argl{atom\_value}{opaque symbol atom}{read}
+\end{args}
+
+\CBinding
+\begin{verbatim}
+#include <rul_rtl.h>
+long rul_symbol_to_string(char *char_string, long string_size
+                          rul_atom atom_value);
+\end{verbatim}
+
+\begin{arguments}
+
+\item[char\_string]
+
+The print form of the specified symbol, set by the function.
+
+\item[string\_size]
+
+The maximum number of characters to return in \it{char\_string}.
+
+\item[atom\_value]
+
+The RuleWorks atom to be converted.
+\end{arguments}
+
+\ReturnValue
+
+The number of characters in the string made from the RuleWorks atom;
+or \co{RUL\_C\_INVALID\_LENGTH} if an error occurs (for example, the
+buffer specified by \it{char\_string} is too small for the print form).
+
+Note that since RuleWorks atoms are at most
+\co{RUL\_C\_MAX\_SYMBOL\_SIZE} characters long, a buffer that is
+$\co{RUL\_C\_MAX\_SYMBOL\_SIZE} + 1$ characters long is always
+adequate.
+
+\begin{seealso}
+  \co{rul\_string\_to\_symbol}
+\end{seealso}
 
 %%% Local Variables:
 %%% mode: latex

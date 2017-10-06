@@ -7,21 +7,6 @@
                    \topsep=\z@                   
                    \let\makelabel\operandlabel\let\labelsep=\textwidth}}
                {\endlist}
-\newenvironment{arguments}
-               {\vspace{1ex}\noindent\textbf{Arguments}\@beginparpenalty=10000
-                 \list{}{\labelwidth\z@ \itemindent-\leftmargin
-                   \topsep=\z@                   
-                   \let\makelabel\operandlabel\let\labelsep=\textwidth}}
-               {\endlist}
-\newenvironment{argument}
-               {\vspace{1ex}\noindent\textbf{Argument}\@beginparpenalty=10000
-                 \list{}{\labelwidth\z@ \itemindent-\leftmargin
-                   \topsep=\z@                   
-                   \let\makelabel\operandlabel\let\labelsep=\textwidth}}
-               {\endlist}
-\newcommand*\operandlabel[1]{\hspace\labelsep
-  \parbox[t]\textwidth{\normalfont\it{#1}\vspace{1.5ex}}}
-\makeatother
 
 This chapter contains complete descriptions of all constructs in the
 RuleWorks language, including tables and complete descriptions. The
@@ -1601,7 +1586,7 @@ The next example shows the syntax for a compound attribute:
 \end{verbatim}
 \end{quote}
 
-\subsection{\co@ (At)}
+\subsection{\co{@} (At)}
 
 Opens a file containing RuleWorks commands and executes the
 commands. The file must contain only RuleWorks commands. If the file
